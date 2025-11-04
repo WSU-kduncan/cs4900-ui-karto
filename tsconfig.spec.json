@@ -4,11 +4,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["jest"],
+    "incremental": true,
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "./out-tsc/spec/.tsbuildinfo",
+    "isolatedModules": true
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }
