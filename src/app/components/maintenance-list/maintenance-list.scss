@@ -1,0 +1,30 @@
+.maintenance-list {
+  display: flex;
+  flex-direction: column;
+  border: 0.2rem solid #ddd;
+  border-radius: 8px;
+  max-width: 90%;
+  overflow: auto;
+}
+
+.maintenance-card {
+  background: #d6d6d6;
+  display: block;
+  padding: 1rem 1rem;
+  margin: 2rem 1rem;
+  border-bottom: 1px solid #eee;
+  p:hover {
+    background: #f0f0f0;
+  }
+}
+
+.hover {
+  background: #f0f0f0;
+}
+
+.item-detail-list {
+}
+
+p {
+  font-size: large;
+}
