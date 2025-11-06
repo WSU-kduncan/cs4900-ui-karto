@@ -1,0 +1,28 @@
+<div class="cars">
+    <h1>Cars</h1>
+    @for (car of cars; track car.vin) {
+    <p-panel header="{{car.year}} {{car.make}} {{car.model}}">
+        <div class="car-card">
+            @if (car.image) {
+            <p-avatar [image]="car.image" size="xlarge"></p-avatar>
+            } @else {
+            <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
+            }
+
+            <div class="car-info-container">
+                <section class="car-info">
+                    <p><strong>VIN:</strong> {{car.vin}}</p>
+                    <p><strong>Owner Email:</strong> {{car.userEmail}}</p>
+                </section>
+
+                <section class="car-info-additional">
+                    <p><strong>Color:</strong> {{car.color}}</p>
+                    <p><strong>Mileage:</strong> {{car.mileage}} miles</p>
+                </section>
+            </div>
+        </div>
+    </p-panel>
+    } @empty {
+    <h3>No cars in inventory</h3>
+    }
+</div>
