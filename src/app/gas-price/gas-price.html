@@ -1,0 +1,13 @@
+<h3> List of all Gas Prices: </h3>
+
+@if (gas_prices.length > 0) {
+  <ul class="gas-price-list">
+    @for (gas_price of gas_prices; track gas_price.gasPriceId) {
+      <li class="gas-price-item">
+        {{ gas_price.price }}
+      </li>
+    }
+  </ul>
+} @else {
+  <p class="no-prices-found"> no gas prices to show !!!! stinky !!!! </p>
+}
