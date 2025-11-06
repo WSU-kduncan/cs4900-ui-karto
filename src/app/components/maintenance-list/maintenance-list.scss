@@ -1,28 +1,30 @@
 .maintenance-list {
   display: flex;
   flex-direction: column;
-  border: 0.2rem solid #ddd;
+  border: 0.2rem solid var(--p-blue-500);
   border-radius: 8px;
   max-width: 90%;
   overflow: auto;
 }
 
 .maintenance-card {
-  background: #d6d6d6;
   display: block;
-  padding: 1rem 1rem;
-  margin: 2rem 1rem;
-  border-bottom: 1px solid #eee;
+  padding: 0.1rem 0.8rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--p-blue-500);
   p:hover {
-    background: #f0f0f0;
+    background: var(--p-blue-950);
+  }
+  p {
+    margin: 0 0;
+    padding: 0.5rem 0.2rem;
   }
 }
 
-.hover {
-  background: #f0f0f0;
-}
-
 .item-detail-list {
+    p {
+        margin-left: 1.5rem;
+    }
 }
 
 p {
