@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TrustedGasStation } from './trusted-gas-station/trusted-gas-station';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, TrustedGasStation],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

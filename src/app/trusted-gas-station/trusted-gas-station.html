@@ -1,0 +1,13 @@
+<h1> hello world! karto app </h1>
+
+@if (trusted_gas_stations.length > 0) {
+  <ul class="trusted-gas-station-list">
+  @for (trusted_gas_station of trusted_gas_stations; track trusted_gas_station.gasStationId) {
+    <li class="trusted-gas-station-item">
+      {{ trusted_gas_station.name }}
+    </li>
+  }
+  </ul>
+} @else {
+  <p class="no-stations-found"> stinky !!!! do better !!!! </p>
+}
