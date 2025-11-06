@@ -4,7 +4,7 @@
   <ul class="gas-price-list">
     @for (gas_price of gas_prices; track gas_price.gasPriceId) {
       <li class="gas-price-item">
-        {{ gas_price.price }}
+        {{ gas_price.gasStationName }}: {{ gas_price.price }}
       </li>
     }
   </ul>
