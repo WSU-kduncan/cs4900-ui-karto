@@ -13,7 +13,7 @@ interface TrustedGasStationStruct {
 })
 export class TrustedGasStation {
   public trusted_gas_stations: TrustedGasStationStruct[] = [
-    { gasStationId: 1, name: "speeeeeeedway"},
-    { gasStationId: 2, name: "sheeeeeeeetz"},
+    // { gasStationId: 1, name: "speeeeeeedway"},
+    // { gasStationId: 2, name: "sheeeeeeeetz"},
   ]
 }

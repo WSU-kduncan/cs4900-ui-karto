@@ -14,8 +14,8 @@ interface GasPriceStruct {
 })
 export class GasPrice {
   public gas_prices: GasPriceStruct[] = [
-    { gasPriceId: 1, price: 1.208, updated: new Date() },
-    { gasPriceId: 2, price: 1.220, updated: new Date() },
-    { gasPriceId: 3, price: 1.119, updated: new Date() }
+    // { gasPriceId: 1, price: 1.208, updated: new Date() },
+    // { gasPriceId: 2, price: 1.220, updated: new Date() },
+    // { gasPriceId: 3, price: 1.119, updated: new Date() }
   ]
 }
