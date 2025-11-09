@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MaintenanceDto } from '../../shared/models/dtos.interface';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { MaintenanceService } from '../../service/maintenance-service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-maintenance-list',
@@ -9,93 +11,34 @@ import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
   styleUrl: './maintenance-list.scss',
   standalone: true,
 })
-export class MaintenanceList {
-  maintenances = [
-    {
-      id: 14,
-      carVin: '1HGCM82633A004352',
-      date: '2024-02-20T00:00:00Z',
-      mileage: 64820,
-      cost: 249.99,
-      receipt: null,
-      itemDetails: [
-        {
-          quantity: 2,
-          comments: null,
-          id: {
-            maintenanceId: 14,
-            maintenanceType: {
-              id: 3,
-              name: 'Battery Replacement',
-            },
-          },
+export class MaintenanceList implements OnInit {
+  private readonly maintenanceService = inject(MaintenanceService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  maintenances = signal<MaintenanceDto[]>([]);
+  private isLoading = signal<boolean>(true);
+
+  ngOnInit(): void {
+    this.loadMaintenances()
+    console.log(this.maintenances)
+  }
+
+  private loadMaintenances(): void {
+    this.isLoading.set(true);
+
+    this.maintenanceService
+      .getMaintenance()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          this.maintenances.set(response);
         },
-        {
-          quantity: 5,
-          comments: null,
-          id: {
-            maintenanceId: 14,
-            maintenanceType: {
-              id: 5,
-              name: 'Wheel Alignment',
-            },
-          },
+        error: (error) => {
+          console.error('Failed to load work orders:', error);
         },
-        {
-          quantity: 6,
-          comments: null,
-          id: {
-            maintenanceId: 14,
-            maintenanceType: {
-              id: 9,
-              name: 'Transmission Fluid Change',
-            },
-          },
+        complete: () => {
+          this.isLoading.set(false);
         },
-      ],
-    },
-    {
-      id: 1,
-      carVin: '1HGCM82633A004352',
-      date: '2023-06-15T00:00:00Z',
-      mileage: 63500,
-      cost: 89.99,
-      receipt: 'MQ==',
-      itemDetails: [
-        {
-          quantity: 7,
-          comments: null,
-          id: {
-            maintenanceId: 1,
-            maintenanceType: {
-              id: 1,
-              name: 'Oil Change',
-            },
-          },
-        },
-        {
-          quantity: 9,
-          comments: null,
-          id: {
-            maintenanceId: 1,
-            maintenanceType: {
-              id: 3,
-              name: 'Battery Replacement',
-            },
-          },
-        },
-        {
-          quantity: 9,
-          comments: null,
-          id: {
-            maintenanceId: 1,
-            maintenanceType: {
-              id: 8,
-              name: 'Coolant Flush & Radiator Service',
-            },
-          },
-        },
-      ],
-    },
-  ] as MaintenanceDto[];
+      });
+  }
 }

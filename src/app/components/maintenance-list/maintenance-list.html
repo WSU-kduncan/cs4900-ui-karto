@@ -1,6 +1,6 @@
 <div class="maintenance-list">
   <div class="row">
-    @for (maintenance of maintenances; track maintenance.id) {
+    @for (maintenance of maintenances(); track maintenance.id) {
     <div class="maintenance-card">
       <h1>Maintenance ({{ maintenance.id }})</h1>
       <p>Added: {{ maintenance.date | date : 'longDate' }}</p>
