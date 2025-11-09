@@ -1,7 +1,11 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
 .maintenance-list {
+  justify-self: center;
   display: flex;
   flex-direction: column;
-  border: 0.2rem solid var(--p-blue-500);
   border-radius: 8px;
   max-width: 90%;
   overflow: auto;
@@ -11,9 +15,10 @@
   display: block;
   padding: 0.1rem 0.8rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid var(--p-blue-500);
+  margin: 1rem;
+  border: 1px solid var(--p-primary-500);
   p:hover {
-    background: var(--p-blue-950);
+    background: var(--p-primary-950);
   }
   p {
     margin: 0 0;
@@ -22,9 +27,9 @@
 }
 
 .item-detail-list {
-    p {
-        margin-left: 1.5rem;
-    }
+  p {
+    margin-left: 1.5rem;
+  }
 }
 
 p {
