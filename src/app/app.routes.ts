@@ -7,6 +7,6 @@ export const routes: Routes = [
     },
     {
         path: 'maintenances',
-        loadComponent: () => import('./components/maintenance-list/maintenance-list').then(m => m.MaintenanceList)
+        loadComponent: () => import('./components/maintenance/maintenance-list/maintenance-list').then(m => m.MaintenanceList)
     }
 ];

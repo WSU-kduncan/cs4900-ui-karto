@@ -1,16 +1,3 @@
-.row {
-  display: flex;
-  flex-direction: row;
-}
-.maintenance-list {
-  justify-self: center;
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  max-width: 90%;
-  overflow: auto;
-}
-
 .maintenance-card {
   display: block;
   padding: 0.1rem 0.8rem;
@@ -30,8 +17,4 @@
   p {
     margin-left: 1.5rem;
   }
-}
-
-p {
-  font-size: large;
 }

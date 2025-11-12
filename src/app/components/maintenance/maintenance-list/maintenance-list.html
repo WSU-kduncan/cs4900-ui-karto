@@ -1,0 +1,5 @@
+<div class="maintenance-list">
+  @for (maintenance of maintenances(); track maintenance.id) {
+  <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>
+  } @empty { "No Maintenance Records Found" }
+</div>
