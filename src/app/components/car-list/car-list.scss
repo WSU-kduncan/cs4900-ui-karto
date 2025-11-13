@@ -1,21 +1,21 @@
 .p-panel-title {
-    font-weight: bold;
-    font-size: 1.2em;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .car-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .car-info-container {
-    display: flex;
-    flex-grow: 1;
-    justify-content: space-between;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
 }
 
 .car-info-additional {
-    float: right;
-    text-align: right;
+  float: right;
+  text-align: right;
 }
