@@ -10,6 +10,18 @@ export interface Car {
     gasType: GasType;
 }
 
+export interface GasPrice {
+  id: GasPriceIdDto
+  price: number
+  updated: Date
+}
+
+export interface GasPriceIdDto {
+  gasStationId: number
+  gasTypeId: number
+}
+
+
 export interface GasType {
     id: number;
     name: string;
