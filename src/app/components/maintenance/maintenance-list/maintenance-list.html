@@ -1,3 +1,5 @@
+<input type="number" [value]="maintenanceId()" (input)="onMaintenanceIdChange($event)">
+<button (click)="addMaintenanceId()">Enter</button>
 <div class="maintenance-list">
   @for (maintenance of maintenances(); track maintenance.id) {
   <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>

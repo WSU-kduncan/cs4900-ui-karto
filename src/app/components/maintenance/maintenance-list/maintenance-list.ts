@@ -11,34 +11,27 @@ import { MaintenanceItem } from "../maintenance-detail/maintenance-detail";
   styleUrl: './maintenance-list.scss',
   standalone: true,
 })
-export class MaintenanceList implements OnInit {
+export class MaintenanceList {
   private readonly maintenanceService = inject(MaintenanceService);
-  private readonly destroyRef = inject(DestroyRef);
+  readonly maintenances = this.maintenanceService.maintenances
 
-  maintenances = signal<MaintenanceDto[]>([]);
-  private isLoading = signal<boolean>(true);
+  maintenanceId = signal(0);
 
-  ngOnInit(): void {
-    this.loadMaintenances();
-    console.log(this.maintenances);
+  onMaintenanceIdChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.maintenanceId.set(parseInt(input.value))
   }
 
-  private loadMaintenances(): void {
-    this.isLoading.set(true);
-
-    this.maintenanceService
-      .getMaintenance()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          this.maintenances.set(response);
-        },
-        error: (error) => {
-          console.error('Failed to load work orders:', error);
-        },
-        complete: () => {
-          this.isLoading.set(false);
-        },
-      });
+  addMaintenanceId() {
+    const dto: MaintenanceDto = {
+        carVin: "IDK",
+        cost: 23.53,
+        date: "Now",
+        id: this.maintenanceId(),
+        itemDetails: [],
+        mileage: 10000,
+        receipt: null,
+    };
+    this.maintenanceService.addMaintenance(dto);
   }
 }
