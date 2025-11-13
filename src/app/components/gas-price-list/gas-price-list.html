@@ -1,6 +1,6 @@
 <!-- josh helped me with this -->
-<div class="gas-price-list-element">
-  <h1>Gas Prices</h1>
+<div class="gas-price-list-container">
+  <h1 class="gas-price-title">Gas Prices</h1>
 
   <div class="add-gas-price">
     <input
@@ -27,13 +27,13 @@
     <p-button label="Add Gas Price" (click)="addGasPrice()"/>
   </div>
 
-  <ul class="list">
+  <ul class="gas-price-list">
     @for (price of gasPrices(); track price.id) {
-      <li>
+      <li class="gas-price-item">
         <app-gas-price-detail [price]="price"/>
       </li>
     } @empty {
-      <h2>No gas prices in available</h2>
+      <h2 class="no-prices-found"> No gas prices available</h2>
     }
   </ul>
 </div>
