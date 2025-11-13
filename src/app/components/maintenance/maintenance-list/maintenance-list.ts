@@ -1,7 +1,6 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { MaintenanceDto } from '../../../shared/models/dtos.interface';
 import { MaintenanceService } from '../../../service/maintenance-service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MaintenanceItem } from "../maintenance-detail/maintenance-detail";
 
 @Component({
@@ -16,20 +15,39 @@ export class MaintenanceList {
   readonly maintenances = this.maintenanceService.maintenances
 
   maintenanceId = signal(0);
+  date = signal((new Date()).toLocaleDateString());
+  cost = signal(0);
+  mileage = signal(0);
 
   onMaintenanceIdChange(event: Event) {
     const input = event.target as HTMLInputElement;
     this.maintenanceId.set(parseInt(input.value))
   }
 
+  onCostChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.cost.set(parseFloat(input.value))
+  }
+
+  
+  onDateChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.date.set(input.value as any)
+  }
+
+  onMileageChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.mileage.set(parseInt(input.value))
+  }
+
   addMaintenanceId() {
     const dto: MaintenanceDto = {
-        carVin: "IDK",
-        cost: 23.53,
-        date: "Now",
+        carVin: "PLACEHOLDER",
+        cost: this.cost(),
+        date: this.date(),
         id: this.maintenanceId(),
         itemDetails: [],
-        mileage: 10000,
+        mileage: this.mileage(),
         receipt: null,
     };
     this.maintenanceService.addMaintenance(dto);

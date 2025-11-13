@@ -1,5 +1,18 @@
-<input type="number" [value]="maintenanceId()" (input)="onMaintenanceIdChange($event)">
-<button (click)="addMaintenanceId()">Enter</button>
+<div>
+  <label>Maintenance ID: </label>
+  <input type="number" [value]="maintenanceId()" (input)="onMaintenanceIdChange($event)">
+  <br>
+  <label>Cost: </label>
+  <input type="number" [valueAsNumber]="cost()" (input)="onCostChange($event)">
+  <br>
+  <label>Date: </label>
+  <input type="date" [value]="date()" (input)="onDateChange($event)">
+  <br>
+  <label>Mileage: </label>
+  <input type="number" [value]="mileage()" (input)="onMileageChange($event)">
+  <br>
+  <button (click)="addMaintenanceId()">Enter</button>
+</div>
 <div class="maintenance-list">
   @for (maintenance of maintenances(); track maintenance.id) {
   <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>
