@@ -1,8 +1,8 @@
 <div class="cars">
     <h1>Cars</h1>
     @for (car of cars; track car.vin) {
-    <p-panel header="{{car.year}} {{car.make}} {{car.model}}">
-        <div class="car-card">
+    <p-panel header="{{car.year}} {{car.make}} {{car.model}}" (click)="onSelectCar(car)">
+        <div class="car-card styled-box-">
             @if (car.image) {
             <p-avatar [image]="car.image" size="xlarge"></p-avatar>
             } @else {
@@ -10,16 +10,23 @@
             }
 
             <div class="car-info-container">
-                <section class="car-info">
-                    <p><strong>VIN:</strong> {{car.vin}}</p>
-                    <p><strong>Owner Email:</strong> {{car.userEmail}}</p>
-                </section>
+                <p><strong>VIN:</strong> {{car.vin}}</p>
 
-                <section class="car-info-additional">
+                <section class="car-info">
                     <p><strong>Color:</strong> {{car.color}}</p>
                     <p><strong>Mileage:</strong> {{car.mileage}} miles</p>
+                    <p><strong>Gas Type:</strong> {{car.gasType.name}}</p>
                 </section>
             </div>
+
+        </div>
+
+        <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
+            <p-button label="View More" [outlined]="true" [raised]="true" icon="pi pi-eye" severity="info" pRipple
+                iconPos="left" size="large" (click)="onViewMore($event, car)" />
+
+            <p-button label="Edit Car" [outlined]="true" [raised]="true" icon="pi pi-pencil" severity="info"
+                iconPos="left" size="large" (click)="onEditCar($event, car)" />
         </div>
     </p-panel>
     } @empty {
