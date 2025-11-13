@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { MaintenanceDto } from '../../../shared/models/dtos.interface';
-import { MaintenanceService } from '../../../service/maintenance-service';
-import { MaintenanceItem } from "../maintenance-detail/maintenance-detail";
+import { MaintenanceDto } from '@shared/models/dtos.interface';
+import { MaintenanceService } from '@service/maintenance-service';
+import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
 
 @Component({
   selector: 'app-maintenance-list',
