@@ -107,9 +107,4 @@ export class MaintenanceService {
             ],
         },
     ];
-    public maintenances = signal<MaintenanceDto[]>(this.mockMaintenances);
-
-    addMaintenance(maintenance: MaintenanceDto) {
-        this.maintenances.set([maintenance, ...this.maintenances()])
-    }
 }

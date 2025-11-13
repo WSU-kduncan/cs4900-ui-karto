@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MaintenanceDto } from '../../../shared/models/dtos.interface';
 import { MaintenanceService } from '../../../service/maintenance-service';
 import { MaintenanceItem } from "../maintenance-detail/maintenance-detail";
@@ -10,10 +10,21 @@ import { MaintenanceItem } from "../maintenance-detail/maintenance-detail";
   styleUrl: './maintenance-list.scss',
   standalone: true,
 })
-export class MaintenanceList {
+export class MaintenanceList implements OnInit {
   private readonly maintenanceService = inject(MaintenanceService);
-  readonly maintenances = this.maintenanceService.maintenances
 
+  isLoading = signal(true);
+  public maintenances = signal<MaintenanceDto[]>([])
+  ngOnInit(): void {
+    this.maintenanceService.getMaintenance().subscribe({
+        next: res => {
+            this.maintenances.set(res);
+        },
+        complete: () => {
+            this.isLoading.set(false)
+        }
+    });
+  }
   maintenanceId = signal(0);
   date = signal((new Date()).toLocaleDateString());
   cost = signal(0);
@@ -50,6 +61,6 @@ export class MaintenanceList {
         mileage: this.mileage(),
         receipt: null,
     };
-    this.maintenanceService.addMaintenance(dto);
+    this.maintenances.set([dto, ...this.maintenances()])
   }
 }
