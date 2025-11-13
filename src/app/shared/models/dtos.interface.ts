@@ -1,4 +1,4 @@
-export interface Car {
+export interface CarDto {
   vin: string;
   image?: string;
   userEmail: string;
@@ -7,10 +7,10 @@ export interface Car {
   year: number;
   color: string;
   mileage: number;
-  gasType: GasType;
+  gasType: GasTypeDto;
 }
 
-export interface GasType {
+export interface GasTypeDto {
   id: number;
   name: string;
 }

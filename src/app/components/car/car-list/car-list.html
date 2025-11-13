@@ -1,6 +1,6 @@
 <div class="cars">
     <h1>Cars</h1>
-    @for (car of cars; track car.vin) {
+    @for (car of cars(); track car.vin) {
     <p-panel header="{{car.year}} {{car.make}} {{car.model}}" (click)="onSelectCar(car)">
         <div class="car-card styled-box-">
             @if (car.image) {
@@ -9,16 +9,7 @@
             <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
             }
 
-            <div class="car-info-container">
-                <p><strong>VIN:</strong> {{car.vin}}</p>
-
-                <section class="car-info">
-                    <p><strong>Color:</strong> {{car.color}}</p>
-                    <p><strong>Mileage:</strong> {{car.mileage}} miles</p>
-                    <p><strong>Gas Type:</strong> {{car.gasType.name}}</p>
-                </section>
-            </div>
-
+            <app-car-list-detail [car]="car" />
         </div>
 
         <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">

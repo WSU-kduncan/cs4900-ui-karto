@@ -39,18 +39,6 @@
     }
 }
 
-.car-info-container {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    justify-content: space-between;
-
-    .car-info {
-        float: right;
-        margin-right: 2rem;
-    }
-}
-
 .actions-container {
     transition: max-width 0.35s ease-in-out, max-height 0.35s ease-in-out, opacity 0.25s ease-in-out, padding 0.25s ease-in-out;
     justify-content: center;
