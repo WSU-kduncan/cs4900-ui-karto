@@ -8,7 +8,7 @@ import { PanelModule } from 'primeng/panel';
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
   standalone: true,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CarList {
   cars = [
@@ -22,12 +22,12 @@ export class CarList {
       mileage: 134500,
       gasType: {
         id: 7,
-        name: 'Natural'
-      }
+        name: 'Natural',
+      },
     },
     {
       vin: 'KMHD4AE1BU345678',
-      image: "https://placehold.co/800",
+      image: 'https://placehold.co/800',
       userEmail: 'irene.z@example.test',
       make: 'Hyundai',
       model: 'Elantra',
@@ -36,8 +36,8 @@ export class CarList {
       mileage: 1111300,
       gasType: {
         id: 1,
-        name: 'Regular'
-      }
-    }
-  ]
+        name: 'Regular',
+      },
+    },
+  ];
 }

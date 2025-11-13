@@ -2,9 +2,9 @@
   @for (maintenance of maintenances; track maintenance.id) {
     <div class="maintenance-card">
       <h1>Maintenance ({{ maintenance.id }})</h1>
-      <p>Added: {{ maintenance.date | date:'longDate' }}</p>
-      <p>Cost: {{ maintenance.cost | currency: 'USD'}}</p>
-      <p>Mileage: {{ maintenance.mileage | number}} miles</p>
+      <p>Added: {{ maintenance.date | date: 'longDate' }}</p>
+      <p>Cost: {{ maintenance.cost | currency: 'USD' }}</p>
+      <p>Mileage: {{ maintenance.mileage | number }} miles</p>
       @if (maintenance.receipt) {
         <p>Raw Receipt: {{ maintenance.receipt }}</p>
       } @else {
@@ -19,7 +19,7 @@
           } @else {
             <p>No Comments</p>
           }
-          <p>Quantity: {{itemDetail.quantity}}</p>
+          <p>Quantity: {{ itemDetail.quantity }}</p>
         } @empty {
           <p>No Item Details</p>
         }
