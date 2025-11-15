@@ -1,13 +1,13 @@
-export interface Car {
-    vin: string;
-    image: string;
-    userEmail: string;
-    make: string;
-    model: string;
-    year: number;
-    color: string;
-    mileage: number;
-    gasType: GasType;
+export interface CarDto {
+  vin: string;
+  image?: string;
+  userEmail: string;
+  make: string;
+  model: string;
+  year: number;
+  color: string;
+  mileage: number;
+  gasType: GasTypeDto;
 }
 
 export interface GasPrice {
@@ -22,9 +22,9 @@ export interface GasPriceIdDto {
 }
 
 
-export interface GasType {
-    id: number;
-    name: string;
+export interface GasTypeDto {
+  id: number;
+  name: string;
 }
 export interface MaintenanceDto {
   id: number;
