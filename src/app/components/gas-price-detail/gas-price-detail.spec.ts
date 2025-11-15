@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { GasPriceDetail } from './gas-price-detail';
 
-import { MaintenanceList } from './maintenance-list';
-
-describe('MaintenanceList', () => {
-  let component: MaintenanceList;
-  let fixture: ComponentFixture<MaintenanceList>;
+describe('GasPriceDetail', () => {
+  let component: GasPriceDetail;
+  let fixture: ComponentFixture<GasPriceDetail>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaintenanceList],
+      imports: [GasPriceDetail],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MaintenanceList);
+    fixture = TestBed.createComponent(GasPriceDetail);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
