@@ -36,7 +36,6 @@ export class CreateAccountForm {
       validators: [this.passwordsMatch],
     },
   );
-  submitted = signal(false);
   get password() {
     return this.form.get('password')!;
   }
@@ -50,10 +49,12 @@ export class CreateAccountForm {
     return this.form.get('confirmPassword')!;
   }
   onSubmit() {
-    this.submitted.set(true);
+    console.log(this.form)
     if (this.form.invalid) {
+      this.form.markAllAsTouched()
       return;
     }
+    console.log("Submitted")
   }
   passwordsMatch(form: AbstractControl) {
     const pass = form.get('password')?.value;

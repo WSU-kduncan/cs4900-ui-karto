@@ -1,41 +1,46 @@
 <div>
   <h1>Create Account</h1>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <label>Email</label>
-    <input type="email" formGroupName="email" />
-    @if (submitted() && email.errors) {
-      @if (email.errors['required']) {
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" required />
+    @if (email.invalid && email.touched) {
+      @if (email.hasError('required')) {
         <p>Email is required</p>
       }
-      @if (email.errors['email']) {
+      @if (email.hasError('email')) {
         <p>Invalid Email</p>
       }
     }
-    <label>Username</label>
-    <input type="username" formGroupName="password" />
-    <label>Password</label>
-    <input type="password" formGroupName="password" />
-    @if (submitted() && password.errors) {
-      @if (password.errors['required']) {
+    <label for="username">Username</label>
+    <input id="username" type="text" formControlName="username" required/>
+    @if (username.invalid && username.touched) {
+      @if (username.hasError("required")) {
+        <p>Username is required</p>
+      }
+    }
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" required/>
+    @if (password.invalid && password.touched) {
+      @if (password.hasError('required')) {
         <p>Password is required</p>
       }
-      @if (password.errors['minLength']) {
+      @if (password.hasError('minLength')) {
         <p>Min 8 characters.</p>
       }
-      @if (password.errors['maxLength']) {
+      @if (password.hasError('maxLength')) {
         <p>Max length 128 characters</p>
       }
-      @if (password.errors['pattern']) {
+      @if (password.hasError('pattern')) {
         <p>Must include upper, lower, number & symbol.</p>
       }
     }
-    <label>Confirm Password</label>
-    <input type="password" formGroupName="confirmPassword" />
-    @if (submitted() && confirmPassword.errors) {
-      @if (confirmPassword.errors['required']) {
+    <label for="confirmPassword">Confirm Password</label>
+    <input id="confirmPassword" type="password" formControlName="confirmPassword" required/>
+    @if (confirmPassword.touched) {
+      @if (confirmPassword.invalid && confirmPassword.hasError('required')) {
         <p>Password is required</p>
       }
-      @if (confirmPassword.errors['passwordsNotMatching']) {
+      @if (form.hasError('passwordsNotMatching')) {
         <p>Passwords do not match.</p>
       }
     }
