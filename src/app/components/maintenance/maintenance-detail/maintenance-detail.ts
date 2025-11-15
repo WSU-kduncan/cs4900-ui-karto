@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { MaintenanceDto } from '../../../shared/models/dtos.interface';
+import { MaintenanceDto } from '@shared/models/dtos.interface';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({

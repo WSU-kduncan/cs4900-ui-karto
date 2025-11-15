@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { GasPrice } from '../../shared/models/dtos.interface';
+import { GasPriceDto } from '@shared/models/dtos.interface';
 import { PanelModule } from 'primeng/panel';
 
 @Component({
@@ -10,5 +10,5 @@ import { PanelModule } from 'primeng/panel';
   styleUrl: './gas-price-detail.scss',
 })
 export class GasPriceDetail {
-  public price = input.required<GasPrice>();
+  public price = input.required<GasPriceDto>();
 }

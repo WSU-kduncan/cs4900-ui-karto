@@ -10,7 +10,7 @@ export interface CarDto {
   gasType: GasTypeDto;
 }
 
-export interface GasPrice {
+export interface GasPriceDto {
   id: GasPriceIdDto;
   price: number;
   updated: Date;
@@ -51,7 +51,7 @@ export interface MaintenanceTypeDescriptionDto {
   name: string;
 }
 
-export interface GasStation {
+export interface GasStationDto {
   id: number;
   name: string;
   address: string;

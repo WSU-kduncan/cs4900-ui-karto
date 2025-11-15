@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { ApiService } from './api.service';
+import { ApiService } from '@services/api.service';
 import { catchError, map, Observable, of } from 'rxjs';
-import { MaintenanceDto } from '../shared/models/dtos.interface';
+import { MaintenanceDto } from '@shared/models/dtos.interface';
 
 @Injectable({
   providedIn: 'root',

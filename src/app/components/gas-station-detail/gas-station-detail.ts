@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { GasStation } from '../../shared/models/dtos.interface';
+import { GasStationDto } from '@shared/models/dtos.interface';
 
 import { PanelModule } from 'primeng/panel';
 
@@ -11,5 +11,5 @@ import { PanelModule } from 'primeng/panel';
   styleUrl: './gas-station-detail.scss',
 })
 export class GasStationDetail {
-  public station = input.required<GasStation>();
+  public station = input.required<GasStationDto>();
 }

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { GasStationService } from '../../services/gas-station.service';
+import { GasStationService } from '@services/gas-station.service';
 import { GasStationDetail } from '../gas-station-detail/gas-station-detail';
 
 import { ButtonModule } from 'primeng/button';

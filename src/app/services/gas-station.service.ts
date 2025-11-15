@@ -1,11 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import { GasStation } from '../shared/models/dtos.interface';
+import { GasStationDto } from '../shared/models/dtos.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GasStationService {
-  readonly #gasStations = signal<GasStation[]>([]);
+  readonly #gasStations = signal<GasStationDto[]>([]);
 
   public readonly gasStations = this.#gasStations.asReadonly();
 
@@ -17,7 +17,7 @@ export class GasStationService {
   }
 
   addGasStation(name: string) {
-    const newStation: GasStation = {
+    const newStation: GasStationDto = {
       id: this.#gasStations().length + 1,
       name: name,
       address: 'Address notta',
