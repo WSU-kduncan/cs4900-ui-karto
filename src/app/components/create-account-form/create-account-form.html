@@ -1,0 +1,44 @@
+<div>
+  <h1>Create Account</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label>Email</label>
+    <input type="email" formGroupName="email" />
+    @if (submitted() && email.errors) {
+      @if (email.errors['required']) {
+        <p>Email is required</p>
+      }
+      @if (email.errors['email']) {
+        <p>Invalid Email</p>
+      }
+    }
+    <label>Username</label>
+    <input type="username" formGroupName="password" />
+    <label>Password</label>
+    <input type="password" formGroupName="password" />
+    @if (submitted() && password.errors) {
+      @if (password.errors['required']) {
+        <p>Password is required</p>
+      }
+      @if (password.errors['minLength']) {
+        <p>Min 8 characters.</p>
+      }
+      @if (password.errors['maxLength']) {
+        <p>Max length 128 characters</p>
+      }
+      @if (password.errors['pattern']) {
+        <p>Must include upper, lower, number & symbol.</p>
+      }
+    }
+    <label>Confirm Password</label>
+    <input type="password" formGroupName="confirmPassword" />
+    @if (submitted() && confirmPassword.errors) {
+      @if (confirmPassword.errors['required']) {
+        <p>Password is required</p>
+      }
+      @if (confirmPassword.errors['passwordsNotMatching']) {
+        <p>Passwords do not match.</p>
+      }
+    }
+    <p-button type="submit">Submit</p-button>
+  </form>
+</div>
