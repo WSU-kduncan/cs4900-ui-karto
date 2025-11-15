@@ -38,11 +38,14 @@
     <input id="confirmPassword" type="password" formControlName="confirmPassword" required />
     @if (confirmPassword.touched) {
       @if (confirmPassword.invalid && confirmPassword.hasError('required')) {
-        <p>Password is required</p>
+        <p>Confirm Password is required</p>
       }
       @if (form.hasError('passwordsNotMatching')) {
         <p>Passwords do not match.</p>
       }
+    }
+    @if (serverErrors()) {
+      <p>{{ serverErrors() }}</p>
     }
     <p-button type="submit">Submit</p-button>
   </form>

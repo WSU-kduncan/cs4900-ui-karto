@@ -1,4 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormControl,
@@ -6,6 +8,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CreateUserRequest, UserService } from '@services/user.service';
 import { Button } from 'primeng/button';
 
 @Component({
@@ -15,7 +19,11 @@ import { Button } from 'primeng/button';
   styleUrl: './create-account-form.scss',
 })
 export class CreateAccountForm {
-  form = new FormGroup(
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router)
+  private readonly userService = inject(UserService);
+  protected serverErrors = signal('');
+  protected form = new FormGroup(
     {
       email: new FormControl('', [Validators.email, Validators.required]),
       username: new FormControl('', [
@@ -34,7 +42,7 @@ export class CreateAccountForm {
     },
     {
       validators: [this.passwordsMatch],
-    },
+    }
   );
   get password() {
     return this.form.get('password')!;
@@ -49,11 +57,26 @@ export class CreateAccountForm {
     return this.form.get('confirmPassword')!;
   }
   onSubmit() {
-    console.log(this.form);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+    const request: CreateUserRequest = {
+      email: this.email.value!,
+      password: this.password.value!,
+      username: this.username.value!,
+    };
+    this.userService
+      .createUser(request)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        error: (err: HttpErrorResponse) => {
+          this.serverErrors.set(err.error ?? "Could not create user");
+        },
+        complete: () => {
+          this.router.navigate(["/cars"])
+        }
+      });
     console.log('Submitted');
   }
   passwordsMatch(form: AbstractControl) {

@@ -56,3 +56,9 @@ export interface GasStationDto {
   name: string;
   address: string;
 }
+
+export interface UserDto {
+  email: string;
+  username: string;
+  createdAt: string;
+}
