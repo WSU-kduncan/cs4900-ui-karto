@@ -10,9 +10,7 @@ export class UserService {
   constructor(private apiService: ApiService) {}
 
   createUser(request: CreateUserRequest): Observable<UserDto> {
-    return this.apiService.post<UserDto>('user', request).pipe(
-      map(response => response.data)
-    )
+    return this.apiService.post<UserDto>('user', request).pipe(map((response) => response.data));
   }
 }
 

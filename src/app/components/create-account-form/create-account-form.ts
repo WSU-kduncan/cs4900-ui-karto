@@ -20,7 +20,7 @@ import { Button } from 'primeng/button';
 })
 export class CreateAccountForm {
   private destroyRef = inject(DestroyRef);
-  private router = inject(Router)
+  private router = inject(Router);
   private readonly userService = inject(UserService);
   protected serverErrors = signal('');
   protected form = new FormGroup(
@@ -42,7 +42,7 @@ export class CreateAccountForm {
     },
     {
       validators: [this.passwordsMatch],
-    }
+    },
   );
   get password() {
     return this.form.get('password')!;
@@ -71,11 +71,11 @@ export class CreateAccountForm {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         error: (err: HttpErrorResponse) => {
-          this.serverErrors.set(err.error ?? "Could not create user");
+          this.serverErrors.set(err.error ?? 'Could not create user');
         },
         complete: () => {
-          this.router.navigate(["/cars"])
-        }
+          this.router.navigate(['/cars']);
+        },
       });
     console.log('Submitted');
   }
