@@ -49,12 +49,12 @@ export class CreateAccountForm {
     return this.form.get('confirmPassword')!;
   }
   onSubmit() {
-    console.log(this.form)
+    console.log(this.form);
     if (this.form.invalid) {
-      this.form.markAllAsTouched()
+      this.form.markAllAsTouched();
       return;
     }
-    console.log("Submitted")
+    console.log('Submitted');
   }
   passwordsMatch(form: AbstractControl) {
     const pass = form.get('password')?.value;

@@ -12,14 +12,14 @@
       }
     }
     <label for="username">Username</label>
-    <input id="username" type="text" formControlName="username" required/>
+    <input id="username" type="text" formControlName="username" required />
     @if (username.invalid && username.touched) {
-      @if (username.hasError("required")) {
+      @if (username.hasError('required')) {
         <p>Username is required</p>
       }
     }
     <label for="password">Password</label>
-    <input id="password" type="password" formControlName="password" required/>
+    <input id="password" type="password" formControlName="password" required />
     @if (password.invalid && password.touched) {
       @if (password.hasError('required')) {
         <p>Password is required</p>
@@ -35,7 +35,7 @@
       }
     }
     <label for="confirmPassword">Confirm Password</label>
-    <input id="confirmPassword" type="password" formControlName="confirmPassword" required/>
+    <input id="confirmPassword" type="password" formControlName="confirmPassword" required />
     @if (confirmPassword.touched) {
       @if (confirmPassword.invalid && confirmPassword.hasError('required')) {
         <p>Password is required</p>
