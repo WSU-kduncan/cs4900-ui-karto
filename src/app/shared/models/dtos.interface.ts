@@ -51,3 +51,9 @@ export interface MaintenanceTypeDescriptionDto {
   id: number;
   name: string;
 }
+
+export interface GasStation {
+  id: number;
+  name: string;
+  address: string;
+}

@@ -12,5 +12,10 @@ export const routes: Routes = [
     {
       path: 'prices',
       loadComponent: () => import('./components/gas-price-list/gas-price-list').then(m => m.GasPriceList)
-    }
+    },
+      {
+    path: 'gas-stations',
+    loadComponent: () =>
+      import('./components/gas-station-list/gas-station-list').then((m) => m.GasStationList),
+  },
 ];
