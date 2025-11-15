@@ -14,29 +14,30 @@ export class GasService {
       {
         id: {
           gasStationId: 1,
-          gasTypeId: 2
+          gasTypeId: 2,
         },
         price: 1.0875,
-        updated: new Date()
+        updated: new Date(),
       },
       {
         id: {
           gasStationId: 1,
-          gasTypeId: 3
+          gasTypeId: 3,
         },
         price: 1.667,
-        updated: new Date()
-      }]);
+        updated: new Date(),
+      },
+    ]);
   }
 
   addGasPrice(gasStationId: number, gasTypeId: number, price: number, updated: Date) {
     const newGasPrice: GasPrice = {
       id: {
         gasStationId: gasStationId,
-        gasTypeId: gasTypeId
+        gasTypeId: gasTypeId,
       },
       price: price,
-      updated: updated
+      updated: updated,
     };
 
     this.#gasPrices.update((prices) => [...prices, newGasPrice]);

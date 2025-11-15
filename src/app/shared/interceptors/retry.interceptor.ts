@@ -9,16 +9,19 @@ export interface RetryConfig {
   retryableStatusCodes: number[];
 }
 
-export function retryInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<any> {
+export function retryInterceptor(
+  request: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<any> {
   const defaultConfig: RetryConfig = {
     maxRetries: 3,
     retryDelay: 1000,
     backoffMultiplier: 2,
-    retryableStatusCodes: [408, 429, 500, 502, 503, 504]
+    retryableStatusCodes: [408, 429, 500, 502, 503, 504],
   };
 
   return next(request).pipe(
-    retryWhen(errors =>
+    retryWhen((errors) =>
       errors.pipe(
         mergeMap((error: HttpErrorResponse, index: number) => {
           const config = getRetryConfig(request, defaultConfig);
@@ -41,13 +44,15 @@ export function retryInterceptor(request: HttpRequest<unknown>, next: HttpHandle
           // Calculate delay with exponential backoff
           const delayTime = config.retryDelay * Math.pow(config.backoffMultiplier, index);
 
-          console.log(`Retrying request (attempt ${index + 1}/${config.maxRetries + 1}) after ${delayTime}ms`);
+          console.log(
+            `Retrying request (attempt ${index + 1}/${config.maxRetries + 1}) after ${delayTime}ms`,
+          );
 
           return timer(delayTime);
         }),
-        take(defaultConfig.maxRetries + 1)
-      )
-    )
+        take(defaultConfig.maxRetries + 1),
+      ),
+    ),
   );
 }
 
@@ -63,7 +68,7 @@ function getRetryConfig(request: HttpRequest<unknown>, defaultConfig: RetryConfi
     maxRetries: maxRetries ? parseInt(maxRetries, 10) : defaultConfig.maxRetries,
     retryDelay: retryDelay ? parseInt(retryDelay, 10) : defaultConfig.retryDelay,
     backoffMultiplier: defaultConfig.backoffMultiplier,
-    retryableStatusCodes: defaultConfig.retryableStatusCodes
+    retryableStatusCodes: defaultConfig.retryableStatusCodes,
   };
 }
 

@@ -11,16 +11,15 @@ export interface CarDto {
 }
 
 export interface GasPrice {
-  id: GasPriceIdDto
-  price: number
-  updated: Date
+  id: GasPriceIdDto;
+  price: number;
+  updated: Date;
 }
 
 export interface GasPriceIdDto {
-  gasStationId: number
-  gasTypeId: number
+  gasStationId: number;
+  gasTypeId: number;
 }
-
 
 export interface GasTypeDto {
   id: number;

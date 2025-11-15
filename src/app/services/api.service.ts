@@ -26,12 +26,12 @@ export interface PaginatedResponse<T> {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * GET request - handles Spring Boot ResponseEntity responses
@@ -39,7 +39,7 @@ export class ApiService {
   get<T>(endpoint: string, params?: any): Observable<ApiResponse<T>> {
     let httpParams = new HttpParams();
     if (params) {
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         if (params[key] !== null && params[key] !== undefined) {
           if (params[key] instanceof Date) {
             httpParams = httpParams.set(key, params[key].toISOString());
@@ -51,11 +51,11 @@ export class ApiService {
     }
 
     return this.http.get<T>(`${this.baseUrl}/${endpoint}`, { params: httpParams }).pipe(
-      map(data => ({
+      map((data) => ({
         success: true,
         data: data,
-        timestamp: new Date()
-      }))
+        timestamp: new Date(),
+      })),
     );
   }
 
@@ -65,7 +65,7 @@ export class ApiService {
   getPaginated<T>(endpoint: string, params?: any): Observable<PaginatedResponse<T>> {
     let httpParams = new HttpParams();
     if (params) {
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         if (params[key] !== null && params[key] !== undefined) {
           if (params[key] instanceof Date) {
             httpParams = httpParams.set(key, params[key].toISOString());
@@ -76,7 +76,9 @@ export class ApiService {
       });
     }
 
-    return this.http.get<PaginatedResponse<T>>(`${this.baseUrl}/${endpoint}`, { params: httpParams });
+    return this.http.get<PaginatedResponse<T>>(`${this.baseUrl}/${endpoint}`, {
+      params: httpParams,
+    });
   }
 
   /**
@@ -84,11 +86,11 @@ export class ApiService {
    */
   post<T>(endpoint: string, data: any): Observable<ApiResponse<T>> {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, data).pipe(
-      map(response => ({
+      map((response) => ({
         success: true,
         data: response,
-        timestamp: new Date()
-      }))
+        timestamp: new Date(),
+      })),
     );
   }
 
@@ -97,11 +99,11 @@ export class ApiService {
    */
   put<T>(endpoint: string, data: any): Observable<ApiResponse<T>> {
     return this.http.put<T>(`${this.baseUrl}/${endpoint}`, data).pipe(
-      map(response => ({
+      map((response) => ({
         success: true,
         data: response,
-        timestamp: new Date()
-      }))
+        timestamp: new Date(),
+      })),
     );
   }
 
@@ -110,11 +112,11 @@ export class ApiService {
    */
   patch<T>(endpoint: string, data: any): Observable<ApiResponse<T>> {
     return this.http.patch<T>(`${this.baseUrl}/${endpoint}`, data).pipe(
-      map(response => ({
+      map((response) => ({
         success: true,
         data: response,
-        timestamp: new Date()
-      }))
+        timestamp: new Date(),
+      })),
     );
   }
 
@@ -126,8 +128,8 @@ export class ApiService {
       map(() => ({
         success: true,
         data: null as T,
-        timestamp: new Date()
-      }))
+        timestamp: new Date(),
+      })),
     );
   }
 }

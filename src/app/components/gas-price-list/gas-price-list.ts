@@ -38,7 +38,12 @@ export class GasPriceList {
   protected addGasPrice() {
     if (this.newGasPriceValue() && this.newGasStationIDValue() && this.newGasTypeIDValue()) {
       // add the gas price
-      this.#gasService.addGasPrice(this.newGasStationIDValue(), this.newGasTypeIDValue(), this.newGasPriceValue(), new Date());
+      this.#gasService.addGasPrice(
+        this.newGasStationIDValue(),
+        this.newGasTypeIDValue(),
+        this.newGasPriceValue(),
+        new Date(),
+      );
 
       // reset signals
       this.newGasPriceValue.set(0);

@@ -5,7 +5,7 @@ import { Button } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 
 import { CarDto } from '@shared/models/dtos.interface';
-import { CarListDetail } from "@components/car";
+import { CarListDetail } from '@components/car';
 import { CarService } from '@services/car.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -15,7 +15,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
   standalone: true,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CarList {
   private readonly carService = inject(CarService);
@@ -28,10 +28,12 @@ export class CarList {
 
   selectedCar = signal<CarDto | null>(null);
 
-  cars: Signal<CarDto[] | undefined> = toSignal(this.carService.getCarsOwnedByUser('irene.z@example.test'));
+  cars: Signal<CarDto[] | undefined> = toSignal(
+    this.carService.getCarsOwnedByUser('irene.z@example.test'),
+  );
 
   onSelectCar(car: CarDto) {
-    this.selectedCar.update((curr) => curr?.vin === car.vin ? null : car);
+    this.selectedCar.update((curr) => (curr?.vin === car.vin ? null : car));
 
     console.log('Selected car:', this.selectedCar());
   }
@@ -47,5 +49,4 @@ export class CarList {
 
     console.log('Edit car:', car);
   }
-
 }

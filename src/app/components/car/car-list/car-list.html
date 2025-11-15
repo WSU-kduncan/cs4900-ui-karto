@@ -1,26 +1,43 @@
 <div class="cars">
-    <h1>Cars</h1>
-    @for (car of cars(); track car.vin) {
-    <p-panel header="{{car.year}} {{car.make}} {{car.model}}" (click)="onSelectCar(car)">
-        <div class="car-card styled-box-">
-            @if (car.image) {
-            <p-avatar [image]="car.image" size="xlarge"></p-avatar>
-            } @else {
-            <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
-            }
+  <h1>Cars</h1>
+  @for (car of cars(); track car.vin) {
+    <p-panel header="{{ car.year }} {{ car.make }} {{ car.model }}" (click)="onSelectCar(car)">
+      <div class="car-card styled-box-">
+        @if (car.image) {
+          <p-avatar [image]="car.image" size="xlarge"></p-avatar>
+        } @else {
+          <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
+        }
 
-            <app-car-list-detail [car]="car" />
-        </div>
+        <app-car-list-detail [car]="car" />
+      </div>
 
-        <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
-            <p-button label="View More" [outlined]="true" [raised]="true" icon="pi pi-eye" severity="info" pRipple
-                iconPos="left" size="large" (click)="onViewMore($event, car)" />
+      <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
+        <p-button
+          label="View More"
+          [outlined]="true"
+          [raised]="true"
+          icon="pi pi-eye"
+          severity="info"
+          pRipple
+          iconPos="left"
+          size="large"
+          (click)="onViewMore($event, car)"
+        />
 
-            <p-button label="Edit Car" [outlined]="true" [raised]="true" icon="pi pi-pencil" severity="info"
-                iconPos="left" size="large" (click)="onEditCar($event, car)" />
-        </div>
+        <p-button
+          label="Edit Car"
+          [outlined]="true"
+          [raised]="true"
+          icon="pi pi-pencil"
+          severity="info"
+          iconPos="left"
+          size="large"
+          (click)="onEditCar($event, car)"
+        />
+      </div>
     </p-panel>
-    } @empty {
+  } @empty {
     <h3>No cars in inventory</h3>
-    }
+  }
 </div>
