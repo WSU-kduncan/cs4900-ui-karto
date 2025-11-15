@@ -1,16 +1,25 @@
-import { Component } from '@angular/core';
-import { MaintenanceDto } from '../../shared/models/dtos.interface';
-import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
+import { Injectable, signal } from '@angular/core';
+import { ApiService } from '@services/api.service';
+import { catchError, map, Observable, of } from 'rxjs';
+import { MaintenanceDto } from '@shared/models/dtos.interface';
 
-@Component({
-  selector: 'app-maintenance-list',
-  imports: [DatePipe, CurrencyPipe, DecimalPipe],
-  templateUrl: './maintenance-list.html',
-  styleUrl: './maintenance-list.scss',
-  standalone: true,
+@Injectable({
+  providedIn: 'root',
 })
-export class MaintenanceList {
-  maintenances = [
+export class MaintenanceService {
+  constructor(private apiService: ApiService) {}
+
+  getMaintenance(): Observable<MaintenanceDto[]> {
+    return this.apiService.get<MaintenanceDto[]>('maintenance/all', { body: {} }).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error('API call failed, using mock data:', error);
+        return of(this.mockMaintenances);
+      }),
+    );
+  }
+
+  mockMaintenances: MaintenanceDto[] = [
     {
       id: 14,
       carVin: '1HGCM82633A004352',
@@ -60,7 +69,7 @@ export class MaintenanceList {
       date: '2023-06-15T00:00:00Z',
       mileage: 63500,
       cost: 89.99,
-      receipt: 'MQ==',
+      receipt: new TextEncoder().encode('MQ=='),
       itemDetails: [
         {
           quantity: 7,
@@ -97,5 +106,10 @@ export class MaintenanceList {
         },
       ],
     },
-  ] as MaintenanceDto[];
+  ];
+  public maintenances = signal<MaintenanceDto[]>(this.mockMaintenances);
+
+  addMaintenance(maintenance: MaintenanceDto) {
+    this.maintenances.set([maintenance, ...this.maintenances()]);
+  }
 }

@@ -1,0 +1,82 @@
+.p-panel {
+  transition: all 0.2s ease-in-out;
+  margin: 1.5em 0.6rem;
+  cursor: pointer;
+
+  transition: height 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--surface-hover);
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  strong {
+    font-weight: bolder;
+  }
+}
+
+.p-panel-title {
+  font-weight: 900;
+  font-size: 1.8em;
+}
+
+.car-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .p-avatar {
+    --avatar-size: 4em;
+
+    border-radius: 8px;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    overflow: hidden; // To clip the image within the avatar
+  }
+}
+
+.actions-container {
+  transition:
+    max-width 0.35s ease-in-out,
+    max-height 0.35s ease-in-out,
+    opacity 0.25s ease-in-out,
+    padding 0.25s ease-in-out;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  display: flex;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+
+  button {
+    transition:
+      transform 0.18s ease-in-out,
+      opacity 0.18s ease-in-out;
+    min-width: 8rem;
+    height: auto;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  &.open {
+    /* large enough to fit the buttons - tweak if needed */
+    width: 100%;
+    max-height: 6rem;
+    opacity: 1;
+    padding: 0.5rem 0;
+    pointer-events: auto;
+
+    button {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
