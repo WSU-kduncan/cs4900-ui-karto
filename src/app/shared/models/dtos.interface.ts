@@ -14,6 +14,18 @@ export interface GasTypeDto {
   id: number;
   name: string;
 }
+
+export interface GasPrice {
+  id: GasPriceIdDto
+  price: number
+  updated: Date
+}
+
+export interface GasPriceIdDto {
+  gasStationId: number
+  gasTypeId: number
+}
+
 export interface MaintenanceDto {
   id: number;
   carVin: string;
