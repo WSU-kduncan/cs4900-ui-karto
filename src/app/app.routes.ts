@@ -29,4 +29,8 @@ export const routes: Routes = [
         (m) => m.CreateAccountForm,
       ),
   },
+  {
+    path: 'login',
+    loadComponent: () => import('@components/login/login').then((m) => m.Login),
+  },
 ];
