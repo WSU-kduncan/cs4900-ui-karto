@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { GasStationList } from './gas-station-list/gas-station-list';
 
 @Component({
   selector: 'app-root',
