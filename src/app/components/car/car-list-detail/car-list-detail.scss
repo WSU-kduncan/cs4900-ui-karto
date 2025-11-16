@@ -1,0 +1,15 @@
+:host {
+    width: 100%;
+}
+
+.car-info-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: space-between;
+
+    .car-info {
+        float: right;
+        margin-right: 2rem;
+    }
+}
