@@ -1,0 +1,13 @@
+<h1>Karto App Wooo</h1>
+
+  @if (gas_stations.length > 0) {
+    <ul>
+      @for (gas_station of gas_stations; track gas_station.id) {
+        <li class="gas-station-item">
+          {{ gas_station.name }}
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="no-station-message">There are no gas stations found.</p>
+  }
