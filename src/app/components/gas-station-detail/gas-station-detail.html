@@ -1,0 +1,6 @@
+@if (station()) {
+  <p-panel header="{{ station().name }}">
+    <p><strong>ID:</strong> {{ station().id }}</p>
+    <p><strong>Address:</strong> {{ station().address }}</p>
+  </p-panel>
+}
