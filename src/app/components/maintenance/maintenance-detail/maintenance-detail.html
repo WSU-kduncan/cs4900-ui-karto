@@ -1,0 +1,25 @@
+<div class="maintenance-card">
+  <h1>Maintenance ({{ maintenance().id }})</h1>
+  <p>Added: {{ maintenance().date | date: 'longDate' }}</p>
+  <p>Cost: {{ maintenance().cost | currency: 'USD' }}</p>
+  <p>Mileage: {{ maintenance().mileage | number }} miles</p>
+  @if (maintenance().receipt) {
+    <p>Raw Receipt: {{ maintenance().receipt }}</p>
+  } @else {
+    <p>No Receipt</p>
+  }
+  <h2>Item Details</h2>
+  <div class="item-detail-list">
+    @for (itemDetail of maintenance().itemDetails; track itemDetail.id) {
+      <h3>{{ itemDetail.id.maintenanceType.name }}</h3>
+      <p>Quantity: {{ itemDetail.quantity }}</p>
+      @if (itemDetail.comments) {
+        <p>Comments: {{ itemDetail.comments }}</p>
+      } @else {
+        <p>No Comments</p>
+      }
+    } @empty {
+      <p>No Item Details</p>
+    }
+  </div>
+</div>

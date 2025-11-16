@@ -1,0 +1,22 @@
+<div class="gas-station-list-container">
+  <h1>Gas Stations</h1>
+
+  <div class="add-item-form">
+    <input
+      pInputText
+      type="text"
+      placeholder="Enter new station name"
+      [value]="newStationName()"
+      (input)="onNameChange($event)"
+    />
+    <p-button label="Add Station" (click)="addGasStation()" />
+  </div>
+
+  <div class="list">
+    @for (station of gasStations(); track station.id) {
+      <app-gas-station-detail [station]="station" />
+    } @empty {
+      <h3>No Gas Stations Found</h3>
+    }
+  </div>
+</div>

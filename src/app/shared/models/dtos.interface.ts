@@ -1,18 +1,29 @@
-export interface Car {
-    vin: string;
-    image: string;
-    userEmail: string;
-    make: string;
-    model: string;
-    year: number;
-    color: string;
-    mileage: number;
-    gasType: GasType;
+export interface CarDto {
+  vin: string;
+  image?: string;
+  userEmail: string;
+  make: string;
+  model: string;
+  year: number;
+  color: string;
+  mileage: number;
+  gasType: GasTypeDto;
 }
 
-export interface GasType {
-    id: number;
-    name: string;
+export interface GasPriceDto {
+  id: GasPriceIdDto;
+  price: number;
+  updated: Date;
+}
+
+export interface GasPriceIdDto {
+  gasStationId: number;
+  gasTypeId: number;
+}
+
+export interface GasTypeDto {
+  id: number;
+  name: string;
 }
 export interface MaintenanceDto {
   id: number;
@@ -38,4 +49,10 @@ export interface MaintenanceItemDetailIdDto {
 export interface MaintenanceTypeDescriptionDto {
   id: number;
   name: string;
+}
+
+export interface GasStationDto {
+  id: number;
+  name: string;
+  address: string;
 }

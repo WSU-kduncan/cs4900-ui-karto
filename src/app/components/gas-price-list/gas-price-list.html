@@ -1,0 +1,39 @@
+<!-- josh helped me with this -->
+<div class="gas-price-list-container">
+  <h1 class="gas-price-title">Gas Prices</h1>
+
+  <div class="add-gas-price">
+    <input
+      pInputText
+      type="text"
+      placeholder="Enter new Gas Price"
+      [value]="newGasPriceValue()"
+      (input)="whenNewGasPriceGiven($event)"
+    />
+    <input
+      pInputText
+      type="text"
+      placeholder="Enter Gas Station ID"
+      [value]="newGasStationIDValue()"
+      (input)="whenNewGasStationIDGiven($event)"
+    />
+    <input
+      pInputText
+      type="text"
+      placeholder="Enter Gas Type ID"
+      [value]="newGasTypeIDValue()"
+      (input)="whenNewGasTypeIDGiven($event)"
+    />
+    <p-button label="Add Gas Price" (click)="addGasPrice()" />
+  </div>
+
+  <ul class="gas-price-list">
+    @for (price of gasPrices(); track price.id) {
+      <li class="gas-price-item">
+        <app-gas-price-detail [price]="price" />
+      </li>
+    } @empty {
+      <h2 class="no-prices-found">No gas prices available</h2>
+    }
+  </ul>
+</div>

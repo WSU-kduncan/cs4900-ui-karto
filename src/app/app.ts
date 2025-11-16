@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-root',
   imports: [RouterOutlet, ButtonModule, RouterLinkWithHref],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly title = signal('karto-ui');
