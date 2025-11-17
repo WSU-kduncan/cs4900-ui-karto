@@ -22,4 +22,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@components/gas-station-list/gas-station-list').then((m) => m.GasStationList),
   },
+  {
+    path: '',
+    redirectTo: '/cars',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    loadComponent: () => import('@components/not-found/not-found').then((m) => m.NotFound),
+  },
 ];
