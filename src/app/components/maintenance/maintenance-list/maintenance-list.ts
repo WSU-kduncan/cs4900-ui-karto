@@ -1,7 +1,9 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
 import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-maintenance-list',
@@ -10,21 +12,16 @@ import { MaintenanceItem } from '@components/maintenance/maintenance-detail/main
   styleUrl: './maintenance-list.scss',
   standalone: true,
 })
-export class MaintenanceList implements OnInit {
+export class MaintenanceList {
   private readonly maintenanceService = inject(MaintenanceService);
 
-  isLoading = signal(true);
-  public maintenances = signal<MaintenanceDto[]>([])
-  ngOnInit(): void {
-    this.maintenanceService.getMaintenance().subscribe({
-        next: res => {
-            this.maintenances.set(res);
-        },
-        complete: () => {
-            this.isLoading.set(false)
-        }
-    });
-  }
+  public maintenances: Signal<MaintenanceDto[]> = toSignal(
+    this.maintenanceService.maintenanceList,
+    {
+      initialValue: [],
+    }
+  );
+  postMaintenancerError = signal('');
   maintenanceId = signal(0);
   date = signal(new Date().toLocaleDateString());
   cost = signal(0);
@@ -52,14 +49,19 @@ export class MaintenanceList implements OnInit {
 
   addMaintenanceId() {
     const dto: MaintenanceDto = {
-      carVin: 'PLACEHOLDER',
+      carVin: '1HGCM82633A004352',
       cost: this.cost(),
-      date: this.date(),
+      date: new Date(this.date()).toISOString(),
       id: this.maintenanceId(),
       itemDetails: [],
       mileage: this.mileage(),
       receipt: null,
     };
-    this.maintenances.set([dto, ...this.maintenances()])
+
+    this.maintenanceService.postMaintenance(dto).subscribe({
+      error: (err: HttpErrorResponse) => {
+        this.postMaintenancerError.set(err.error ?? 'Could not create maintenance');
+      },
+    });
   }
 }
