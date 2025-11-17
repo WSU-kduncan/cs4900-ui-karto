@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
-import { MaintenanceService } from '@services/maintenance-service';
+import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
 
 @Component({
