@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, Signal } from '@angular/core';
 import { ApiService } from './api.service';
-import { CarDto } from '@shared/models/dtos.interface';
+import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
 import { catchError, map, Observable, of } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarService {
+  // private readonly gasTypes: Signal<GasTypeDto[] | undefined> = toSignal(this.getGasTypes());
 
   constructor(private apiService: ApiService) { }
 
@@ -24,6 +26,22 @@ export class CarService {
     );
   }
 
+  // cars: Signal<SerializedCar[] | undefined> = toSignal(this.getCarsOwnedByUser('irene.z@example.test').pipe(
+  //   // Enrich cars with gas type names from gasTypes signal
+  //   map(cars =>
+  //     cars.map(car => {
+  //       return {
+  //         ...car,
+  //         gasType: this.gasTypes()?.find(g => g.id === car.gasTypeId as number) as GasTypeDto
+  //       }
+  //     })
+  //   )
+  // ));  
+
+  addCar(carDetails: Partial<CarDto>): void {
+    this.cars.update(cars => [...cars, carDetails as CarDto]);
+  }
+
   private mockCars: CarDto[] = [
     {
       vin: '1N4AL11D75C987654',
@@ -33,10 +51,7 @@ export class CarService {
       year: 2009,
       color: 'Maroon',
       mileage: 134500,
-      gasType: {
-        id: 7,
-        name: 'Natural'
-      }
+      gasTypeId: 7,
     },
     {
       vin: 'KMHD4AE1BU345678',
@@ -47,11 +62,11 @@ export class CarService {
       year: 2011,
       color: 'Blue',
       mileage: 1111300,
-      gasType: {
-        id: 1,
-        name: 'Regular'
-      }
+      gasTypeId: 1,
     }
   ]
+
+  public cars = signal<CarDto[]>(this.mockCars);
+
 
 }

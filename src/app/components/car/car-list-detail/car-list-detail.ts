@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { CarDto } from '@shared/models/dtos.interface';
+import { CarDto, SerializedCar } from '@shared/models/dtos.interface';
 
 @Component({
   selector: 'app-car-list-detail',
