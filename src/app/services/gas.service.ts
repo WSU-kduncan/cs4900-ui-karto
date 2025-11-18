@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import { GasPriceDto } from '../shared/models/dtos.interface';
 import { ApiService } from '@services/api.service';
-import {catchError, map, Observable, of} from 'rxjs';
+import {BehaviorSubject, catchError, map, Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import {catchError, map, Observable, of} from 'rxjs';
 export class GasService {
   private apiService = inject(ApiService);
 
-  private gasPrices = signal<GasPriceDto[]>([]);
+  private gasPrices = new BehaviorSubject<GasPriceDto[]>([]);
 
   private dummyGasPrices = [
     {
@@ -31,21 +31,21 @@ export class GasService {
   ]
 
   getGasPriceList(): Observable<GasPriceDto[]> {
-    if (this.gasPrices().length == 0) {
+    if (this.gasPrices.value.length == 0) {
       this.updateGasPriceList().subscribe();
     }
-    return of(this.gasPrices());
+    return this.gasPrices;
   }
 
   updateGasPriceList() {
-    return this.apiService.get<GasPriceDto[]>('prices/all', { body: {} }).pipe(
+    return this.apiService.get<GasPriceDto[]>('gas/prices', { body: {} }).pipe(
       map((response) => {
-        this.gasPrices.set(response.data);
-        return response;
+        this.gasPrices.next(response.data);
+        return response.data;
       }),
       catchError((error) => {
         console.error('API call failed, using mock data:', error);
-        this.gasPrices.set(this.dummyGasPrices);
+        this.gasPrices.next(this.dummyGasPrices);
         return of(this.dummyGasPrices);
       })
     );
@@ -58,8 +58,11 @@ export class GasService {
       updated: request.updated,
     };
 
-    return this.apiService.post<GasPriceDto>('prices', newGasPrice).pipe(
-      map(response => response.data),
+    return this.apiService.post<GasPriceDto>('gas', newGasPrice).pipe(
+      map(response => {
+        this.updateGasPriceList().subscribe();
+        return response.data;
+      }),
       catchError(error => {
         console.error('API POST maintenance failed, using mock data: ', error);
         return of(this.dummyGasPrices);

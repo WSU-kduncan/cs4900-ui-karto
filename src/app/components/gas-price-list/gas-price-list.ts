@@ -55,12 +55,7 @@ export class GasPriceList {
       }
 
       // add/post the new gas price
-      this.#gasService.addGasPrice(gasPriceDto);
-
-      // reset signals
-      this.newGasPriceValue.set(0);
-      this.newGasStationIDValue.set(0);
-      this.newGasTypeIDValue.set(0);
+      this.#gasService.addGasPrice(gasPriceDto).subscribe();
     }
   }
 }
