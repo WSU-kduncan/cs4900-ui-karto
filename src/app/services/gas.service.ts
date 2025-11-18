@@ -1,45 +1,69 @@
-import { Injectable, signal } from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import { GasPriceDto } from '../shared/models/dtos.interface';
+import { ApiService } from '@services/api.service';
+import {catchError, map, Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GasService {
-  readonly #gasPrices = signal<GasPriceDto[]>([]);
+  private apiService = inject(ApiService);
 
-  public readonly gasPrices = this.#gasPrices.asReadonly();
+  private gasPrices = signal<GasPriceDto[]>([]);
 
-  constructor() {
-    this.#gasPrices.set([
-      {
-        id: {
-          gasStationId: 1,
-          gasTypeId: 2,
-        },
-        price: 1.0875,
-        updated: new Date(),
+  private dummyGasPrices = [
+    {
+      id: {
+        gasStationId: 1,
+        gasTypeId: 2,
       },
-      {
-        id: {
-          gasStationId: 1,
+      price: 1.0875,
+      updated: new Date(),
+    },
+    {
+      id: {
+        gasStationId: 1,
           gasTypeId: 3,
-        },
-        price: 1.667,
-        updated: new Date(),
       },
-    ]);
+      price: 1.667,
+        updated: new Date(),
+    }
+  ]
+
+  getGasPriceList(): Observable<GasPriceDto[]> {
+    if (this.gasPrices().length == 0) {
+      this.updateGasPriceList().subscribe();
+    }
+    return of(this.gasPrices());
   }
 
-  addGasPrice(gasStationId: number, gasTypeId: number, price: number, updated: Date) {
+  updateGasPriceList() {
+    return this.apiService.get<GasPriceDto[]>('prices/all', { body: {} }).pipe(
+      map((response) => {
+        this.gasPrices.set(response.data);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('API call failed, using mock data:', error);
+        this.gasPrices.set(this.dummyGasPrices);
+        return of(this.dummyGasPrices);
+      })
+    );
+  }
+
+  addGasPrice(request: GasPriceDto) {
     const newGasPrice: GasPriceDto = {
-      id: {
-        gasStationId: gasStationId,
-        gasTypeId: gasTypeId,
-      },
-      price: price,
-      updated: updated,
+      id: request.id,
+      price: request.price,
+      updated: request.updated,
     };
 
-    this.#gasPrices.update((prices) => [...prices, newGasPrice]);
+    return this.apiService.post<GasPriceDto>('prices', newGasPrice).pipe(
+      map(response => response.data),
+      catchError(error => {
+        console.error('API POST maintenance failed, using mock data: ', error);
+        return of(this.dummyGasPrices);
+      })
+    );
   }
 }
