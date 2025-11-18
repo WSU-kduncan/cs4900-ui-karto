@@ -40,14 +40,12 @@ export class MaintenanceForm {
         const dto: MaintenanceDto = {
             carVin: '1HGCM82633A004352',
             cost: this.cost.value!,
-            date: new Date(this.date.value!).toISOString(),
+            date: new Date(this.date.value!).getTime() / 1000,
             id: 0,
             itemDetails: [],
             mileage: this.mileage.value!,
             receipt: null,
         };
-
-        console.log(dto)
 
         this.maintenanceService.postMaintenance(dto).subscribe({
             error: (err: HttpErrorResponse) => {

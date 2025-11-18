@@ -11,92 +11,101 @@ export class MaintenanceService {
 
   mockMaintenances: MaintenanceDto[] = [
     {
-      id: 14,
-      carVin: '1HGCM82633A004352',
-      date: '2024-02-20T00:00:00Z',
-      mileage: 64820,
-      cost: 249.99,
-      receipt: null,
-      itemDetails: [
-        {
-          quantity: 2,
-          comments: null,
-          id: {
-            maintenanceId: 14,
-            maintenanceType: {
-              id: 3,
-              name: 'Battery Replacement',
-            },
-          },
-        },
-        {
-          quantity: 5,
-          comments: null,
-          id: {
-            maintenanceId: 14,
-            maintenanceType: {
-              id: 5,
-              name: 'Wheel Alignment',
-            },
-          },
-        },
-        {
-          quantity: 6,
-          comments: null,
-          id: {
-            maintenanceId: 14,
-            maintenanceType: {
-              id: 9,
-              name: 'Transmission Fluid Change',
-            },
-          },
-        },
-      ],
+        "id": 19,
+        "carVin": "1HGCM82633A004352",
+        "date": 1762977060.000000000,
+        "mileage": 3,
+        "cost": 3.0000,
+        "receipt": null,
+        "itemDetails": []
     },
     {
-      id: 1,
-      carVin: '1HGCM82633A004352',
-      date: '2023-06-15T00:00:00Z',
-      mileage: 63500,
-      cost: 89.99,
-      receipt: new TextEncoder().encode('MQ=='),
-      itemDetails: [
+        "id": 14,
+        "carVin": "1HGCM82633A004352",
+        "date": 1708387200.000000000,
+        "mileage": 64820,
+        "cost": 249.9900,
+        "receipt": null,
+        "itemDetails": [
         {
-          quantity: 7,
-          comments: null,
-          id: {
-            maintenanceId: 1,
-            maintenanceType: {
-              id: 1,
-              name: 'Oil Change',
-            },
-          },
+            "quantity": 2,
+            "comments": null,
+            "id": {
+            "maintenanceId": 14,
+            "maintenanceType": {
+                "id": 3,
+                "name": "Battery Replacement"
+            }
+            }
         },
         {
-          quantity: 9,
-          comments: null,
-          id: {
-            maintenanceId: 1,
-            maintenanceType: {
-              id: 3,
-              name: 'Battery Replacement',
-            },
-          },
+            "quantity": 5,
+            "comments": null,
+            "id": {
+            "maintenanceId": 14,
+            "maintenanceType": {
+                "id": 5,
+                "name": "Wheel Alignment"
+            }
+            }
         },
         {
-          quantity: 9,
-          comments: null,
-          id: {
-            maintenanceId: 1,
-            maintenanceType: {
-              id: 8,
-              name: 'Coolant Flush & Radiator Service',
-            },
-          },
-        },
-      ],
+            "quantity": 6,
+            "comments": null,
+            "id": {
+            "maintenanceId": 14,
+            "maintenanceType": {
+                "id": 9,
+                "name": "Transmission Fluid Change"
+            }
+            }
+        }
+        ]
     },
-  ];
+    {
+        "id": 1,
+        "carVin": "1HGCM82633A004352",
+        "date": 1686787200.000000000,
+        "mileage": 63500,
+        "cost": 89.9900,
+        "receipt": new TextEncoder().encode("MQ=="),
+        "itemDetails": [
+        {
+            "quantity": 7,
+            "comments": null,
+            "id": {
+            "maintenanceId": 1,
+            "maintenanceType": {
+                "id": 1,
+                "name": "Oil Change"
+            }
+            }
+        },
+        {
+            "quantity": 9,
+            "comments": null,
+            "id": {
+            "maintenanceId": 1,
+            "maintenanceType": {
+                "id": 3,
+                "name": "Battery Replacement"
+            }
+            }
+        },
+        {
+            "quantity": 9,
+            "comments": null,
+            "id": {
+            "maintenanceId": 1,
+            "maintenanceType": {
+                "id": 8,
+                "name": "Coolant Flush & Radiator Service"
+            }
+            }
+        }
+        ]
+    }
+];
 
   private maintenanceListSubject = new BehaviorSubject<MaintenanceDto[]>([]);
 
@@ -109,6 +118,7 @@ export class MaintenanceService {
     return this.apiService.get<MaintenanceDto[]>('maintenance/all', { body: {} }).pipe(
       map((response) => {
         this.maintenanceListSubject.next(response.data);
+        console.log(response.data);
         return response;
       }),
       catchError((error) => {

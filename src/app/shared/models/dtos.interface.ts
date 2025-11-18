@@ -28,7 +28,7 @@ export interface GasTypeDto {
 export interface MaintenanceDto {
   id: number;
   carVin: string;
-  date: string;
+  date: number;
   mileage: number;
   cost: number;
   receipt: Uint8Array | null;
