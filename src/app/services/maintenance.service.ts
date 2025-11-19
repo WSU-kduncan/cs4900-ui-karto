@@ -118,7 +118,6 @@ export class MaintenanceService {
     return this.apiService.get<MaintenanceDto[]>('maintenance/all', { body: {} }).pipe(
       map((response) => {
         this.maintenanceListSubject.next(response.data);
-        console.log(response.data);
         return response;
       }),
       catchError((error) => {
@@ -139,6 +138,20 @@ export class MaintenanceService {
         console.error('API POST maintenance failed, using mock data: ', error);
         this.mockMaintenances.push(maintenanceDto);
         return of(maintenanceDto);
+      })
+    );
+  }
+
+  deleteMaintenance(id: number): Observable<void> {
+    return this.apiService.delete<void>(`maintenance/${id}`).pipe(
+      map(_ => {
+        this.updateMaintenanceList().subscribe();
+      }),
+      catchError((error) => {
+        console.error("API Delete maintenance failed, using mock data: ", error);
+        this.mockMaintenances = this.mockMaintenances.filter(maintenance => maintenance.id !== id);
+        this.updateMaintenanceList().subscribe();
+        return of();
       })
     );
   }
