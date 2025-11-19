@@ -17,6 +17,17 @@ export interface CarDto extends BaseCar {
   gasTypeId: number;
 }
 
+export interface GasPriceDto {
+  id: GasPriceIdDto;
+  price: number;
+  updated: Date;
+}
+
+export interface GasPriceIdDto {
+  gasStationId: number;
+  gasTypeId: number;
+}
+
 export interface GasTypeDto {
   id: number;
   name: string;
@@ -45,4 +56,10 @@ export interface MaintenanceItemDetailIdDto {
 export interface MaintenanceTypeDescriptionDto {
   id: number;
   name: string;
+}
+
+export interface GasStationDto {
+  id: number;
+  name: string;
+  address: string;
 }

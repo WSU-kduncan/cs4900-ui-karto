@@ -14,15 +14,15 @@ export class CarService {
 
   getCarsOwnedByUser(userEmail: string): Observable<CarDto[]> {
     return this.apiService.get<CarDto[]>(`cars/ownedBy/${userEmail}`).pipe(
-      map(response => response.data),
-      catchError(error => {
+      map((response) => response.data),
+      catchError((error) => {
         console.error('Error fetching cars owned by user:', error, 'Using mock data instead.');
-        const car = this.mockCars.filter(car => car.userEmail === userEmail);
+        const car = this.mockCars.filter((car) => car.userEmail === userEmail);
 
         if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
 
         return of(car);
-      })
+      }),
     );
   }
 
@@ -55,7 +55,7 @@ export class CarService {
     },
     {
       vin: 'KMHD4AE1BU345678',
-      image: "https://placehold.co/800",
+      image: 'https://placehold.co/800',
       userEmail: 'irene.z@example.test',
       make: 'Hyundai',
       model: 'Elantra',

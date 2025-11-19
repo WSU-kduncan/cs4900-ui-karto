@@ -22,7 +22,7 @@ import { map } from 'rxjs';
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
   standalone: true,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CarList {
   private readonly carService = inject(CarService);
@@ -115,5 +115,4 @@ export class CarList {
 
   onEditCar(e: PointerEvent) {
   }
-
 }
