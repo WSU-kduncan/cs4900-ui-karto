@@ -19,7 +19,7 @@ export class MaintenanceList {
     this.maintenanceService.maintenanceList,
     {
       initialValue: [],
-    }
+    },
   );
   postMaintenancerError = signal('');
   maintenanceId = signal(0);

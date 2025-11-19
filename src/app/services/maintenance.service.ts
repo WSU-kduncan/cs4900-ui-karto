@@ -115,7 +115,7 @@ export class MaintenanceService {
         console.error('API call failed, using mock data:', error);
         this.maintenanceListSubject.next(this.mockMaintenances);
         return of(this.mockMaintenances);
-      })
+      }),
     );
   }
 
@@ -129,7 +129,7 @@ export class MaintenanceService {
         console.error('API POST maintenance failed, using mock data: ', error);
         this.mockMaintenances.push(maintenanceDto);
         return of(maintenanceDto);
-      })
+      }),
     );
   }
 }

@@ -30,22 +30,29 @@ export class CarService {
       color: 'Blue',
       mileage: 1111300,
       gasTypeId: 1,
-    }
-  ]
+    },
+  ];
 
-  constructor(private apiService: ApiService, private gasService: GasService) {
+  constructor(
+    private apiService: ApiService,
+    private gasService: GasService,
+  ) {
     // populate writable cars signal from API and enrich with gas type
-    this.getCarsOwnedByUser('irene.z@example.test').pipe(
-      // Enrich cars with gas type names from gasTypes signal
-      map(cars =>
-        cars.map(car => {
-          return {
-            ...car,
-            gasType: this.gasService.gasTypes()?.find(g => g.id === car.gasTypeId as number) as GasTypeDto
-          };
-        })
+    this.getCarsOwnedByUser('irene.z@example.test')
+      .pipe(
+        // Enrich cars with gas type names from gasTypes signal
+        map((cars) =>
+          cars.map((car) => {
+            return {
+              ...car,
+              gasType: this.gasService
+                .gasTypes()
+                ?.find((g) => g.id === (car.gasTypeId as number)) as GasTypeDto,
+            };
+          }),
+        ),
       )
-    ).subscribe(cars => this.cars.set(cars as SerializedCar[]));
+      .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
 
   getCarsOwnedByUser(userEmail: string): Observable<CarDto[]> {
@@ -67,5 +74,4 @@ export class CarService {
   }
 
   public cars: WritableSignal<SerializedCar[]> = signal<SerializedCar[]>([]);
-
 }

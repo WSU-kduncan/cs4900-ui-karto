@@ -1,11 +1,11 @@
-import {Component, inject, Signal, signal} from '@angular/core';
+import { Component, inject, Signal, signal } from '@angular/core';
 import { GasService } from '@services/gas.service';
 import { GasPriceDetail } from '../gas-price-detail/gas-price-detail';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {GasPriceDto} from '@shared/models/dtos.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { GasPriceDto } from '@shared/models/dtos.interface';
 
 @Component({
   selector: 'app-gas-price-list',
@@ -17,12 +17,9 @@ import {GasPriceDto} from '@shared/models/dtos.interface';
 export class GasPriceList {
   readonly #gasService = inject(GasService);
 
-  public gasPrices: Signal<GasPriceDto[]> = toSignal(
-    this.#gasService.getGasPriceList(),
-    {
-      initialValue: []
-    }
-  );
+  public gasPrices: Signal<GasPriceDto[]> = toSignal(this.#gasService.getGasPriceList(), {
+    initialValue: [],
+  });
 
   newGasPriceValue = signal(0);
   newGasStationIDValue = signal(0);
@@ -46,13 +43,13 @@ export class GasPriceList {
   addGasPrice() {
     if (this.newGasPriceValue() && this.newGasStationIDValue() && this.newGasTypeIDValue()) {
       const gasPriceDto: GasPriceDto = {
-          id: {
-            gasStationId: this.newGasStationIDValue(),
-            gasTypeId: this.newGasTypeIDValue()
-          },
-          price: this.newGasPriceValue(),
-          updated: new Date()
-      }
+        id: {
+          gasStationId: this.newGasStationIDValue(),
+          gasTypeId: this.newGasTypeIDValue(),
+        },
+        price: this.newGasPriceValue(),
+        updated: new Date(),
+      };
 
       // add/post the new gas price
       this.#gasService.addGasPrice(gasPriceDto).subscribe();

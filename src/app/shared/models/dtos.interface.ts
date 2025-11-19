@@ -10,7 +10,7 @@ interface BaseCar {
 }
 
 export interface SerializedCar extends BaseCar {
-  gasType: GasTypeDto
+  gasType: GasTypeDto;
 }
 
 export interface CarDto extends BaseCar {

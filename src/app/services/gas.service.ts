@@ -1,8 +1,8 @@
 import { inject, Injectable, Signal, signal } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { ApiService } from ".";
-import { GasPriceDto, GasTypeDto } from "@shared/models/dtos.interface";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { ApiService } from '.';
+import { GasPriceDto, GasTypeDto } from '@shared/models/dtos.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -28,8 +28,8 @@ export class GasService {
       },
       price: 1.667,
       updated: new Date(),
-    }
-  ]
+    },
+  ];
 
   private mockGasTypes: GasTypeDto[] = [
     { id: 1, name: 'Regular' },
@@ -49,28 +49,26 @@ export class GasService {
     this.gasTypes = toSignal(this.getGasTypes());
   }
 
-
   getGasTypes(): Observable<GasTypeDto[]> {
     return this.apiService.get<GasTypeDto[]>('gas/types').pipe(
-      map(response => response.data),
-      catchError(error => {
+      map((response) => response.data),
+      catchError((error) => {
         console.error('Error fetching gas types:', error, 'Using mock data instead.');
 
         return of(this.mockGasTypes);
-      })
+      }),
     );
   }
 
   getGasTypeById(id: number): Observable<GasTypeDto | undefined> {
     return this.getGasTypes().pipe(
-      map(gasTypes => gasTypes.find(gasType => gasType.id === id))
+      map((gasTypes) => gasTypes.find((gasType) => gasType.id === id)),
     );
   }
 
   // declare without initializing so we can create the signal after ApiService is
   // available (toSignal will subscribe immediately and ApiService must be defined)
   public gasTypes!: Signal<GasTypeDto[] | undefined>;
-
 
   getGasPriceList(): Observable<GasPriceDto[]> {
     if (this.gasPrices.value.length == 0) {
@@ -89,7 +87,7 @@ export class GasService {
         console.error('API call failed, using mock data:', error);
         this.gasPrices.next(this.dummyGasPrices);
         return of(this.dummyGasPrices);
-      })
+      }),
     );
   }
 
@@ -101,15 +99,14 @@ export class GasService {
     };
 
     return this.apiService.post<GasPriceDto>('gas', newGasPrice).pipe(
-      map(response => {
+      map((response) => {
         this.updateGasPriceList().subscribe();
         return response.data;
       }),
-      catchError(error => {
+      catchError((error) => {
         console.error('API POST maintenance failed, using mock data: ', error);
         return of(this.dummyGasPrices);
-      })
+      }),
     );
   }
-
 }

@@ -11,14 +11,24 @@ import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
-import { CarListDetail } from "@components/car";
+import { CarListDetail } from '@components/car';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { map } from 'rxjs';
 
 @Component({
   selector: 'app-car-list',
-  imports: [FormsModule, PanelModule, AvatarModule, Button, ButtonModule, IftaLabelModule, InputTextModule, RippleModule, CarListDetail],
+  imports: [
+    FormsModule,
+    PanelModule,
+    AvatarModule,
+    Button,
+    ButtonModule,
+    IftaLabelModule,
+    InputTextModule,
+    RippleModule,
+    CarListDetail,
+  ],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
   standalone: true,
@@ -46,7 +56,6 @@ export class CarList {
     }
   ); */
 
-
   cars = this.carService.cars;
 
   vin = signal<string>('KMHD4AE1BU345A78');
@@ -58,11 +67,11 @@ export class CarList {
 
   selectedCar = signal<SerializedCar | null>(null);
 
-  readonly gasTypeOptions = this.gasService.gasTypes()?.map(gasType => gasType.name) ?? []
+  readonly gasTypeOptions = this.gasService.gasTypes()?.map((gasType) => gasType.name) ?? [];
 
   onValueChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    const value = inputElement.value
+    const value = inputElement.value;
 
     switch (inputElement.name) {
       case 'vin':
@@ -96,11 +105,12 @@ export class CarList {
       year: this.year() as number,
       color: this.color(),
       mileage: this.mileage() as number,
-      gasTypeId: this.gasService.gasTypes()?.find(gasType => gasType.name === (this.gasTypeOptions[0]))?.id as number,
-    }
+      gasTypeId: this.gasService
+        .gasTypes()
+        ?.find((gasType) => gasType.name === this.gasTypeOptions[0])?.id as number,
+    };
 
     console.log(newCar);
-
 
     this.carService.addCar(newCar);
   }
@@ -109,9 +119,7 @@ export class CarList {
     this.selectedCar.set(car);
   }
 
-  onViewMore(e: PointerEvent) {
-  }
+  onViewMore(e: PointerEvent) {}
 
-  onEditCar(e: PointerEvent) {
-  }
+  onEditCar(e: PointerEvent) {}
 }

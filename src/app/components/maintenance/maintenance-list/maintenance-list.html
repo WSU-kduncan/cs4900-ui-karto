@@ -14,11 +14,13 @@
   <button (click)="addMaintenanceId()">Enter</button>
   <br />
   @if (postMaintenancerError()) {
-    {{ "Error: " + postMaintenancerError() }}
+    {{ 'Error: ' + postMaintenancerError() }}
   }
 </div>
 <div class="maintenance-list">
   @for (maintenance of maintenances(); track maintenance.id) {
-  <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>
-  } @empty { No Maintenance Records Found }
+    <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>
+  } @empty {
+    No Maintenance Records Found
+  }
 </div>
