@@ -1,6 +1,9 @@
 @if (station()) {
   <p-panel header="{{ station().name }}">
     <p><strong>ID:</strong> {{ station().id }}</p>
-    <p><strong>Address:</strong> {{ station().address }}</p>
+    <p><strong>Address:</strong> {{ station().addressLine }}</p>
+    <p><strong>City:</strong> {{ station().city }}</p>
+    <p><strong>State:</strong> {{ station().state }}</p>
+    <p><strong>Zip:</strong> {{ station().zip }}</p>
   </p-panel>
 }

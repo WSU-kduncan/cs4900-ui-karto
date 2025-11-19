@@ -53,6 +53,12 @@ export interface MaintenanceTypeDescriptionDto {
 
 export interface GasStationDto {
   id: number;
+  longitude: number;
+  latitude: number;
   name: string;
-  address: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  zip: string;
+  userEmails: string[];
 }
