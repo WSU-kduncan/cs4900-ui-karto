@@ -1,69 +1,65 @@
 <div class="cars">
   <h1>Cars</h1>
   @for (car of cars(); track car.vin) {
-    <p-panel header="{{ car.year }} {{ car.make }} {{ car.model }}" (click)="onSelectCar(car)">
-      <div class="car-card styled-box-">
-        @if (car.image) {
-          <p-avatar [image]="car.image" size="xlarge"></p-avatar>
-        } @else {
-          <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
-        }
+  <p-panel header="{{ car.year }} {{ car.make }} {{ car.model }}" (click)="onSelectCar(car)">
+    <div class="car-card styled-box-">
+      @if (car.image) {
+      <p-avatar [image]="car.image" size="xlarge"></p-avatar>
+      } @else {
+      <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
+      }
 
-        <app-car-list-detail [car]="car" />
-      </div>
+      <app-car-list-detail [car]="car" />
+    </div>
 
-        <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
-            <p-button label="View More" [outlined]="true" [raised]="true" icon="pi pi-eye" severity="info" pRipple
-                iconPos="left" size="large" (click)="onViewMore($event)" />
+    <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
+      <p-button label="View More" [outlined]="true" [raised]="true" icon="pi pi-eye" severity="info" pRipple
+        iconPos="left" size="large" (click)="onViewMore($event)" />
 
-            <p-button label="Edit Car" [outlined]="true" [raised]="true" icon="pi pi-pencil" severity="info"
-                iconPos="left" size="large" (click)="onEditCar($event)" />
-        </div>
+      <p-button label="Edit Car" [outlined]="true" [raised]="true" icon="pi pi-pencil" severity="info" iconPos="left"
+        size="large" (click)="onEditCar($event)" />
+    </div>
 
 
-    </p-panel>
+  </p-panel>
 
-    } @empty {
-    <h3>No cars in inventory</h3>
-    }
+  } @empty {
+  <h3>No cars in inventory</h3>
+  }
 
-    <section class="new-car-form ">
-        <!-- Add new car form -->
+  <section class="new-car-form ">
+    <!-- Add new car form -->
 
-        <p-iftalabel>
-            <input pInputText type="text" name="vin" [value]="vin()" (input)="onValueChange($event)" required />
-            <label for="vin">Vin</label>
-        </p-iftalabel>
+    <p-iftalabel>
+      <input pInputText type="text" name="vin" [value]="vin()" (input)="onValueChange($event)" required />
+      <label for="vin">Vin</label>
+    </p-iftalabel>
 
-        <p-iftalabel>
-            <input pInputText type="text" name="make" [value]="make()" (input)="onValueChange($event)" required />
-            <label for="make">Make</label>
-        </p-iftalabel>
+    <p-iftalabel>
+      <input pInputText type="text" name="make" [value]="make()" (input)="onValueChange($event)" required />
+      <label for="make">Make</label>
+    </p-iftalabel>
 
-        <p-iftalabel>
-            <input pInputText type="text" name="model" [value]="model()" (input)="onValueChange($event)"
-                required />
-            <label for="model">Model</label>
-        </p-iftalabel>
+    <p-iftalabel>
+      <input pInputText type="text" name="model" [value]="model()" (input)="onValueChange($event)" required />
+      <label for="model">Model</label>
+    </p-iftalabel>
 
-        <p-iftalabel>
-            <input pInputText type="number" name="year" [value]="year()" (input)="onValueChange($event)"
-                required />
-            <label for="year">Year</label>
-        </p-iftalabel>
+    <p-iftalabel>
+      <input pInputText type="number" name="year" [value]="year()" (input)="onValueChange($event)" required />
+      <label for="year">Year</label>
+    </p-iftalabel>
 
-        <p-iftalabel>
-            <input pInputText type="text" name="color" [value]="color()" (input)="onValueChange($event)"
-                required />
-            <label for="color">Color</label>
-        </p-iftalabel>
+    <p-iftalabel>
+      <input pInputText type="text" name="color" [value]="color()" (input)="onValueChange($event)" required />
+      <label for="color">Color</label>
+    </p-iftalabel>
 
-        <p-iftalabel>
-            <input pInputText type="number" name="mileage" [value]="mileage()" (input)="onValueChange($event)"
-                required />
-            <label for="mileage">Mileage</label>
-        </p-iftalabel>
+    <p-iftalabel>
+      <input pInputText type="number" name="mileage" [value]="mileage()" (input)="onValueChange($event)" required />
+      <label for="mileage">Mileage</label>
+    </p-iftalabel>
 
-        <p-button label="Add Car" (onClick)="onNewCar()" />
-    </section>
+    <p-button label="Add Car" (onClick)="onNewCar()" />
+  </section>
 </div>

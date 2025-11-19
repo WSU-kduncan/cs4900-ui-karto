@@ -8,5 +8,5 @@ import { CarDto, SerializedCar } from '@shared/models/dtos.interface';
   styleUrl: './car-list-detail.scss',
 })
 export class CarListDetail {
-  public car = input.required<CarDto>();
+  public car = input.required<SerializedCar>();
 }

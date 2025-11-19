@@ -56,8 +56,7 @@ export class CarList {
   color = signal<string>('Red');
   mileage = signal<number | null>(12345);
 
-
-  selectedCar = signal<CarDto | null>(null);
+  selectedCar = signal<SerializedCar | null>(null);
 
   readonly gasTypeOptions = this.gasService.gasTypes()?.map(gasType => gasType.name) ?? []
 
@@ -106,7 +105,7 @@ export class CarList {
     this.carService.addCar(newCar);
   }
 
-  onSelectCar(car: CarDto) {
+  onSelectCar(car: SerializedCar) {
     this.selectedCar.set(car);
   }
 

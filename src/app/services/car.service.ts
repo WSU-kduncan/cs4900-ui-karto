@@ -1,47 +1,14 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { ApiService } from './api.service';
 import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
 import { catchError, map, Observable, of } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { GasService } from './gas.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarService {
   // private readonly gasTypes: Signal<GasTypeDto[] | undefined> = toSignal(this.getGasTypes());
-
-  constructor(private apiService: ApiService) { }
-
-  getCarsOwnedByUser(userEmail: string): Observable<CarDto[]> {
-    return this.apiService.get<CarDto[]>(`cars/ownedBy/${userEmail}`).pipe(
-      map((response) => response.data),
-      catchError((error) => {
-        console.error('Error fetching cars owned by user:', error, 'Using mock data instead.');
-        const car = this.mockCars.filter((car) => car.userEmail === userEmail);
-
-        if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
-
-        return of(car);
-      }),
-    );
-  }
-
-  // cars: Signal<SerializedCar[] | undefined> = toSignal(this.getCarsOwnedByUser('irene.z@example.test').pipe(
-  //   // Enrich cars with gas type names from gasTypes signal
-  //   map(cars =>
-  //     cars.map(car => {
-  //       return {
-  //         ...car,
-  //         gasType: this.gasTypes()?.find(g => g.id === car.gasTypeId as number) as GasTypeDto
-  //       }
-  //     })
-  //   )
-  // ));  
-
-  addCar(carDetails: Partial<CarDto>): void {
-    this.cars.update(cars => [...cars, carDetails as CarDto]);
-  }
-
   private mockCars: CarDto[] = [
     {
       vin: '1N4AL11D75C987654',
@@ -66,7 +33,39 @@ export class CarService {
     }
   ]
 
-  public cars = signal<CarDto[]>(this.mockCars);
+  constructor(private apiService: ApiService, private gasService: GasService) {
+    // populate writable cars signal from API and enrich with gas type
+    this.getCarsOwnedByUser('irene.z@example.test').pipe(
+      // Enrich cars with gas type names from gasTypes signal
+      map(cars =>
+        cars.map(car => {
+          return {
+            ...car,
+            gasType: this.gasService.gasTypes()?.find(g => g.id === car.gasTypeId as number) as GasTypeDto
+          };
+        })
+      )
+    ).subscribe(cars => this.cars.set(cars as SerializedCar[]));
+  }
 
+  getCarsOwnedByUser(userEmail: string): Observable<CarDto[]> {
+    return this.apiService.get<CarDto[]>(`cars/ownedBy/${userEmail}`).pipe(
+      map((response) => response.data),
+      catchError((error) => {
+        console.error('Error fetching cars owned by user:', error, 'Using mock data instead.');
+        const car = this.mockCars.filter((car) => car.userEmail === userEmail);
+
+        if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
+
+        return of(car);
+      }),
+    );
+  }
+
+  addCar(carDetails: Partial<CarDto>): void {
+    this.cars.update((cars) => [...cars, carDetails as SerializedCar]);
+  }
+
+  public cars: WritableSignal<SerializedCar[]> = signal<SerializedCar[]>([]);
 
 }
