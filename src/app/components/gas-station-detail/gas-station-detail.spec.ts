@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GasStationDetail } from './gas-station-detail';
+import { GasStation } from '../../shared/models/dtos.interface';
 
 describe('GasStationDetail', () => {
   let component: GasStationDetail;

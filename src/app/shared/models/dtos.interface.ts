@@ -1,4 +1,4 @@
-export interface CarDto {
+interface BaseCar {
   vin: string;
   image?: string;
   userEmail: string;
@@ -7,7 +7,14 @@ export interface CarDto {
   year: number;
   color: string;
   mileage: number;
+}
+
+export interface SerializedCar extends BaseCar {
   gasType: GasTypeDto;
+}
+
+export interface CarDto extends BaseCar {
+  gasTypeId: number;
 }
 
 export interface GasPriceDto {
@@ -53,6 +60,12 @@ export interface MaintenanceTypeDescriptionDto {
 
 export interface GasStationDto {
   id: number;
+  longitude: number;
+  latitude: number;
   name: string;
-  address: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  zip: string;
+  userEmails: string[];
 }
