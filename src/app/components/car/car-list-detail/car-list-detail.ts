@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { CarDto } from '@shared/models/dtos.interface';
+import { CarDto, SerializedCar } from '@shared/models/dtos.interface';
 
 @Component({
   selector: 'app-car-list-detail',
@@ -8,5 +8,5 @@ import { CarDto } from '@shared/models/dtos.interface';
   styleUrl: './car-list-detail.scss',
 })
 export class CarListDetail {
-  public car = input.required<CarDto>();
+  public car = input.required<SerializedCar>();
 }
