@@ -31,7 +31,11 @@
         <label for="mileage">Mileage</label>
     </p-iftalabel>
 
-    <p-cascadeselect [options]="gasTypeOptions" [field]="carForm.gasTypeId" />
+    <p-iftalabel>
+        <p-select name="gasType" optionLabel="name" optionValue="value" [options]="gasTypeOptions()"
+            [field]="carForm.gasTypeId" />
+        <label for="gasType">Gas Type</label>
+    </p-iftalabel>
 
     <p-button label="Add Car" type="submit" />
 </form>

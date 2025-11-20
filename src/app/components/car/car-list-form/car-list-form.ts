@@ -4,10 +4,10 @@ import { form, Field, required } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { RippleModule } from 'primeng/ripple';
+import { Select } from 'primeng/select';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { CarDto } from '@shared/models/dtos.interface';
-import { InputTextModule } from 'primeng/inputtext';
-import { CascadeSelect } from 'primeng/cascadeselect';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 
@@ -19,7 +19,7 @@ import { GasService } from '@services/gas.service';
     InputTextModule,
     RippleModule,
     ButtonModule,
-    CascadeSelect,
+    Select,
     Field
   ],
   templateUrl: './car-list-form.html',
@@ -32,13 +32,13 @@ export class CarListForm {
 
   carModel = signal<CarDto>({
     vin: '56HJK4AE1BU3456AB',
-    userEmail: 'iren@example.com',
+    userEmail: 'irene.z@example.test',
     make: 'Honda',
     model: 'Accord',
     year: 2015,
     color: 'Dark Blue',
     mileage: 192168,
-    gasTypeId: 3,
+    gasTypeId: 1,
   })
 
   carForm = form(this.carModel, (schemaPath) => {
@@ -51,14 +51,23 @@ export class CarListForm {
     required(schemaPath.gasTypeId, { message: 'Gas Type is required' });
   });
 
-  gasTypeOptions = this.gasService.gasTypes().map((gt) => gt.name)
-  
-  constructor() {
-    console.log('gastypes', this.gasService.gasTypes());
 
-  }
+
+  readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })));
 
   onNewCar() {
+    const newCar: CarDto = {
+      vin: this.carForm.vin().value(),
+      userEmail: this.carForm.userEmail().value(),
+      make: this.carForm.make().value(),
+      model: this.carForm.model().value(),
+      year: this.carForm.year().value(),
+      color: this.carForm.color().value(),
+      mileage: this.carForm.mileage().value(),
+      gasTypeId: this.carForm.gasTypeId().value(),
+    }
+
+    this.carService.addCar(newCar);
   }
 
 }

@@ -1,4 +1,4 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { effect, inject, Injectable, Signal, signal } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { ApiService } from '.';
 import { GasPriceDto, GasTypeDto } from '@shared/models/dtos.interface';
@@ -44,12 +44,6 @@ export class GasService {
     { id: 10, name: 'Electric' },
   ];
 
-  constructor() {
-    // initialize gasTypes here so ApiService is defined when getGasTypes() runs
-    // this.gasTypes = toSignal(this.getGasTypes());
-    console.log('GasService initialized', this.gasTypes());
-
-  }
 
   getGasTypes(): Observable<GasTypeDto[]> {
     return this.apiService.get<GasTypeDto[]>('gas/types').pipe(
@@ -70,9 +64,8 @@ export class GasService {
 
   // declare without initializing so we can create the signal after ApiService is
   // available (toSignal will subscribe immediately and ApiService must be defined)
-  public gasTypes: Signal<GasTypeDto[]> = toSignal(this.getGasTypes(), {
-    initialValue: []
-  });
+  public gasTypes: Signal<GasTypeDto[]> = toSignal(this.getGasTypes(),
+    { initialValue: this.mockGasTypes });
 
   getGasPriceList(): Observable<GasPriceDto[]> {
     if (this.gasPrices.value.length == 0) {
