@@ -46,7 +46,9 @@ export class GasService {
 
   constructor() {
     // initialize gasTypes here so ApiService is defined when getGasTypes() runs
-    this.gasTypes = toSignal(this.getGasTypes());
+    // this.gasTypes = toSignal(this.getGasTypes());
+    console.log('GasService initialized', this.gasTypes());
+
   }
 
   getGasTypes(): Observable<GasTypeDto[]> {
@@ -68,7 +70,9 @@ export class GasService {
 
   // declare without initializing so we can create the signal after ApiService is
   // available (toSignal will subscribe immediately and ApiService must be defined)
-  public gasTypes!: Signal<GasTypeDto[] | undefined>;
+  public gasTypes: Signal<GasTypeDto[]> = toSignal(this.getGasTypes(), {
+    initialValue: []
+  });
 
   getGasPriceList(): Observable<GasPriceDto[]> {
     if (this.gasPrices.value.length == 0) {

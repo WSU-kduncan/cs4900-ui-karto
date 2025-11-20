@@ -1,20 +1,17 @@
-import { Component, effect, inject, Signal, signal, ViewEncapsulation } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { Component, effect, inject, signal, ViewEncapsulation } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AvatarModule } from 'primeng/avatar';
 import { PanelModule } from 'primeng/panel';
 import { Button, ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { CascadeSelect } from 'primeng/cascadeselect';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
-import { CarListDetail } from '@components/car';
+import { SerializedCar } from '@shared/models/dtos.interface';
+import { CarListDetail, CarListForm } from '@components/car';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-car-list',
@@ -28,6 +25,7 @@ import { map } from 'rxjs';
     InputTextModule,
     RippleModule,
     CarListDetail,
+    CarListForm
   ],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
@@ -44,17 +42,6 @@ export class CarList {
       console.log('Cars list updated:', this.cars());
     });
   }
-
-  /* carForm: FormGroup = new FormGroup(
-    {
-      name: new FormControl('', [Validators.required]),
-      model: new FormControl('', [Validators.required]),
-      year: new FormControl('', [Validators.required]),
-      color: new FormControl('', [Validators.required]),
-      mileage: new FormControl('', [Validators.required]),
-      gasTypeId: new FormControl(1, [Validators.required])
-    }
-  ); */
 
   cars = this.carService.cars;
 
@@ -97,29 +84,13 @@ export class CarList {
     }
   }
 
-  onNewCar() {
-    const newCar = {
-      vin: this.vin(),
-      make: this.make(),
-      model: this.model(),
-      year: this.year() as number,
-      color: this.color(),
-      mileage: this.mileage() as number,
-      gasTypeId: this.gasService
-        .gasTypes()
-        ?.find((gasType) => gasType.name === this.gasTypeOptions[0])?.id as number,
-    };
 
-    console.log(newCar);
-
-    this.carService.addCar(newCar);
-  }
 
   onSelectCar(car: SerializedCar) {
     this.selectedCar.set(car);
   }
 
-  onViewMore(e: PointerEvent) {}
+  onViewMore(e: PointerEvent) { }
 
-  onEditCar(e: PointerEvent) {}
+  onEditCar(e: PointerEvent) { }
 }
