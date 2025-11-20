@@ -69,3 +69,9 @@ export interface GasStationDto {
   zip: string;
   userEmails: string[];
 }
+
+export interface UserDto {
+  email: string;
+  username: string;
+  createdAt: string;
+}
