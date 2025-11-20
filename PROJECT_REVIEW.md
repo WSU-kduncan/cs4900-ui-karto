@@ -1,4 +1,4 @@
-# Angular Project Review - MEW UI
+# Angular Project Review - KARTO
 
 **Date:** November 20, 2025  
 **Reviewer:** Erik Jenkins
