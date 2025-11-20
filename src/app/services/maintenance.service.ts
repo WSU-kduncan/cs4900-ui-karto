@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { ApiService } from '@services/api.service';
-import { catchError, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
 
 @Injectable({
@@ -8,16 +8,6 @@ import { MaintenanceDto } from '@shared/models/dtos.interface';
 })
 export class MaintenanceService {
   constructor(private apiService: ApiService) {}
-
-  getMaintenance(): Observable<MaintenanceDto[]> {
-    return this.apiService.get<MaintenanceDto[]>('maintenance/all', { body: {} }).pipe(
-      map((response) => response.data),
-      catchError((error) => {
-        console.error('API call failed, using mock data:', error);
-        return of(this.mockMaintenances);
-      }),
-    );
-  }
 
   mockMaintenances: MaintenanceDto[] = [
     {
@@ -107,9 +97,39 @@ export class MaintenanceService {
       ],
     },
   ];
-  public maintenances = signal<MaintenanceDto[]>(this.mockMaintenances);
 
-  addMaintenance(maintenance: MaintenanceDto) {
-    this.maintenances.set([maintenance, ...this.maintenances()]);
+  private maintenanceListSubject = new BehaviorSubject<MaintenanceDto[]>([]);
+
+  get maintenanceList(): Observable<MaintenanceDto[]> {
+    if (this.maintenanceListSubject.value.length == 0) this.updateMaintenanceList().subscribe();
+    return this.maintenanceListSubject;
+  }
+
+  updateMaintenanceList() {
+    return this.apiService.get<MaintenanceDto[]>('maintenance/all', { body: {} }).pipe(
+      map((response) => {
+        this.maintenanceListSubject.next(response.data);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('API call failed, using mock data:', error);
+        this.maintenanceListSubject.next(this.mockMaintenances);
+        return of(this.mockMaintenances);
+      }),
+    );
+  }
+
+  postMaintenance(maintenanceDto: MaintenanceDto): Observable<MaintenanceDto> {
+    return this.apiService.post<MaintenanceDto>('maintenance', maintenanceDto).pipe(
+      map((res) => {
+        this.updateMaintenanceList().subscribe();
+        return res.data;
+      }),
+      catchError((error) => {
+        console.error('API POST maintenance failed, using mock data: ', error);
+        this.mockMaintenances.push(maintenanceDto);
+        return of(maintenanceDto);
+      }),
+    );
   }
 }

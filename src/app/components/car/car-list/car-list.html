@@ -22,7 +22,7 @@
           pRipple
           iconPos="left"
           size="large"
-          (click)="onViewMore($event, car)"
+          (click)="onViewMore($event)"
         />
 
         <p-button
@@ -33,11 +33,89 @@
           severity="info"
           iconPos="left"
           size="large"
-          (click)="onEditCar($event, car)"
+          (click)="onEditCar($event)"
         />
       </div>
     </p-panel>
   } @empty {
     <h3>No cars in inventory</h3>
   }
+
+  <section class="new-car-form">
+    <!-- Add new car form -->
+
+    <p-iftalabel>
+      <input
+        pInputText
+        type="text"
+        name="vin"
+        [value]="vin()"
+        (input)="onValueChange($event)"
+        required
+      />
+      <label for="vin">Vin</label>
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        type="text"
+        name="make"
+        [value]="make()"
+        (input)="onValueChange($event)"
+        required
+      />
+      <label for="make">Make</label>
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        type="text"
+        name="model"
+        [value]="model()"
+        (input)="onValueChange($event)"
+        required
+      />
+      <label for="model">Model</label>
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        type="number"
+        name="year"
+        [value]="year()"
+        (input)="onValueChange($event)"
+        required
+      />
+      <label for="year">Year</label>
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        type="text"
+        name="color"
+        [value]="color()"
+        (input)="onValueChange($event)"
+        required
+      />
+      <label for="color">Color</label>
+    </p-iftalabel>
+
+    <p-iftalabel>
+      <input
+        pInputText
+        type="number"
+        name="mileage"
+        [value]="mileage()"
+        (input)="onValueChange($event)"
+        required
+      />
+      <label for="mileage">Mileage</label>
+    </p-iftalabel>
+
+    <p-button label="Add Car" (onClick)="onNewCar()" />
+  </section>
 </div>

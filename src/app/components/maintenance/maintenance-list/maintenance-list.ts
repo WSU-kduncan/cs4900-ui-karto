@@ -1,7 +1,9 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
-import { MaintenanceService } from '@services/maintenance-service';
-import { MaintenanceItem } from '../maintenance-detail/maintenance-detail';
+import { MaintenanceService } from '@services/maintenance.service';
+import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-maintenance-list',
@@ -12,8 +14,14 @@ import { MaintenanceItem } from '../maintenance-detail/maintenance-detail';
 })
 export class MaintenanceList {
   private readonly maintenanceService = inject(MaintenanceService);
-  readonly maintenances = this.maintenanceService.maintenances;
 
+  public maintenances: Signal<MaintenanceDto[]> = toSignal(
+    this.maintenanceService.maintenanceList,
+    {
+      initialValue: [],
+    },
+  );
+  postMaintenancerError = signal('');
   maintenanceId = signal(0);
   date = signal(new Date().toLocaleDateString());
   cost = signal(0);
@@ -41,14 +49,19 @@ export class MaintenanceList {
 
   addMaintenanceId() {
     const dto: MaintenanceDto = {
-      carVin: 'PLACEHOLDER',
+      carVin: '1HGCM82633A004352',
       cost: this.cost(),
-      date: this.date(),
+      date: new Date(this.date()).toISOString(),
       id: this.maintenanceId(),
       itemDetails: [],
       mileage: this.mileage(),
       receipt: null,
     };
-    this.maintenanceService.addMaintenance(dto);
+
+    this.maintenanceService.postMaintenance(dto).subscribe({
+      error: (err: HttpErrorResponse) => {
+        this.postMaintenancerError.set(err.error ?? 'Could not create maintenance');
+      },
+    });
   }
 }
