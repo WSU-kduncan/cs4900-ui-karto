@@ -30,12 +30,14 @@ export const routes: Routes = [
   {
     path: 'create-account',
     loadComponent: () =>
-      import('./components/create-account-form/create-account-form').then(
-        (m) => m.CreateAccountForm,
-      ),
+      import('./components/create-account-form/create-account-form').then((m) => m.CreateAccountForm),
   },
   {
     path: 'login',
     loadComponent: () => import('@components/login/login').then((m) => m.Login),
+  },
+  {
+    path: '**',
+    loadComponent: () => import('@components/not-found/not-found').then((m) => m.NotFound),
   },
 ];
