@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
     path: 'cars',
     loadComponent: () => import('@components/car/car-list/car-list').then((m) => m.CarList),
   },

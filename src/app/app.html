@@ -1,12 +1,4 @@
 <main>
-  <div class="flex-row">
-    <p>Go to the</p>
-    <p-button routerLink="/create-account" label="Create Account" />
-    <p-button routerLink="/login" label="Login" />
-    <p-button routerLink="/cars" label="Car List" />
-    <p-button routerLink="/maintenances" label="Maintenance List" />
-    <p-button routerLink="/prices" label="Gas Price List" />
-    <p-button routerLink="/gas-stations" label="Gas Stations List" />
-  </div>
+  <p-menubar [model]="items" />
   <router-outlet />
 </main>
