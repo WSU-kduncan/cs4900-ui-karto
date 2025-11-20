@@ -1,13 +1,59 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { ApiService } from './api.service';
-import { CarDto } from '@shared/models/dtos.interface';
+import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
 import { catchError, map, Observable, of } from 'rxjs';
+import { GasService } from './gas.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CarService {
-  constructor(private apiService: ApiService) {}
+  // private readonly gasTypes: Signal<GasTypeDto[] | undefined> = toSignal(this.getGasTypes());
+  private mockCars: CarDto[] = [
+    {
+      vin: '1N4AL11D75C987654',
+      userEmail: 'irene.z@example.test',
+      make: 'Nissan',
+      model: 'Altima',
+      year: 2009,
+      color: 'Maroon',
+      mileage: 134500,
+      gasTypeId: 7,
+    },
+    {
+      vin: 'KMHD4AE1BU345678',
+      image: 'https://placehold.co/800',
+      userEmail: 'irene.z@example.test',
+      make: 'Hyundai',
+      model: 'Elantra',
+      year: 2011,
+      color: 'Blue',
+      mileage: 1111300,
+      gasTypeId: 1,
+    },
+  ];
+
+  constructor(
+    private apiService: ApiService,
+    private gasService: GasService,
+  ) {
+    // populate writable cars signal from API and enrich with gas type
+    this.getCarsOwnedByUser('irene.z@example.test')
+      .pipe(
+        // Enrich cars with gas type names from gasTypes signal
+        map((cars) =>
+          cars.map((car) => {
+            return {
+              ...car,
+              gasType: this.gasService
+                .gasTypes()
+                ?.find((g) => g.id === (car.gasTypeId as number)) as GasTypeDto,
+            };
+          }),
+        ),
+      )
+      .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
+  }
 
   getCarsOwnedByUser(userEmail: string): Observable<CarDto[]> {
     return this.apiService.get<CarDto[]>(`cars/ownedBy/${userEmail}`).pipe(
@@ -23,33 +69,9 @@ export class CarService {
     );
   }
 
-  private mockCars: CarDto[] = [
-    {
-      vin: '1N4AL11D75C987654',
-      userEmail: 'irene.z@example.test',
-      make: 'Nissan',
-      model: 'Altima',
-      year: 2009,
-      color: 'Maroon',
-      mileage: 134500,
-      gasType: {
-        id: 7,
-        name: 'Natural',
-      },
-    },
-    {
-      vin: 'KMHD4AE1BU345678',
-      image: 'https://placehold.co/800',
-      userEmail: 'irene.z@example.test',
-      make: 'Hyundai',
-      model: 'Elantra',
-      year: 2011,
-      color: 'Blue',
-      mileage: 1111300,
-      gasType: {
-        id: 1,
-        name: 'Regular',
-      },
-    },
-  ];
+  addCar(carDetails: Partial<CarDto>): void {
+    this.cars.update((cars) => [...cars, carDetails as SerializedCar]);
+  }
+
+  public cars: WritableSignal<SerializedCar[]> = signal<SerializedCar[]>([]);
 }
