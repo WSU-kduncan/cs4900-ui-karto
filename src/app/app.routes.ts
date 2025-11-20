@@ -28,10 +28,6 @@ export const routes: Routes = [
       import('@components/gas-station-list/gas-station-list').then((m) => m.GasStationList),
   },
   {
-    path: '**',
-    loadComponent: () => import('@components/not-found/not-found').then((m) => m.NotFound),
-  },
-  {
     path: 'create-account',
     loadComponent: () =>
       import('./components/create-account-form/create-account-form').then((m) => m.CreateAccountForm),
@@ -39,5 +35,9 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('@components/login/login').then((m) => m.Login),
+  },
+  {
+    path: '**',
+    loadComponent: () => import('@components/not-found/not-found').then((m) => m.NotFound),
   },
 ];
