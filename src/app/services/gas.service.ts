@@ -1,7 +1,7 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { GasPriceDto } from '../shared/models/dtos.interface';
 import { ApiService } from '@services/api.service';
-import {BehaviorSubject, catchError, map, Observable, of} from 'rxjs';
+import {BehaviorSubject, catchError, map, Observable, of, Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +67,6 @@ export class GasService {
         console.error('API POST gas price failed, using mock data: ', error);
         return of(this.dummyGasPrices.at(0));
       })
-    );
+    ).subscribe();
   }
 }
