@@ -1,0 +1,44 @@
+<div>
+  <h1 class="create-gas-price-title">Create Gas Price</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="gasStationIdContainer">
+        <label for="gasStationId">Gas Station Id</label>
+        <input
+          id="gasStationId"
+          type="number"
+          formControlName="gasStationId"
+          placeholder="Enter the Gas Station ID"
+          required>
+      </div>
+
+      <div class="gasTypeIdContainer">
+        <label for="gasTypeId">Gas Type Id</label>
+        <input
+          id="gasTypeId"
+          type="number"
+          formControlName="gasTypeId"
+          placeholder="Enter the Gas Type ID"
+          required>
+      </div>
+
+      <div class="priceContainer">
+        <label for="price">Gas Price</label>
+        <input
+          id="price"
+          type="number"
+          formControlName="price"
+          placeholder="Enter the Gas Price"
+          required>
+      </div>
+
+      <div class="updatedContainer">
+        <label for="updated">Date</label>
+        <input
+          id="updated"
+          type="datetime-local"
+          formControlName="updated"
+          required>
+      </div>
+      <p-button class="add-gas-price-button" label="Add Gas Price" (click)="onSubmit()" />
+    </form>
+</div>

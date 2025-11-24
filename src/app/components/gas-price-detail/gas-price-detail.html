@@ -1,4 +1,6 @@
 @if (price()) {
-  From Gas Station #{{ price().id.gasStationId }}, Gas Type #{{ price().id.gasTypeId }}:
-  {{ price().price }} ( {{ price().updated }} )
+  <b>Gas Type #{{ price().id.gasTypeId }}:</b> {{ price().price | currency: 'USD' }}
+  ({{ formatDate(price().updated, 'short', "en-en") }})
+} @else {
+  null price fetched
 }

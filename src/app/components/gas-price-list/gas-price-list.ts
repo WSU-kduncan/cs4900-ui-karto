@@ -1,54 +1,33 @@
-import { Component, inject, signal } from '@angular/core';
+import {Component, inject, Signal, signal} from '@angular/core';
 import { GasService } from '@services/gas.service';
 import { GasPriceDetail } from '../gas-price-detail/gas-price-detail';
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { GasPriceDto } from '@shared/models/dtos.interface';
+import {GasPriceForm} from '@components/gas-price-form/gas-price-form';
 
 @Component({
   selector: 'app-gas-price-list',
   standalone: true,
-  imports: [ButtonModule, InputTextModule, GasPriceDetail],
+  imports: [ButtonModule, InputTextModule, GasPriceDetail, GasPriceForm],
   templateUrl: './gas-price-list.html',
   styleUrl: './gas-price-list.scss',
 })
 export class GasPriceList {
   readonly #gasService = inject(GasService);
-  readonly gasPrices = this.#gasService.gasPrices;
 
-  newGasPriceValue = signal(0);
-  newGasStationIDValue = signal(0);
-  newGasTypeIDValue = signal(0);
+  public currentGasStationId: number = -1;
 
-  whenNewGasPriceGiven(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.newGasPriceValue.set(Number(input.value));
-  }
-
-  whenNewGasStationIDGiven(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.newGasStationIDValue.set(Number(input.value));
-  }
-
-  whenNewGasTypeIDGiven(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.newGasTypeIDValue.set(Number(input.value));
-  }
-
-  protected addGasPrice() {
-    if (this.newGasPriceValue() && this.newGasStationIDValue() && this.newGasTypeIDValue()) {
-      // add the gas price
-      this.#gasService.addGasPrice(
-        this.newGasStationIDValue(),
-        this.newGasTypeIDValue(),
-        this.newGasPriceValue(),
-        new Date(),
-      );
-
-      // reset signals
-      this.newGasPriceValue.set(0);
-      this.newGasStationIDValue.set(0);
-      this.newGasTypeIDValue.set(0);
+  public gasPrices: Signal<GasPriceDto[]> = toSignal(
+    this.#gasService.getGasPriceList(),
+    {
+      initialValue: []
     }
+  );
+
+  public updateTrackedGasStationId(newId: number ) {
+    this.currentGasStationId = newId;
   }
 }

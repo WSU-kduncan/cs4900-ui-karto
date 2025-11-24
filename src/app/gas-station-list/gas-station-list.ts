@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 interface GasStation {
   id: number;
@@ -9,7 +9,7 @@ interface GasStation {
 @Component({
   selector: 'app-gas-station-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './gas-station-list.html',
   styleUrl: './gas-station-list.scss',
 })
