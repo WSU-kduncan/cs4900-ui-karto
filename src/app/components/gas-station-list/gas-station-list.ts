@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
-import { GasStationService } from '@services/gas-station.service';
+import { Component, inject } from '@angular/core';
+import { GasStationService } from '../../services/gas-station.service';
 import { GasStationDetail } from '../gas-station-detail/gas-station-detail';
+import { toSignal } from '@angular/core/rxjs-interop'; //
 
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,19 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 export class GasStationList {
   readonly #gasStationService = inject(GasStationService);
 
-  protected readonly gasStations = this.#gasStationService.gasStations;
-
-  protected newStationName = signal('');
-
-  protected onNameChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.newStationName.set(input.value);
-  }
-
-  protected addGasStation() {
-    if (this.newStationName()) {
-      this.#gasStationService.addGasStation(this.newStationName());
-      this.newStationName.set('');
-    }
-  }
+  protected readonly gasStations = toSignal(this.#gasStationService.getGasStations(), {
+    initialValue: [],
+  });
 }

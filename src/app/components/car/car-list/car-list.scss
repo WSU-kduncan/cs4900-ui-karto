@@ -6,7 +6,7 @@
   transition: height 0.3s ease-in-out;
 
   &:hover {
-    background-color: var(--surface-hover);
+    background-color: var(--p-surface-hover);
   }
 
   p {
@@ -80,3 +80,4 @@
     }
   }
 }
+

@@ -19,6 +19,6 @@ export class MaintenanceList {
     this.maintenanceService.maintenanceList,
     {
       initialValue: [],
-    }
+    },
   );
 }

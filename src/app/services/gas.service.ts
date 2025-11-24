@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import { GasPriceDto } from '../shared/models/dtos.interface';
 import { ApiService } from '@services/api.service';
-import {BehaviorSubject, catchError, map, Observable, of, Subscription} from 'rxjs';
+import {BehaviorSubject, catchError, map, Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

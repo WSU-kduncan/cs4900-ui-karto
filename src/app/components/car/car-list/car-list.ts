@@ -1,17 +1,32 @@
-import { Component, effect, inject, Signal, signal, ViewEncapsulation } from '@angular/core';
+import { Component, effect, inject, signal, ViewEncapsulation } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 import { AvatarModule } from 'primeng/avatar';
 import { PanelModule } from 'primeng/panel';
-import { Button } from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { IftaLabelModule } from 'primeng/iftalabel';
+import { InputTextModule } from 'primeng/inputtext';
 
-import { CarDto } from '@shared/models/dtos.interface';
-import { CarListDetail } from '@components/car';
+import { SerializedCar } from '@shared/models/dtos.interface';
+import { CarListDetail, CarListForm } from '@components/car';
 import { CarService } from '@services/car.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { GasService } from '@services/gas.service';
 
 @Component({
   selector: 'app-car-list',
-  imports: [PanelModule, AvatarModule, Button, RippleModule, CarListDetail],
+  imports: [
+    FormsModule,
+    PanelModule,
+    AvatarModule,
+    Button,
+    ButtonModule,
+    IftaLabelModule,
+    InputTextModule,
+    RippleModule,
+    CarListDetail,
+    CarListForm
+  ],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
   standalone: true,
@@ -19,34 +34,63 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class CarList {
   private readonly carService = inject(CarService);
+  private readonly gasService = inject(GasService);
 
   constructor() {
+    // Debugging effect to log cars whenever they change
     effect(() => {
       console.log('Cars list updated:', this.cars());
     });
   }
 
-  selectedCar = signal<CarDto | null>(null);
+  cars = this.carService.cars;
 
-  cars: Signal<CarDto[] | undefined> = toSignal(
-    this.carService.getCarsOwnedByUser('irene.z@example.test'),
-  );
+  vin = signal<string>('KMHD4AE1BU345A78');
+  make = signal<string>('Honda');
+  model = signal<string>('Accord');
+  year = signal<number | null>(2019);
+  color = signal<string>('Red');
+  mileage = signal<number | null>(12345);
 
-  onSelectCar(car: CarDto) {
-    this.selectedCar.update((curr) => (curr?.vin === car.vin ? null : car));
+  selectedCar = signal<SerializedCar | null>(null);
 
-    console.log('Selected car:', this.selectedCar());
+  readonly gasTypeOptions = this.gasService.gasTypes()?.map((gasType) => gasType.name) ?? [];
+
+  onValueChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+
+    switch (inputElement.name) {
+      case 'vin':
+        this.vin.set(value);
+        break;
+      case 'make':
+        this.make.set(value);
+        break;
+      case 'model':
+        this.model.set(value);
+        break;
+      case 'year':
+        this.year.set(Number(value));
+        break;
+      case 'color':
+        this.color.set(value);
+        break;
+      case 'mileage':
+        this.mileage.set(Number(value));
+        break;
+      default:
+        break;
+    }
   }
 
-  onViewMore(e: PointerEvent, car: CarDto) {
-    e.stopImmediatePropagation();
 
-    console.log('View more details for car:', car);
+
+  onSelectCar(car: SerializedCar) {
+    this.selectedCar.set(car);
   }
 
-  onEditCar(e: PointerEvent, car: CarDto) {
-    e.stopImmediatePropagation();
+  onViewMore(e: PointerEvent) { }
 
-    console.log('Edit car:', car);
-  }
+  onEditCar(e: PointerEvent) { }
 }
