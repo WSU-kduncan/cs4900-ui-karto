@@ -1,4 +1,4 @@
-<app-maintenance-form [vin]="vin()" [successfulSubmit]="getMaintenances.bind(this)"></app-maintenance-form>
+<app-maintenance-form [vin]="vin()" (successfulSubmit)="getMaintenances()"></app-maintenance-form>
 <h1>Maintenance List</h1>
 <div class="maintenance-list">
   @if (error()) {

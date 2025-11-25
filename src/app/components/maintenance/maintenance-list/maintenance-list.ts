@@ -23,8 +23,6 @@ export class MaintenanceList implements OnInit {
   protected error = signal<string>('');
 
   getMaintenances() {
-    console.log('GET');
-    console.log(this.vin());
     if (!this.vin()) return;
     this.maintenanceService.getMaintenancesByVin(this.vin()).subscribe({
       next: (data) => {
