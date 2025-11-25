@@ -7,6 +7,29 @@
     <input id="date" type="datetime-local" formControlName="date" required />
     <label for="mileage">Mileage</label>
     <input id="mileage" type="number" formControlName="mileage" required />
+    <h2>Item Details</h2>
+    <div formArrayName="itemDetails">
+      @for (detail of itemDetails.controls; let i = $index; track $index) {
+        <div [formGroupName]="i" class="item-detail">
+          <label>Maintenance Type: </label>
+          <p-select
+            name="maintenanceType"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="maintenanceType"
+            [options]="mapTypes()"
+          >
+          </p-select>
+          <label>Quantity: </label>
+          <input formControlName="quantity" />
+          <label>Comments: </label>
+          <input formControlName="comments" />
+          <p-button severity="danger" (onClick)="removeItemDetailForm(i)">Remove</p-button>
+        </div>
+      }
+    </div>
+    <p-button (onClick)="addItemDetailForm()" label="Add Item Detail"></p-button>
+    <br />
     <p-button type="submit">Submit</p-button>
     @if (postMaintenanceError()) {
       <p>{{ postMaintenanceError() }}</p>

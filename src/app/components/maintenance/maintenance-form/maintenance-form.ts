@@ -1,14 +1,15 @@
 import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, input, output, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
 import { Button } from 'primeng/button';
+import { Select } from 'primeng/select';
 
 @Component({
   selector: 'app-maintenance-form',
-  imports: [ReactiveFormsModule, Button],
+  imports: [ReactiveFormsModule, Button, Select],
   templateUrl: './maintenance-form.html',
   styleUrl: './maintenance-form.scss',
 })
@@ -23,7 +24,35 @@ export class MaintenanceForm {
     cost: [0, Validators.required],
     date: [formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en-US'), Validators.required],
     mileage: [0, Validators.required],
+    itemDetails: this.formBuilder.array([this.createItemDetailForm()]),
   });
+
+  mapTypes = signal<{ name: string; value: number }[]>([
+    {
+      name: 'IDK',
+      value: 0,
+    },
+  ]);
+
+  createItemDetailForm() {
+    return this.formBuilder.group({
+      quantity: [1, Validators.required],
+      comments: ['', Validators.maxLength(255)],
+      maintenanceType: [0, Validators.required],
+    });
+  }
+
+  addItemDetailForm() {
+    this.itemDetails.push(this.createItemDetailForm());
+  }
+
+  removeItemDetailForm(i: number) {
+    this.itemDetails.removeAt(i);
+  }
+
+  get itemDetails() {
+    return this.form.get('itemDetails')! as FormArray;
+  }
 
   get cost() {
     return this.form.get('cost')!;
