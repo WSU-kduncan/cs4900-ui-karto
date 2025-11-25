@@ -4,6 +4,7 @@ import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MaintenanceForm } from '../maintenance-form/maintenance-form';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-maintenance-list',
@@ -12,13 +13,28 @@ import { MaintenanceForm } from '../maintenance-form/maintenance-form';
   styleUrl: './maintenance-list.scss',
   standalone: true,
 })
-export class MaintenanceList {
+export class MaintenanceList implements OnInit {
   private readonly maintenanceService = inject(MaintenanceService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  public maintenances: Signal<MaintenanceDto[]> = toSignal(
-    this.maintenanceService.maintenanceList,
-    {
-      initialValue: [],
-    },
-  );
+  protected vin = signal<string>('');
+  protected maintenances = signal<MaintenanceDto[]>([]);
+  protected error = signal<string>('');
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const vin = params.get('vin');
+      if (!vin) {
+        this.error.set('No VIN specified.');
+        return;
+      }
+      this.vin.set(vin);
+      this.maintenanceService.getMaintenancesByVin(vin!).subscribe({
+        next: (data) => {
+          this.maintenances.set(data);
+        },
+      });
+    });
+  }
 }

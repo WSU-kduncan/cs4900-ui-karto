@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
@@ -14,6 +14,8 @@ import { Button } from 'primeng/button';
 })
 export class MaintenanceForm {
   private readonly maintenanceService = inject(MaintenanceService);
+  vin = input.required<string>();
+
   formBuilder = inject(FormBuilder);
   postMaintenanceError = signal('');
   form = this.formBuilder.group({
@@ -36,7 +38,7 @@ export class MaintenanceForm {
 
   onSubmit() {
     const dto: MaintenanceDto = {
-      carVin: '1HGCM82633A004352',
+      carVin: this.vin(),
       cost: this.cost.value!,
       date: new Date(this.date.value!).getTime() / 1000,
       id: 0,

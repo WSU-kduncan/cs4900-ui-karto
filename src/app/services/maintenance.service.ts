@@ -114,6 +114,16 @@ export class MaintenanceService {
     return this.maintenanceListSubject;
   }
 
+  getMaintenancesByVin(id: string) {
+    return this.apiService.get<MaintenanceDto[]>(`maintenance/${id}`).pipe(
+      map((response) => response.data),
+      catchError((err) => {
+        console.log('API call failed, using mock data: ', err);
+        return of(this.mockMaintenances);
+      }),
+    );
+  }
+
   updateMaintenanceList() {
     return this.apiService.get<MaintenanceDto[]>('maintenance/all', { body: {} }).pipe(
       map((response) => {

@@ -6,7 +6,7 @@ export const routes: Routes = [
     loadComponent: () => import('@components/car/car-list/car-list').then((m) => m.CarList),
   },
   {
-    path: 'maintenances',
+    path: 'maintenances/:vin',
     loadComponent: () =>
       import('@components/maintenance/maintenance-list/maintenance-list').then(
         (m) => m.MaintenanceList,
