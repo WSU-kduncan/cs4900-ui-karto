@@ -1,9 +1,13 @@
 import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaintenanceService } from '@services/maintenance.service';
-import { MaintenanceDto } from '@shared/models/dtos.interface';
+import {
+  MaintenanceDto,
+  MaintenanceItemDetailDto,
+  MaintenanceTypeDescriptionDto,
+} from '@shared/models/dtos.interface';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 
@@ -13,7 +17,7 @@ import { Select } from 'primeng/select';
   templateUrl: './maintenance-form.html',
   styleUrl: './maintenance-form.scss',
 })
-export class MaintenanceForm {
+export class MaintenanceForm implements OnInit {
   private readonly maintenanceService = inject(MaintenanceService);
   vin = input.required<string>();
   onSuccessfulSubmit = output();
@@ -24,15 +28,18 @@ export class MaintenanceForm {
     cost: [0, Validators.required],
     date: [formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en-US'), Validators.required],
     mileage: [0, Validators.required],
-    itemDetails: this.formBuilder.array([this.createItemDetailForm()]),
+    itemDetails: this.formBuilder.array([]),
   });
 
-  mapTypes = signal<{ name: string; value: number }[]>([
-    {
-      name: 'IDK',
-      value: 0,
-    },
-  ]);
+  mapTypes = signal<MaintenanceTypeDescriptionDto[]>([]);
+
+  ngOnInit(): void {
+    this.maintenanceService.getMaintenanceTypes().subscribe({
+      next: (types) => {
+        this.mapTypes.set(types);
+      },
+    });
+  }
 
   createItemDetailForm() {
     return this.formBuilder.group({
@@ -51,7 +58,7 @@ export class MaintenanceForm {
   }
 
   get itemDetails() {
-    return this.form.get('itemDetails')! as FormArray;
+    return this.form.get('itemDetails')! as FormArray<ReturnType<typeof this.createItemDetailForm>>;
   }
 
   get cost() {
@@ -67,12 +74,23 @@ export class MaintenanceForm {
   }
 
   onSubmit() {
+    const details: MaintenanceItemDetailDto[] = this.itemDetails.value.map((v) => ({
+      comments: v.comments!,
+      quantity: v.quantity!,
+      id: {
+        maintenanceId: 0,
+        maintenanceType: {
+          id: v.maintenanceType!,
+          name: '',
+        },
+      },
+    }));
     const dto: MaintenanceDto = {
       carVin: this.vin(),
       cost: this.cost.value!,
       date: new Date(this.date.value!).getTime() / 1000,
       id: 0,
-      itemDetails: [],
+      itemDetails: details,
       mileage: this.mileage.value!,
       receipt: null,
     };

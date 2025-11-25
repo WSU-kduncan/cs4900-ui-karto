@@ -1,13 +1,48 @@
 import { Injectable, signal } from '@angular/core';
 import { ApiService } from '@services/api.service';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { MaintenanceDto } from '@shared/models/dtos.interface';
+import { MaintenanceDto, MaintenanceTypeDescriptionDto } from '@shared/models/dtos.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MaintenanceService {
   constructor(private apiService: ApiService) {}
+
+  mockMaintenanceTypes: MaintenanceTypeDescriptionDto[] = [
+    {
+      id: 3,
+      name: 'Battery Replacement',
+    },
+    {
+      id: 8,
+      name: 'Coolant Flush & Radiator Service',
+    },
+    {
+      id: 1,
+      name: 'Oil Change',
+    },
+    {
+      id: 7,
+      name: 'Spark Plug Replacement',
+    },
+    {
+      id: 10,
+      name: 'Timing Belt or Chain Replacement',
+    },
+    {
+      id: 4,
+      name: 'Tire Rotation & Balancing',
+    },
+    {
+      id: 9,
+      name: 'Transmission Fluid Change',
+    },
+    {
+      id: 5,
+      name: 'Wheel Alignment',
+    },
+  ];
 
   mockMaintenances: MaintenanceDto[] = [
     {
@@ -134,6 +169,18 @@ export class MaintenanceService {
         console.error('API call failed, using mock data:', error);
         this.maintenanceListSubject.next(this.mockMaintenances);
         return of(this.mockMaintenances);
+      }),
+    );
+  }
+
+  getMaintenanceTypes() {
+    return this.apiService.get<MaintenanceTypeDescriptionDto[]>('maintenance/types').pipe(
+      map((response) => {
+        return response.data;
+      }),
+      catchError((error) => {
+        console.error('API call failed, using mock data:', error);
+        return of(this.mockMaintenanceTypes);
       }),
     );
   }
