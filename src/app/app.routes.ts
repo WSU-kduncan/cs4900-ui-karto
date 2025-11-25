@@ -22,4 +22,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@components/gas-station-list/gas-station-list').then((m) => m.GasStationList),
   },
+  {
+    path: 'gas-stations/edit/:id',
+    loadComponent: () =>
+      import('./components/gas-station-form/gas-station-form').then((m) => m.GasStationForm),
+  },
 ];
