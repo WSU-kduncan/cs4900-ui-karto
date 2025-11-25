@@ -46,15 +46,15 @@ export class GasStationService {
     );
   }
 
-  createGasStation(station: Partial<GasStation>): Observable<GasStation> {
-    return this.#http.post<GasStation>(GAS_STATION_API_URL, station);
+  createGasStation(station: Partial<GasStationDto>): Observable<GasStationDto> {
+    return this.#http.post<GasStationDto>(GAS_STATION_API_URL, station);
   }
 
   deleteGasStation(id: number): Observable<unknown> {
     return this.#http.delete(`${GAS_STATION_API_URL}/${id}`);
   }
 
-  getGasStation(id: number): Observable<GasStation> {
+  getGasStation(id: number): Observable<GasStationDto> {
     return this.#http.get<PlaceholderUser>(`${GAS_STATION_API_URL}`).pipe(
       map(
         (user) =>
@@ -68,12 +68,12 @@ export class GasStationService {
             state: 'OH',
             zip: user.address.zipcode,
             userEmails: [user.email],
-          }) as GasStation,
+          }) as GasStationDto,
       ),
     );
   }
 
-  updateGasStation(id: number, station: Partial<GasStation>): Observable<GasStation> {
-    return this.#http.put<GasStation>(`${GAS_STATION_API_URL}/${id}`, station);
+  updateGasStation(id: number, station: Partial<GasStationDto>): Observable<GasStationDto> {
+    return this.#http.put<GasStationDto>(`${GAS_STATION_API_URL}/${id}`, station);
   }
 }
