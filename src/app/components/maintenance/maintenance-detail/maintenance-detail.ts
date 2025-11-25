@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { Button } from 'primeng/button';
@@ -14,8 +14,13 @@ import { MaintenanceService } from '@services/maintenance.service';
 export class MaintenanceItem {
   maintenance = input.required<MaintenanceDto>();
   maintenanceService = inject(MaintenanceService);
+  onDelete = output();
 
   deleteMaintenance() {
-    this.maintenanceService.deleteMaintenance(this.maintenance().id).subscribe();
+    this.maintenanceService.deleteMaintenance(this.maintenance().id).subscribe({
+      next: () => {
+        this.onDelete.emit();
+      },
+    });
   }
 }

@@ -1,11 +1,14 @@
-<app-maintenance-form [vin]="vin()" (successfulSubmit)="getMaintenances()"></app-maintenance-form>
+<app-maintenance-form [vin]="vin()" (onSuccessfulSubmit)="getMaintenances()"></app-maintenance-form>
 <h1>Maintenance List</h1>
 <div class="maintenance-list">
   @if (error()) {
     {{ error() }}
   } @else {
     @for (maintenance of maintenances(); track maintenance.id) {
-      <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>
+      <app-maintenance-item
+        [maintenance]="maintenance"
+        (onDelete)="getMaintenances()"
+      ></app-maintenance-item>
     } @empty {
       No Maintenance Records Found
     }

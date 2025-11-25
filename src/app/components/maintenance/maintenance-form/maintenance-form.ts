@@ -15,7 +15,7 @@ import { Button } from 'primeng/button';
 export class MaintenanceForm {
   private readonly maintenanceService = inject(MaintenanceService);
   vin = input.required<string>();
-  successfulSubmit = output();
+  onSuccessfulSubmit = output();
 
   formBuilder = inject(FormBuilder);
   postMaintenanceError = signal('');
@@ -50,7 +50,7 @@ export class MaintenanceForm {
 
     this.maintenanceService.postMaintenance(dto).subscribe({
       next: (_) => {
-        this.successfulSubmit.emit();
+        this.onSuccessfulSubmit.emit();
       },
       error: (err: HttpErrorResponse) => {
         this.postMaintenanceError.set(err.error ?? 'Could not create maintenance');
