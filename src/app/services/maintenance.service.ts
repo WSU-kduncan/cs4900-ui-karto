@@ -115,7 +115,7 @@ export class MaintenanceService {
   }
 
   getMaintenancesByVin(id: string) {
-    return this.apiService.get<MaintenanceDto[]>(`maintenance/${id}`).pipe(
+    return this.apiService.get<MaintenanceDto[]>(`maintenance/car/${id}`).pipe(
       map((response) => response.data),
       catchError((err) => {
         console.log('API call failed, using mock data: ', err);

@@ -22,6 +22,17 @@ export class MaintenanceList implements OnInit {
   protected maintenances = signal<MaintenanceDto[]>([]);
   protected error = signal<string>('');
 
+  getMaintenances() {
+    console.log('GET');
+    console.log(this.vin());
+    if (!this.vin()) return;
+    this.maintenanceService.getMaintenancesByVin(this.vin()).subscribe({
+      next: (data) => {
+        this.maintenances.set(data);
+      },
+    });
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const vin = params.get('vin');
@@ -30,11 +41,7 @@ export class MaintenanceList implements OnInit {
         return;
       }
       this.vin.set(vin);
-      this.maintenanceService.getMaintenancesByVin(vin!).subscribe({
-        next: (data) => {
-          this.maintenances.set(data);
-        },
-      });
+      this.getMaintenances();
     });
   }
 }
