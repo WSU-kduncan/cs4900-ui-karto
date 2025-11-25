@@ -10,10 +10,22 @@ import {
 } from '@shared/models/dtos.interface';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
+import { IftaLabel } from 'primeng/iftalabel';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-maintenance-form',
-  imports: [ReactiveFormsModule, Button, Select],
+  imports: [
+    ReactiveFormsModule,
+    Button,
+    Select,
+    IftaLabel,
+    DatePickerModule,
+    InputNumberModule,
+    InputText,
+  ],
   templateUrl: './maintenance-form.html',
   styleUrl: './maintenance-form.scss',
 })
@@ -26,7 +38,7 @@ export class MaintenanceForm implements OnInit {
   postMaintenanceError = signal('');
   form = this.formBuilder.group({
     cost: [0, Validators.required],
-    date: [formatDate(new Date(), 'yyyy-MM-ddTHH:mm', 'en-US'), Validators.required],
+    date: [new Date(), Validators.required],
     mileage: [0, Validators.required],
     itemDetails: this.formBuilder.array([]),
   });
@@ -94,7 +106,6 @@ export class MaintenanceForm implements OnInit {
       mileage: this.mileage.value!,
       receipt: null,
     };
-
     this.maintenanceService.postMaintenance(dto).subscribe({
       next: (_) => {
         this.onSuccessfulSubmit.emit();

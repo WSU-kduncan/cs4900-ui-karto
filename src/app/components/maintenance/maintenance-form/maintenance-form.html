@@ -1,29 +1,52 @@
 <div>
   <h1>Create Maintenance</h1>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <label for="cost">Cost</label>
-    <input id="cost" type="number" formControlName="cost" required />
-    <label for="date">Time and Date</label>
-    <input id="date" type="datetime-local" formControlName="date" required />
-    <label for="mileage">Mileage</label>
-    <input id="mileage" type="number" formControlName="mileage" required />
+    <p-iftalabel>
+      <p-input-number
+        inputId="minmaxfraction"
+        mode="decimal"
+        [maxFractionDigits]="2"
+        formControlName="cost"
+      />
+      <label for="cost">Cost</label>
+    </p-iftalabel>
+    <p-iftalabel>
+      <p-datepicker
+        inputId="date"
+        inputId="calendar-12h"
+        formControlName="date"
+        [showTime]="true"
+        hourFormat="12"
+        required
+      />
+      <label for="date">Date</label>
+    </p-iftalabel>
+    <p-iftalabel>
+      <p-input-number inputId="integeronly" formControlName="mileage" />
+      <label for="mileage">Mileage</label>
+    </p-iftalabel>
     <h2>Item Details</h2>
-    <div formArrayName="itemDetails">
+    <div formArrayName="itemDetails" class="item-details">
       @for (detail of itemDetails.controls; let i = $index; track $index) {
         <div [formGroupName]="i" class="item-detail">
-          <label>Maintenance Type: </label>
-          <p-select
-            name="maintenanceType"
-            optionLabel="name"
-            optionValue="id"
-            formControlName="maintenanceType"
-            [options]="mapTypes()"
-          >
-          </p-select>
-          <label>Quantity: </label>
-          <input formControlName="quantity" />
-          <label>Comments: </label>
-          <input formControlName="comments" />
+          <p-iftalabel>
+            <p-select
+              class="type-select"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="maintenanceType"
+              [options]="mapTypes()"
+            />
+            <label>Maintenance Type</label>
+          </p-iftalabel>
+          <p-iftalabel>
+            <p-input-number inputId="quantity" formControlName="quantity" />
+            <label>Quantity</label>
+          </p-iftalabel>
+          <p-iftalabel>
+            <input pInputText formControlName="comments" />
+            <label>Comments</label>
+          </p-iftalabel>
           <p-button severity="danger" (onClick)="removeItemDetailForm(i)">Remove</p-button>
         </div>
       }
