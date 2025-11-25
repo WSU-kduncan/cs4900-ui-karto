@@ -111,16 +111,18 @@ export class ApiService {
       });
     }
 
-    const thing = this.http.put<T>(`${this.baseUrl}/${endpoint}`, data, {
-      params: httpParams
-    }).pipe(
-      map((response) => ({
-        success: true,
-        data: response,
-        timestamp: new Date(),
-      })),
-    );
-    thing.pipe().forEach(m => console.log(m))
+    const thing = this.http
+      .put<T>(`${this.baseUrl}/${endpoint}`, data, {
+        params: httpParams,
+      })
+      .pipe(
+        map((response) => ({
+          success: true,
+          data: response,
+          timestamp: new Date(),
+        })),
+      );
+    thing.pipe().forEach((m) => console.log(m));
     return thing;
   }
 

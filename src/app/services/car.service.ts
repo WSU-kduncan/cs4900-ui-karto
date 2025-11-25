@@ -41,9 +41,7 @@ export class CarService {
     this.getCarsOwnedByUser('irene.z@example.test')
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) =>
-          cars.map((car) => this.serializeCar(car)),
-        ),
+        map((cars) => cars.map((car) => this.serializeCar(car))),
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
@@ -52,7 +50,9 @@ export class CarService {
   private serializeCar(car: CarDto): SerializedCar {
     return {
       ...car,
-      gasType: this.gasService.gasTypes().find((g) => g.id === (car.gasTypeId as number)) as GasTypeDto,
+      gasType: this.gasService
+        .gasTypes()
+        .find((g) => g.id === (car.gasTypeId as number)) as GasTypeDto,
     };
   }
 

@@ -5,17 +5,15 @@
     @for (price of gasPrices(); track price.id) {
       @let id = price.id.gasStationId;
 
-      @if(id != currentGasStationId) {
+      @if (id != currentGasStationId) {
         <h3>
-          <label class="gas-station-title">
-            Gas Station #{{ price.id.gasStationId }}
-          </label>
+          <label class="gas-station-title"> Gas Station #{{ price.id.gasStationId }} </label>
         </h3>
         {{ $any(updateTrackedGasStationId(id)) }}
       }
 
       <li class="gas-price-item">
-        <app-gas-price-detail [price]="price"/>
+        <app-gas-price-detail [price]="price" />
       </li>
     } @empty {
       <h2 class="no-prices-found">No gas prices available</h2>

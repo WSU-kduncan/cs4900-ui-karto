@@ -56,17 +56,20 @@ export class GasStationService {
 
   getGasStation(id: number): Observable<GasStation> {
     return this.#http.get<PlaceholderUser>(`${GAS_STATION_API_URL}`).pipe(
-      map((user) => ({
-        id: user.id,
-        longitude: Math.random(),
-        latitude: Math.random(),
-        name: user.name,
-        addressLine: user.address.street,
-        city: user.address.city,
-        state: 'OH',
-        zip: user.address.zipcode,
-        userEmails: [user.email],
-      }) as GasStation)
+      map(
+        (user) =>
+          ({
+            id: user.id,
+            longitude: Math.random(),
+            latitude: Math.random(),
+            name: user.name,
+            addressLine: user.address.street,
+            city: user.address.city,
+            state: 'OH',
+            zip: user.address.zipcode,
+            userEmails: [user.email],
+          }) as GasStation,
+      ),
     );
   }
 

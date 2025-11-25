@@ -25,7 +25,7 @@ import { GasService } from '@services/gas.service';
     InputTextModule,
     RippleModule,
     CarListDetail,
-    CarListForm
+    CarListForm,
   ],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
@@ -84,13 +84,11 @@ export class CarList {
     }
   }
 
-
-
   onSelectCar(car: SerializedCar) {
     this.selectedCar.set(car);
   }
 
-  onViewMore(e: PointerEvent) { }
+  onViewMore(e: PointerEvent) {}
 
-  onEditCar(e: PointerEvent) { }
+  onEditCar(e: PointerEvent) {}
 }

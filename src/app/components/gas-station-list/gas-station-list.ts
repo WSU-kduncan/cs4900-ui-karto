@@ -6,7 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-gas-station-list',
@@ -21,10 +21,8 @@ export class GasStationList {
   private refreshTrigger = new BehaviorSubject<void>(undefined);
 
   protected readonly gasStations = toSignal(
-    this.refreshTrigger.pipe(
-      switchMap(() => this.#gasStationService.getGasStations())
-    ),
-    { initialValue: [] }
+    this.refreshTrigger.pipe(switchMap(() => this.#gasStationService.getGasStations())),
+    { initialValue: [] },
   );
 
   refreshList() {
@@ -36,5 +34,4 @@ export class GasStationList {
       this.refreshList();
     });
   }
-
 }

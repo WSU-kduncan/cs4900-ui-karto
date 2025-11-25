@@ -1,7 +1,7 @@
-import {inject, Injectable, Signal} from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { GasPriceDto, GasTypeDto } from '../shared/models/dtos.interface';
 import { ApiService } from '@services/api.service';
-import {BehaviorSubject, catchError, map, Observable, of} from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -24,12 +24,12 @@ export class GasService {
     {
       id: {
         gasStationId: 1,
-          gasTypeId: 3,
+        gasTypeId: 3,
       },
       price: 1.667,
-        updated: new Date(),
-    }
-  ]
+      updated: new Date(),
+    },
+  ];
 
   getGasPriceList(): Observable<GasPriceDto[]> {
     if (this.gasPrices.value.length == 0) {
@@ -48,7 +48,7 @@ export class GasService {
         console.error('API call failed, using mock data:', error);
         this.gasPrices.next(this.dummyGasPrices);
         return of(this.dummyGasPrices);
-      })
+      }),
     );
   }
 
@@ -59,16 +59,19 @@ export class GasService {
       updated: request.updated,
     };
 
-    return this.apiService.post<GasPriceDto>('gas', newGasPrice).pipe(
-      map(response => {
-        this.updateGasPriceList().subscribe();
-        return response.data;
-      }),
-      catchError(error => {
-        console.error('API POST gas price failed, using mock data: ', error);
-        return of(this.dummyGasPrices.at(0));
-      })
-    ).subscribe();
+    return this.apiService
+      .post<GasPriceDto>('gas', newGasPrice)
+      .pipe(
+        map((response) => {
+          this.updateGasPriceList().subscribe();
+          return response.data;
+        }),
+        catchError((error) => {
+          console.error('API POST gas price failed, using mock data: ', error);
+          return of(this.dummyGasPrices.at(0));
+        }),
+      )
+      .subscribe();
   }
 
   private mockGasTypes: GasTypeDto[] = [
@@ -83,7 +86,6 @@ export class GasService {
     { id: 9, name: 'Hydrogen' },
     { id: 10, name: 'Electric' },
   ];
-
 
   getGasTypes(): Observable<GasTypeDto[]> {
     return this.apiService.get<GasTypeDto[]>('gas/types').pipe(
@@ -104,6 +106,7 @@ export class GasService {
 
   // declare without initializing so we can create the signal after ApiService is
   // available (toSignal will subscribe immediately and ApiService must be defined)
-  public gasTypes: Signal<GasTypeDto[]> = toSignal(this.getGasTypes(),
-    { initialValue: this.mockGasTypes });
+  public gasTypes: Signal<GasTypeDto[]> = toSignal(this.getGasTypes(), {
+    initialValue: this.mockGasTypes,
+  });
 }

@@ -3,7 +3,7 @@ import { MaintenanceDto } from '@shared/models/dtos.interface';
 import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MaintenanceForm } from "../maintenance-form/maintenance-form";
+import { MaintenanceForm } from '../maintenance-form/maintenance-form';
 
 @Component({
   selector: 'app-maintenance-list',

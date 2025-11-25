@@ -20,7 +20,7 @@ import { GasService } from '@services/gas.service';
     RippleModule,
     ButtonModule,
     Select,
-    Field
+    Field,
   ],
   templateUrl: './car-list-form.html',
   styleUrl: './car-list-form.scss',
@@ -39,7 +39,7 @@ export class CarListForm {
     color: 'Dark Blue',
     mileage: 192168,
     gasTypeId: 1,
-  })
+  });
 
   carForm = form(this.carModel, (schemaPath) => {
     required(schemaPath.vin, { message: 'VIN is required' });
@@ -51,9 +51,9 @@ export class CarListForm {
     required(schemaPath.gasTypeId, { message: 'Gas Type is required' });
   });
 
-
-
-  readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })));
+  readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(
+    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })),
+  );
 
   onNewCar() {
     const newCar: CarDto = {
@@ -65,9 +65,8 @@ export class CarListForm {
       color: this.carForm.color().value(),
       mileage: this.carForm.mileage().value(),
       gasTypeId: this.carForm.gasTypeId().value(),
-    }
+    };
 
     this.carService.addCar(newCar);
   }
-
 }

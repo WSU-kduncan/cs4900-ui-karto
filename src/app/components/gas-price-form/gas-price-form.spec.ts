@@ -8,9 +8,8 @@ describe('GasPriceForm', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GasPriceForm]
-    })
-    .compileComponents();
+      imports: [GasPriceForm],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GasPriceForm);
     component = fixture.componentInstance;
