@@ -19,7 +19,6 @@ import { GasService } from '@services/gas.service';
     FormsModule,
     PanelModule,
     AvatarModule,
-    Button,
     ButtonModule,
     IftaLabelModule,
     InputTextModule,
@@ -36,6 +35,8 @@ export class CarList {
   private readonly carService = inject(CarService);
   private readonly gasService = inject(GasService);
 
+  selectedCar = signal<SerializedCar | null>(null);
+
   constructor() {
     // Debugging effect to log cars whenever they change
     effect(() => {
@@ -44,51 +45,10 @@ export class CarList {
   }
 
   cars = this.carService.cars;
-
-  vin = signal<string>('KMHD4AE1BU345A78');
-  make = signal<string>('Honda');
-  model = signal<string>('Accord');
-  year = signal<number | null>(2019);
-  color = signal<string>('Red');
-  mileage = signal<number | null>(12345);
-
-  selectedCar = signal<SerializedCar | null>(null);
-
   readonly gasTypeOptions = this.gasService.gasTypes()?.map((gasType) => gasType.name) ?? [];
-
-  onValueChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const value = inputElement.value;
-
-    switch (inputElement.name) {
-      case 'vin':
-        this.vin.set(value);
-        break;
-      case 'make':
-        this.make.set(value);
-        break;
-      case 'model':
-        this.model.set(value);
-        break;
-      case 'year':
-        this.year.set(Number(value));
-        break;
-      case 'color':
-        this.color.set(value);
-        break;
-      case 'mileage':
-        this.mileage.set(Number(value));
-        break;
-      default:
-        break;
-    }
-  }
 
   onSelectCar(car: SerializedCar) {
     this.selectedCar.set(car);
   }
 
-  onViewMore(e: PointerEvent) {}
-
-  onEditCar(e: PointerEvent) {}
 }
