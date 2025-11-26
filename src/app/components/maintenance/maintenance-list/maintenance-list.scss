@@ -1,5 +1,6 @@
 .maintenance-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-  gap: 16px;border-radius: 8px;
+  gap: 16px;
+  border-radius: 8px;
 }

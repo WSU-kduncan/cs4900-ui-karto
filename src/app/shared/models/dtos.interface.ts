@@ -69,3 +69,10 @@ export interface GasStationDto {
   zip: string;
   userEmails: string[];
 }
+
+export interface MaintenanceStatisticsDto {
+  totalCost: number;
+  numberMaintenances: number;
+  currentMileage: number;
+  lastUpdated: number;
+}

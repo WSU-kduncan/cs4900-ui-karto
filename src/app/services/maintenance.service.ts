@@ -1,7 +1,11 @@
 import { Injectable, signal } from '@angular/core';
 import { ApiService } from '@services/api.service';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { MaintenanceDto, MaintenanceTypeDescriptionDto } from '@shared/models/dtos.interface';
+import {
+  MaintenanceDto,
+  MaintenanceStatisticsDto,
+  MaintenanceTypeDescriptionDto,
+} from '@shared/models/dtos.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -195,6 +199,23 @@ export class MaintenanceService {
         console.error('API POST maintenance failed, using mock data: ', error);
         this.mockMaintenances.push(maintenanceDto);
         return of(maintenanceDto);
+      }),
+    );
+  }
+
+  getMaintenanceStatistics(vin: string): Observable<MaintenanceStatisticsDto> {
+    return this.apiService.get<MaintenanceStatisticsDto>(`maintenance/statistics/${vin}`).pipe(
+      map((res) => {
+        return res.data;
+      }),
+      catchError((err) => {
+        console.error('API GET maintenance statistics failed, using dumb data:', err);
+        return of({
+          totalCost: 23.12,
+          numberMaintenances: 3,
+          currentMileage: 32,
+          lastUpdated: Date.now(),
+        });
       }),
     );
   }

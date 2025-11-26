@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, Signal, signal } from '@angular/core';
-import { MaintenanceDto } from '@shared/models/dtos.interface';
+import { MaintenanceDto, MaintenanceStatisticsDto } from '@shared/models/dtos.interface';
 import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MaintenanceForm } from '../maintenance-form/maintenance-form';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-maintenance-list',
-  imports: [MaintenanceItem, MaintenanceForm],
+  imports: [MaintenanceItem, MaintenanceForm, DatePipe],
   templateUrl: './maintenance-list.html',
   styleUrl: './maintenance-list.scss',
   standalone: true,
@@ -20,6 +20,7 @@ export class MaintenanceList implements OnInit {
 
   protected vin = signal<string>('');
   protected maintenances = signal<MaintenanceDto[]>([]);
+  protected statistics = signal<MaintenanceStatisticsDto | null>(null);
   protected error = signal<string>('');
 
   getMaintenances() {
@@ -27,6 +28,15 @@ export class MaintenanceList implements OnInit {
     this.maintenanceService.getMaintenancesByVin(this.vin()).subscribe({
       next: (data) => {
         this.maintenances.set(data);
+      },
+    });
+  }
+
+  getStatistics() {
+    if (!this.vin()) return;
+    this.maintenanceService.getMaintenanceStatistics(this.vin()).subscribe({
+      next: (data) => {
+        this.statistics.set(data);
       },
     });
   }
@@ -40,6 +50,7 @@ export class MaintenanceList implements OnInit {
       }
       this.vin.set(vin);
       this.getMaintenances();
+      this.getStatistics();
     });
   }
 }
