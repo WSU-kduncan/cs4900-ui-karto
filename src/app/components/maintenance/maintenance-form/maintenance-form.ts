@@ -14,6 +14,7 @@ import { IftaLabel } from 'primeng/iftalabel';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-maintenance-form',
@@ -25,6 +26,7 @@ import { InputText } from 'primeng/inputtext';
     DatePickerModule,
     InputNumberModule,
     InputText,
+    FileUploadModule,
   ],
   templateUrl: './maintenance-form.html',
   styleUrl: './maintenance-form.scss',
@@ -42,6 +44,7 @@ export class MaintenanceForm implements OnInit {
     mileage: [0, Validators.required],
     itemDetails: this.formBuilder.array([]),
   });
+  receipt: File | null = null;
 
   mapTypes = signal<MaintenanceTypeDescriptionDto[]>([]);
 
@@ -85,7 +88,15 @@ export class MaintenanceForm implements OnInit {
     return this.form.get('mileage')!;
   }
 
-  onSubmit() {
+  onSelect(event: any) {
+    this.receipt = event.files[0];
+  }
+
+  onCancel() {
+    this.receipt = null;
+  }
+
+  async onSubmit() {
     const details: MaintenanceItemDetailDto[] = this.itemDetails.value.map((v) => ({
       comments: v.comments!,
       quantity: v.quantity!,
@@ -97,6 +108,12 @@ export class MaintenanceForm implements OnInit {
         },
       },
     }));
+    const toBase64 = async () => {
+      const bytes = new Uint8Array(await this.receipt!.arrayBuffer());
+      let binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      return btoa(binary);
+    }
     const dto: MaintenanceDto = {
       carVin: this.vin(),
       cost: this.cost.value!,
@@ -104,8 +121,9 @@ export class MaintenanceForm implements OnInit {
       id: 0,
       itemDetails: details,
       mileage: this.mileage.value!,
-      receipt: null,
+      receipt: this.receipt ? await toBase64() : null,
     };
+    console.log(dto.receipt)
     this.maintenanceService.postMaintenance(dto).subscribe({
       next: (_) => {
         this.onSuccessfulSubmit.emit();

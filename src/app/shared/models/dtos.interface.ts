@@ -38,7 +38,7 @@ export interface MaintenanceDto {
   date: number;
   mileage: number;
   cost: number;
-  receipt: Uint8Array | null;
+  receipt: string | null;
   itemDetails: MaintenanceItemDetailDto[];
 }
 

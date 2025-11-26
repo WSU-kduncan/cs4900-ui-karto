@@ -107,7 +107,7 @@ export class MaintenanceService {
       date: 1686787200.0,
       mileage: 63500,
       cost: 89.99,
-      receipt: new TextEncoder().encode('MQ=='),
+      receipt: null,
       itemDetails: [
         {
           quantity: 7,

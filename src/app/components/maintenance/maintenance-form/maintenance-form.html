@@ -53,6 +53,14 @@
     </div>
     <p-button (onClick)="addItemDetailForm()" label="Add Item Detail"></p-button>
     <br />
+    <h2>Receipt Image</h2>
+    <p-fileupload
+      showUploadButton="false"
+      showCancelButton="false"
+      (onSelect)="onSelect($event)"
+      (onRemove)="onCancel()"
+    />
+    <br />
     <p-button type="submit">Submit</p-button>
     @if (postMaintenanceError()) {
       <p>{{ postMaintenanceError() }}</p>

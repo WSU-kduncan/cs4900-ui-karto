@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { MaintenanceDto } from '@shared/models/dtos.interface';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { Button } from 'primeng/button';
@@ -11,7 +11,7 @@ import { MaintenanceService } from '@services/maintenance.service';
   templateUrl: './maintenance-detail.html',
   styleUrl: './maintenance-detail.scss',
 })
-export class MaintenanceItem implements OnDestroy, OnInit {
+export class MaintenanceItem {
   maintenance = input.required<MaintenanceDto>();
   maintenanceService = inject(MaintenanceService);
   onDelete = output();
@@ -24,23 +24,17 @@ export class MaintenanceItem implements OnDestroy, OnInit {
     });
   }
 
-  imageUrl = signal<string | null>(null);
-
-  ngOnInit(): void {
-    if (this.maintenance().receipt) this.setImage(this.maintenance().receipt!);
-  }
-
   openReceipt() {
-    window.open(this.imageUrl()!, '_blank');
-  }
+    const base64 = this.maintenance().receipt!;
+    // Use a Blob because security policies may prevent direct image loading from base64 URLs.
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++)
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    const blobUrl = URL.createObjectURL(blob);
 
-  setImage(bytes: Uint8Array, type = 'image/png') {
-    if (this.imageUrl()) URL.revokeObjectURL(this.imageUrl()!);
-    const blob = new Blob([bytes.slice()], { type });
-    this.imageUrl.set(URL.createObjectURL(blob));
-  }
-
-  ngOnDestroy() {
-    if (this.imageUrl()) URL.revokeObjectURL(this.imageUrl()!);
+    window.open(blobUrl);
   }
 }
