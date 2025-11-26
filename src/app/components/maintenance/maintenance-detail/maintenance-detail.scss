@@ -16,6 +16,10 @@
   }
 }
 
+h2, h3 {
+  margin-bottom: 0;
+}
+
 .item-detail-list {
   p {
     margin-left: 1.5rem;
@@ -24,4 +28,7 @@
 
 .bottom {
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }

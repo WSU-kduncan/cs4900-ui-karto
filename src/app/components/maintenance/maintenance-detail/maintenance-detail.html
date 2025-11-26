@@ -3,11 +3,6 @@
   <p>Added: {{ maintenance().date * 1000 | date: 'short' }}</p>
   <p>Cost: {{ maintenance().cost | currency: 'USD' }}</p>
   <p>Mileage: {{ maintenance().mileage | number }} miles</p>
-  @if (maintenance().receipt) {
-    <p>Raw Receipt: {{ maintenance().receipt }}</p>
-  } @else {
-    <p>No Receipt</p>
-  }
   <h2>Item Details</h2>
   <div class="item-detail-list">
     @for (itemDetail of maintenance().itemDetails; track itemDetail.id) {
@@ -22,5 +17,12 @@
       <p>No Item Details</p>
     }
   </div>
-  <p-button class="bottom" label="Delete" severity="danger" (onClick)="deleteMaintenance()" />
+  <div class="bottom">
+    @if (maintenance().receipt) {
+      <p-button label="Receipt" severity="info" (onClick)="openReceipt()" />
+    } @else {
+      <p-button label="No Receipt" severity="warn" disabled></p-button>
+    }
+    <p-button label="Delete" severity="danger" (onClick)="deleteMaintenance()" />
+  </div>
 </div>
