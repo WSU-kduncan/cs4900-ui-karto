@@ -24,7 +24,7 @@ interface PlaceholderUser {
 export class GasStationService {
   readonly #http = inject(HttpClient);
 
-  private readonly baseUrl = `${enviorment.apiUrl}/gas-stations`;
+  private readonly baseUrl = `${enviorment.apiUrl}/gasstation`;
 
   getGasStations(): Observable<GasStation[]> {
     return this.#http.get<GasStation[]>(this.baseUrl);
