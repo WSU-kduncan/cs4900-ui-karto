@@ -30,7 +30,9 @@ export const routes: Routes = [
   {
     path: 'create-account',
     loadComponent: () =>
-      import('./components/create-account-form/create-account-form').then((m) => m.CreateAccountForm),
+      import('./components/create-account-form/create-account-form').then(
+        (m) => m.CreateAccountForm,
+      ),
   },
   {
     path: 'login',

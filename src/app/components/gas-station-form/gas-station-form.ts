@@ -19,14 +19,22 @@ import { ActivatedRoute, Router } from '@angular/router';
       <input pInputText formControlName="state" placeholder="State" />
       <input pInputText formControlName="zip" placeholder="Zip" />
 
-      <input pInputText formControlName="latitude" placeholder="Latitude" type="number" step="0.000001"/>
-      <input pInputText formControlName="longitude" placeholder="Longitude" type="number" step="0.000001"/>
-
-      <p-button
-        type="submit"
-        [label]="isEditMode() ? 'Update' : 'Add'"
-        [disabled]="form.invalid"
+      <input
+        pInputText
+        formControlName="latitude"
+        placeholder="Latitude"
+        type="number"
+        step="0.000001"
       />
+      <input
+        pInputText
+        formControlName="longitude"
+        placeholder="Longitude"
+        type="number"
+        step="0.000001"
+      />
+
+      <p-button type="submit" [label]="isEditMode() ? 'Update' : 'Add'" [disabled]="form.invalid" />
     </form>
   `,
   styles: [
@@ -58,7 +66,7 @@ export class GasStationForm implements OnInit {
     zip: ['', Validators.required],
     state: ['OH', Validators.required],
     latitude: [0.0, Validators.required],
-    longitude: [0.0, Validators.required]
+    longitude: [0.0, Validators.required],
   });
 
   ngOnInit() {
@@ -68,7 +76,7 @@ export class GasStationForm implements OnInit {
       this.isEditMode.set(true);
       this.currentId = +idParam;
 
-      this.service.getGasStation(this.currentId).subscribe(data => {
+      this.service.getGasStation(this.currentId).subscribe((data) => {
         this.form.patchValue(data as any);
       });
     }
@@ -93,11 +101,11 @@ export class GasStationForm implements OnInit {
             name: '',
             addressLine: '',
             city: '',
-            zip: ''
+            zip: '',
           });
           this.stationAdded.emit();
         }
-      })
+      });
     }
   }
 }

@@ -46,7 +46,7 @@ export class App {
         label: 'Gas Stations',
         icon: 'pi pi-fw pi-map-marker',
         routerLink: ['/gas-stations'],
-      }
+      },
     ];
   }
 }
