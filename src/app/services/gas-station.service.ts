@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, pipe } from 'rxjs';
 import { tap } from 'rxjs';
-
-const GAS_STATION_API_URL = 'https://jsonplaceholder.typicode.com/users';
+import { enviorment } from '../../enviornments/enviornment';
 
 interface PlaceholderUser {
   id: number;
@@ -25,52 +24,25 @@ interface PlaceholderUser {
 export class GasStationService {
   readonly #http = inject(HttpClient);
 
+  private readonly baseUrl = `${enviorment.apiUrl}/gas-stations`;
+
   getGasStations(): Observable<GasStation[]> {
-    return this.#http.get<PlaceholderUser[]>(GAS_STATION_API_URL).pipe(
-      map((users) =>
-        users.map(
-          (user) =>
-            ({
-              id: user.id,
-              longitude: Math.random(),
-              latitude: Math.random(),
-              name: user.name,
-              addressLine: user.address.street,
-              city: user.address.city,
-              state: 'OH',
-              zip: user.address.zipcode,
-              userEmails: [user.email],
-            }) as GasStation,
-        ),
-      ),
-    );
+    return this.#http.get<GasStation[]>(this.baseUrl);
   }
 
   createGasStation(station: Partial<GasStation>): Observable<GasStation> {
-    return this.#http.post<GasStation>(GAS_STATION_API_URL, station);
+    return this.#http.post<GasStation>(this.baseUrl, station);
   }
 
   deleteGasStation(id: number): Observable<unknown> {
-    return this.#http.delete(`${GAS_STATION_API_URL}/${id}`);
+    return this.#http.delete(`${this.baseUrl}/${id}`);
   }
 
   getGasStation(id: number): Observable<GasStation> {
-    return this.#http.get<PlaceholderUser>(`${GAS_STATION_API_URL}`).pipe(
-      map((user) => ({
-        id: user.id,
-        longitude: Math.random(),
-        latitude: Math.random(),
-        name: user.name,
-        addressLine: user.address.street,
-        city: user.address.city,
-        state: 'OH',
-        zip: user.address.zipcode,
-        userEmails: [user.email],
-      }) as GasStation)
-    );
+    return this.#http.get<GasStation>(`${this.baseUrl}/${id}`);
   }
 
   updateGasStation(id: number, station: Partial<GasStation>): Observable<GasStation> {
-    return this.#http.put<GasStation>(`${GAS_STATION_API_URL}/${id}`, station);
+    return this.#http.put<GasStation>(`${this.baseUrl}/${id}`, station);
   }
 }

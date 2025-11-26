@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, output } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -35,6 +35,8 @@ export class GasStationForm implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+  stationAdded = output<void>();
+
   isEditMode = signal(false);
   currentId: number | null = null;
 
@@ -68,14 +70,14 @@ export class GasStationForm implements OnInit {
           this.router.navigate(['/gas-stations']);
         });
     } else {
-      this.service.createGasStation(this.form.value as any)
-        .subscribe(() => {
-          if (this.route.snapshot.paramMap.get('id')) {
-            this.router.navigate(['/gas-stations']);
-          } else {
-            this.form.reset();
-          }
-        });
+      this.service.createGasStation(this.form.value as any).subscribe(() => {
+        if (this.route.snapshot.paramMap.get('id')) {
+          this.router.navigate(['/gas-stations']);
+        } else {
+          this.form.reset();
+          this.stationAdded.emit();
+        }
+      })
     }
   }
 }
