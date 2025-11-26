@@ -1,19 +1,19 @@
-import { Component, inject, OnInit, Signal, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, Signal, signal } from '@angular/core';
 import { MaintenanceDto, MaintenanceStatisticsDto } from '@shared/models/dtos.interface';
 import { MaintenanceService } from '@services/maintenance.service';
 import { MaintenanceItem } from '@components/maintenance/maintenance-detail/maintenance-detail';
 import { MaintenanceForm } from '../maintenance-form/maintenance-form';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-maintenance-list',
-  imports: [MaintenanceItem, MaintenanceForm, DatePipe],
+  imports: [MaintenanceItem, MaintenanceForm, DatePipe, DecimalPipe],
   templateUrl: './maintenance-list.html',
   styleUrl: './maintenance-list.scss',
   standalone: true,
 })
-export class MaintenanceList implements OnInit {
+export class MaintenanceList implements OnInit, OnDestroy {
   private readonly maintenanceService = inject(MaintenanceService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -41,6 +41,11 @@ export class MaintenanceList implements OnInit {
     });
   }
 
+  private maintenanceChangedSubscribe = this.maintenanceService.maintenanceChanged.subscribe(() => {
+    this.getMaintenances();
+    this.getStatistics();
+  });
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const vin = params.get('vin');
@@ -52,5 +57,9 @@ export class MaintenanceList implements OnInit {
       this.getMaintenances();
       this.getStatistics();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.maintenanceChangedSubscribe.unsubscribe();
   }
 }

@@ -111,9 +111,9 @@ export class MaintenanceForm implements OnInit {
     const toBase64 = async () => {
       const bytes = new Uint8Array(await this.receipt!.arrayBuffer());
       let binary = '';
-      bytes.forEach(b => binary += String.fromCharCode(b));
+      bytes.forEach((b) => (binary += String.fromCharCode(b)));
       return btoa(binary);
-    }
+    };
     const dto: MaintenanceDto = {
       carVin: this.vin(),
       cost: this.cost.value!,
@@ -123,7 +123,6 @@ export class MaintenanceForm implements OnInit {
       mileage: this.mileage.value!,
       receipt: this.receipt ? await toBase64() : null,
     };
-    console.log(dto.receipt)
     this.maintenanceService.postMaintenance(dto).subscribe({
       next: (_) => {
         this.onSuccessfulSubmit.emit();
