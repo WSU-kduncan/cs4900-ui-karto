@@ -50,7 +50,6 @@ export class GasStationForm implements OnInit {
     city: ['', Validators.required],
     zip: ['', Validators.required],
     state: ['OH', Validators.required],
-    // ADDED: Required controls for Lat/Long
     latitude: [0.0, Validators.required],
     longitude: [0.0, Validators.required]
   });
@@ -63,7 +62,6 @@ export class GasStationForm implements OnInit {
       this.currentId = +idParam;
 
       this.service.getGasStation(this.currentId).subscribe(data => {
-        // This will now correctly populate lat/long if they exist in the response
         this.form.patchValue(data as any);
       });
     }
