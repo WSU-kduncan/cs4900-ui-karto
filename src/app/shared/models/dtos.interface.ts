@@ -70,6 +70,12 @@ export interface GasStationDto {
   userEmails: string[];
 }
 
+export interface UserDto {
+  email: string;
+  username: string;
+  createdAt: string;
+}
+
 export interface MaintenanceStatisticsDto {
   totalCost: number;
   numberMaintenances: number;

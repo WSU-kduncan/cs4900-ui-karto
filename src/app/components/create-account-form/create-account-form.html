@@ -1,0 +1,52 @@
+<div>
+  <h1>Create Account</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" required />
+    @if (email.invalid && email.touched) {
+      @if (email.hasError('required')) {
+        <p>Email is required</p>
+      }
+      @if (email.hasError('email')) {
+        <p>Invalid Email</p>
+      }
+    }
+    <label for="username">Username</label>
+    <input id="username" type="text" formControlName="username" required />
+    @if (username.invalid && username.touched) {
+      @if (username.hasError('required')) {
+        <p>Username is required</p>
+      }
+    }
+    <label for="password">Password</label>
+    <input id="password" type="password" formControlName="password" required />
+    @if (password.invalid && password.touched) {
+      @if (password.hasError('required')) {
+        <p>Password is required</p>
+      }
+      @if (password.hasError('minLength')) {
+        <p>Min 8 characters.</p>
+      }
+      @if (password.hasError('maxLength')) {
+        <p>Max length 128 characters</p>
+      }
+      @if (password.hasError('pattern')) {
+        <p>Must include upper, lower, number & symbol.</p>
+      }
+    }
+    <label for="confirmPassword">Confirm Password</label>
+    <input id="confirmPassword" type="password" formControlName="confirmPassword" required />
+    @if (confirmPassword.touched) {
+      @if (confirmPassword.invalid && confirmPassword.hasError('required')) {
+        <p>Confirm Password is required</p>
+      }
+      @if (form.hasError('passwordsNotMatching')) {
+        <p>Passwords do not match.</p>
+      }
+    }
+    @if (serverErrors()) {
+      <p>{{ serverErrors() }}</p>
+    }
+    <p-button type="submit">Submit</p-button>
+  </form>
+</div>
