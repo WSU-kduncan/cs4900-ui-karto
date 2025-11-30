@@ -35,7 +35,7 @@ export class App {
       {
         label: 'Maintenances',
         icon: 'pi pi-fw pi-wrench',
-        routerLink: ['/maintenances'],
+        routerLink: ['/maintenances/1HGCM82633A004352'],
       },
       {
         label: 'Gas Prices',
