@@ -74,7 +74,7 @@ export class CreateAccountForm {
           this.serverErrors.set(err.error ?? 'Could not create user');
         },
         complete: () => {
-          this.router.navigate(['/cars']);
+          this.router.navigate(['/login']);
         },
       });
     console.log('Submitted');

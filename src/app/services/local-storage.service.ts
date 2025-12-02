@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
+  public readonly onLogin = new EventEmitter();
+
   get accessToken() {
     return localStorage.getItem('accessToken');
   }
@@ -30,5 +32,13 @@ export class LocalStorageService {
     this.email = null;
     this.username = null;
     this.accessToken = null;
+    this.onLogin.emit();
+  }
+
+  login(username: string, email: string, token: string) {
+    this.accessToken = token;
+    this.email = email;
+    this.username = username;
+    this.onLogin.emit();
   }
 }

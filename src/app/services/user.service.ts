@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { EventEmitter, inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { catchError, map, Observable } from 'rxjs';
 import { UserDto } from '@shared/models/dtos.interface';
@@ -9,6 +9,7 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class UserService {
   private localStorageService = inject(LocalStorageService);
+
   constructor(private apiService: ApiService) {}
 
   createUser(request: CreateUserRequest): Observable<UserDto> {
@@ -19,10 +20,8 @@ export class UserService {
       map((response) => {
         console.log('Login successful: ', response);
         var data = response.data as LoginResponse;
-        this.localStorageService.accessToken = data.token;
-        this.localStorageService.email = data.details.email;
-        this.localStorageService.username = data.details.username;
-      }),
+        this.localStorageService.login(data.details.username, data.details.email, data.token);
+      })
     );
   }
 }

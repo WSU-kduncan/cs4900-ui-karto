@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '@services/local-storage.service';
 import { MenuItem } from 'primeng/api';
@@ -10,30 +11,24 @@ import { Menubar } from 'primeng/menubar';
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',
 })
-export class NavBar {
+export class NavBar implements OnInit {
   private readonly localStorage = inject(LocalStorageService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
-  items: MenuItem[] | undefined;
+  items = signal<MenuItem[]>([]);
+  loginSubscription = this.localStorage.onLogin
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe(() => this.updateItems());
 
   logout() {
     this.localStorage.logout();
     this.router.navigate(['']);
   }
 
-  ngOnInit() {
+  updateItems() {
     if (this.localStorage.accessToken)
-      this.items = [
-        {
-          label: 'Create Account',
-          icon: 'pi pi-fw pi-user-plus',
-          routerLink: ['/create-account'],
-        },
-        {
-          label: 'Login',
-          icon: 'pi pi-fw pi-sign-in',
-          routerLink: ['/login'],
-        },
+      this.items.set([
         {
           label: 'Cars',
           icon: 'pi pi-fw pi-car',
@@ -54,9 +49,9 @@ export class NavBar {
           icon: 'pi pi-fw pi-sign-out',
           command: () => this.logout(),
         },
-      ];
-    else {
-      this.items = [
+      ]);
+    else
+      this.items.set([
         {
           label: 'Create Account',
           icon: 'pi pi-fw pi-user-plus',
@@ -67,7 +62,10 @@ export class NavBar {
           icon: 'pi pi-fw pi-sign-in',
           routerLink: ['/login'],
         },
-      ];
-    }
+      ]);
+  }
+
+  ngOnInit() {
+    this.updateItems();
   }
 }
