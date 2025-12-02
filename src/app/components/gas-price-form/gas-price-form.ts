@@ -40,16 +40,6 @@ export class GasPriceForm {
     return Number(gasPrice!);
   }
 
-  // getUpdated(): Date {
-  //   const updated = this.form.value.updated;
-  //   if (updated == null) return new Date();
-  //
-  //   let updatedAsDateObject = new Date(updated);
-  //   updatedAsDateObject.setSeconds(0, 0);
-  //
-  //   return updatedAsDateObject!;
-  // }
-
   onSubmit() {
     const gasPriceDto: GasPriceDto = {
       id: {
