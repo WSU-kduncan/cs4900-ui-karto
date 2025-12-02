@@ -20,7 +20,6 @@ export class GasPriceForm {
     gasStationId: ['', [Validators.required, Validators.min(1), Validators.max(10)]],
     gasTypeId: ['', [Validators.required, Validators.min(1), Validators.max(10)]],
     price: ['', [Validators.required, Validators.min(0.01), Validators.max(10)]],
-    updated: [new Date(), [Validators.required]],
   });
 
   getGasStationId(): number {
@@ -41,11 +40,15 @@ export class GasPriceForm {
     return Number(gasPrice!);
   }
 
-  getUpdated(): Date {
-    const updated = this.form.value.updated;
-    if (updated == null) return new Date()!;
-    return updated!;
-  }
+  // getUpdated(): Date {
+  //   const updated = this.form.value.updated;
+  //   if (updated == null) return new Date();
+  //
+  //   let updatedAsDateObject = new Date(updated);
+  //   updatedAsDateObject.setSeconds(0, 0);
+  //
+  //   return updatedAsDateObject!;
+  // }
 
   onSubmit() {
     const gasPriceDto: GasPriceDto = {
@@ -54,7 +57,6 @@ export class GasPriceForm {
         gasTypeId: this.getGasTypeId(),
       },
       price: this.getGasPrice(),
-      updated: this.getUpdated(),
     };
 
     // add/post the new gas price

@@ -13,5 +13,4 @@ import { Tab } from 'primeng/tabs';
 })
 export class GasPriceDetail {
   public price = input.required<GasPriceDto>();
-  protected readonly formatDate = formatDate;
 }
