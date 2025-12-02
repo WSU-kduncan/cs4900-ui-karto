@@ -194,9 +194,9 @@ export class MaintenanceService {
       catchError((err) => {
         console.error('API GET maintenance statistics failed, using dumb data:', err);
         return of({
-          totalCost: 23.12,
-          numberMaintenances: 3,
-          currentMileage: 32,
+          totalCost: 0.00,
+          numberMaintenances: 0,
+          currentMileage: 0,
           lastUpdated: Date.now(),
         });
       }),

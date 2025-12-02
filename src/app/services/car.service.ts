@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
 import { catchError, map, Observable, of } from 'rxjs';
 import { GasService } from './gas.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,12 +37,14 @@ export class CarService {
   constructor(
     private apiService: ApiService,
     private gasService: GasService,
+    private localStorageService: LocalStorageService
   ) {
     // populate writable cars signal from API and enrich with gas type
-    this.getCarsOwnedByUser('irene.z@example.test')
+    if (!localStorageService.email) throw new Error('No user email found in localStorage');
+    this.getCarsOwnedByUser(localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) => cars.map((car) => this.serializeCar(car))),
+        map((cars) => cars.map((car) => this.serializeCar(car)))
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
@@ -66,7 +69,7 @@ export class CarService {
         if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
 
         return of(car);
-      }),
+      })
     );
   }
 

@@ -12,6 +12,7 @@ import { SerializedCar } from '@shared/models/dtos.interface';
 import { CarListDetail, CarListForm } from '@components/car';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-car-list',
@@ -35,6 +36,7 @@ import { GasService } from '@services/gas.service';
 export class CarList {
   private readonly carService = inject(CarService);
   private readonly gasService = inject(GasService);
+  private readonly router = inject(Router);
 
   constructor() {
     // Debugging effect to log cars whenever they change
@@ -88,7 +90,9 @@ export class CarList {
     this.selectedCar.set(car);
   }
 
-  onViewMore(e: PointerEvent) {}
+  onViewMaintenances(e: PointerEvent) {
+    this.router.navigate(['maintenances', this.selectedCar()?.vin!]);
+  }
 
   onEditCar(e: PointerEvent) {}
 }

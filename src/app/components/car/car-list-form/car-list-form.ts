@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CarDto } from '@shared/models/dtos.interface';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
+import { LocalStorageService } from '@services/local-storage.service';
 
 @Component({
   selector: 'app-car-list-form',
@@ -29,10 +30,11 @@ import { GasService } from '@services/gas.service';
 export class CarListForm {
   private readonly carService = inject(CarService);
   private readonly gasService = inject(GasService);
+  private readonly localStorageService = inject(LocalStorageService);
 
   carModel = signal<CarDto>({
     vin: '56HJK4AE1BU3456AB',
-    userEmail: 'irene.z@example.test',
+    userEmail: this.localStorageService.email!,
     make: 'Honda',
     model: 'Accord',
     year: 2015,
@@ -52,7 +54,7 @@ export class CarListForm {
   });
 
   readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(
-    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })),
+    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id }))
   );
 
   onNewCar() {

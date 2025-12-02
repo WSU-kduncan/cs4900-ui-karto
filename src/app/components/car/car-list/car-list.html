@@ -14,7 +14,7 @@
 
       <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
         <p-button
-          label="View More"
+          label="View Maintenances"
           [outlined]="true"
           [raised]="true"
           icon="pi pi-eye"
@@ -22,7 +22,7 @@
           pRipple
           iconPos="left"
           size="large"
-          (click)="onViewMore($event)"
+          (click)="onViewMaintenances($event)"
         />
 
         <p-button
