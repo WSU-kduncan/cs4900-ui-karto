@@ -25,4 +25,10 @@ export class LocalStorageService {
     if (token) localStorage.setItem('email', token);
     else localStorage.removeItem('email');
   }
+
+  logout() {
+    this.email = null;
+    this.username = null;
+    this.accessToken = null;
+  }
 }
