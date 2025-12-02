@@ -1,4 +1,4 @@
-import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
+import { Injectable, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { ApiService } from './api.service';
 import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
 import { catchError, map, Observable, of } from 'rxjs';
@@ -39,9 +39,11 @@ export class CarService {
     private gasService: GasService,
     private localStorageService: LocalStorageService
   ) {
-    // populate writable cars signal from API and enrich with gas type
-    if (!localStorageService.email) throw new Error('No user email found in localStorage');
-    this.getCarsOwnedByUser(localStorageService.email)
+    this.updateCars();
+  }
+  updateCars() {
+    if (!this.localStorageService.email) throw new Error('No user email found in localStorage');
+    this.getCarsOwnedByUser(this.localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
         map((cars) => cars.map((car) => this.serializeCar(car)))

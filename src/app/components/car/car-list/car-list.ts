@@ -43,6 +43,7 @@ export class CarList {
     effect(() => {
       console.log('Cars list updated:', this.cars());
     });
+    this.carService.updateCars();
   }
 
   cars = this.carService.cars;
