@@ -52,5 +52,4 @@ export class CarList {
   onSelectCar(car: SerializedCar) {
     this.selectedCar.set(car);
   }
-
 }

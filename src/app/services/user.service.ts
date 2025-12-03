@@ -21,7 +21,7 @@ export class UserService {
         console.log('Login successful: ', response);
         var data = response.data as LoginResponse;
         this.localStorageService.login(data.details.username, data.details.email, data.token);
-      })
+      }),
     );
   }
 }
