@@ -9,34 +9,9 @@
           <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
         }
 
-        <app-car-list-detail [car]="car" />
-      </div>
-
-      <div class="actions-container" [class.open]="selectedCar()?.vin === car.vin">
-        <p-button
-          label="View Maintenances"
-          [outlined]="true"
-          [raised]="true"
-          icon="pi pi-eye"
-          severity="info"
-          pRipple
-          iconPos="left"
-          size="large"
-          (click)="onViewMaintenances($event)"
-        />
-
-        <p-button
-          label="Edit Car"
-          [outlined]="true"
-          [raised]="true"
-          icon="pi pi-pencil"
-          severity="info"
-          iconPos="left"
-          size="large"
-          (click)="onEditCar($event)"
-        />
-      </div>
-    </p-panel>
+      <app-car-list-detail [selectedCar]="selectedCar()" [car]="car" />
+    </div>
+  </p-panel>
   } @empty {
     <h3>No cars in inventory</h3>
   }

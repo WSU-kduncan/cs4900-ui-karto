@@ -4,12 +4,60 @@
 
 .car-info-container {
   display: flex;
-  align-items: center;
+  // align-items: center;
   flex-grow: 1;
   justify-content: space-between;
 
   .car-info {
     float: right;
     margin-right: 2rem;
+  }
+  
+  p {
+    text-align: center;
+    vertical-align: text-top;
+  }
+}
+
+.actions-container {
+  transition:
+    max-width 0.35s ease-in-out,
+    max-height 0.35s ease-in-out,
+    opacity 0.25s ease-in-out,
+    padding 0.25s ease-in-out;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  display: flex;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+
+  button {
+    transition:
+      transform 0.18s ease-in-out,
+      opacity 0.18s ease-in-out;
+    min-width: 8rem;
+    height: auto;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  &.open {
+    /* large enough to fit the buttons - tweak if needed */
+    width: 100%;
+    max-height: 6rem;
+    opacity: 1;
+    padding: 0.5rem 0;
+    pointer-events: auto;
+
+    button {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

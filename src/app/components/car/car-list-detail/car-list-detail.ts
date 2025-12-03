@@ -1,12 +1,22 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { CarDto, SerializedCar } from '@shared/models/dtos.interface';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-car-list-detail',
-  imports: [],
+  imports: [Button],
   templateUrl: './car-list-detail.html',
   styleUrl: './car-list-detail.scss',
 })
 export class CarListDetail {
   public car = input.required<SerializedCar>();
+  public selectedCar = input.required<SerializedCar | null>();
+  private readonly router = inject(Router);
+
+  onViewMore(e: PointerEvent) {
+    this.router.navigate(['maintenances', this.car().vin]);
+  }
+
+  onEditCar(e: PointerEvent) {}
 }
