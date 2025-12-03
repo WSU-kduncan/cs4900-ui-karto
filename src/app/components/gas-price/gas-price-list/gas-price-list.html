@@ -1,5 +1,5 @@
 @let gasType = getGasTypeName(car().gasTypeId);
-<h1 class="gas-price-title">Gas Prices for {{gasType}} Gas</h1>
+<h1 class="gas-price-title">Gas Prices for {{ gasType }} Gas</h1>
 <div class="gas-price-list-container">
   <ul class="unordered-gas-price-list">
     @for (price of gasPrices(); track price.id) {
@@ -7,12 +7,13 @@
         <div>
           @let gasStation = getGasStation(price.id.gasStationId);
           <li class="gas-price-item">
-            <b>{{ gasStation.name }}</b>: <app-gas-price-detail [price]="price"/>
+            <b>{{ gasStation.name }}</b
+            >: <app-gas-price-detail [price]="price" />
           </li>
         </div>
       }
     } @empty {
-      <h2 class="no-prices-found">No gas prices available for {{gasType}}</h2>
+      <h2 class="no-prices-found">No gas prices available for {{ gasType }}</h2>
     }
   </ul>
 </div>
