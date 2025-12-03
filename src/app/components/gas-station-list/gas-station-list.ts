@@ -43,11 +43,6 @@ export class GasStationList {
     let userEmail = this.localStorageService.email;
     if (userEmail == null) userEmail = this.DEFAULT_EMAIL;
 
-    if(this.userService.addTrustedGasStation(userEmail, gasStationId)) {
-      console.log('Success! TrustedGasStation added!')
-    }
-    else {
-      console.log('Error! TrustedGasStation not added!')
-    }
+    this.userService.addTrustedGasStation(userEmail, gasStationId)
   }
 }

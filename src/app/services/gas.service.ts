@@ -48,7 +48,7 @@ export class GasService {
         console.error('API call failed, using mock data:', error);
         this.gasPrices.next(this.dummyGasPrices);
         return of(this.dummyGasPrices);
-      }),
+      })
     );
   }
 
