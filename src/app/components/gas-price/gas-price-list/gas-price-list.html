@@ -4,8 +4,8 @@
     @for (price of gasPrices(); track price.id) {
       @if (price.id.gasTypeId == car().gasTypeId) {
         <div>
-          {{ $any(setCurrentGasStation(price.id.gasStationId)) }}
-          {{ currentGasStation().name }}
+<!--          {{ $any(updateCurrentGasStation(price.id.gasStationId)) }}-->
+          {{ currentGasStation.name }}
           <li class="gas-price-item">
             <app-gas-price-detail [price]="price"/>
           </li>
