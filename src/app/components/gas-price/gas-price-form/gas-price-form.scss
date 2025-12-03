@@ -1,0 +1,15 @@
+.gasStationIdContainer,
+.gasTypeIdContainer,
+.priceContainer,
+.updatedContainer {
+  display: flex;
+  margin-bottom: 7px;
+  column-gap: 10px;
+  font-family: cursive;
+  padding: 1px 10px;
+}
+
+.add-gas-price-button {
+  font-family: cursive;
+  padding: 1px 10px;
+}

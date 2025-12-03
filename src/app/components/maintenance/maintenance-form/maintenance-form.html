@@ -1,0 +1,15 @@
+<div>
+  <h1>Create Maintenance</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="cost">Cost</label>
+    <input id="cost" type="number" formControlName="cost" required />
+    <label for="date">Time and Date</label>
+    <input id="date" type="datetime-local" formControlName="date" required />
+    <label for="mileage">Mileage</label>
+    <input id="mileage" type="number" formControlName="mileage" required />
+    <p-button type="submit">Submit</p-button>
+    @if (postMaintenanceError()) {
+      <p>{{ postMaintenanceError() }}</p>
+    }
+  </form>
+</div>

@@ -1,6 +1,6 @@
 <div class="maintenance-card">
   <h1>Maintenance ({{ maintenance().id }})</h1>
-  <p>Added: {{ maintenance().date | date: 'longDate' }}</p>
+  <p>Added: {{ maintenance().date * 1000 | date: 'medium' }}</p>
   <p>Cost: {{ maintenance().cost | currency: 'USD' }}</p>
   <p>Mileage: {{ maintenance().mileage | number }} miles</p>
   @if (maintenance().receipt) {
@@ -22,4 +22,5 @@
       <p>No Item Details</p>
     }
   </div>
+  <p-button label="Delete" severity="danger" (onClick)="deleteMaintenance()" />
 </div>

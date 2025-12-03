@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '@env/environment';
@@ -97,14 +97,33 @@ export class ApiService {
   /**
    * PUT request - handles Spring Boot ResponseEntity responses
    */
-  put<T>(endpoint: string, data: any): Observable<ApiResponse<T>> {
-    return this.http.put<T>(`${this.baseUrl}/${endpoint}`, data).pipe(
-      map((response) => ({
-        success: true,
-        data: response,
-        timestamp: new Date(),
-      })),
-    );
+  put<T>(endpoint: string, data: any, params?: any): Observable<ApiResponse<T>> {
+    let httpParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach((key) => {
+        if (params[key] !== null && params[key] !== undefined) {
+          if (params[key] instanceof Date) {
+            httpParams = httpParams.set(key, params[key].toISOString());
+          } else {
+            httpParams = httpParams.set(key, params[key].toString());
+          }
+        }
+      });
+    }
+
+    const thing = this.http
+      .put<T>(`${this.baseUrl}/${endpoint}`, data, {
+        params: httpParams,
+      })
+      .pipe(
+        map((response) => ({
+          success: true,
+          data: response,
+          timestamp: new Date(),
+        })),
+      );
+    thing.pipe().forEach((m) => console.log(m));
+    return thing;
   }
 
   /**

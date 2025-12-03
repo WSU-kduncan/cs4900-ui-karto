@@ -1,4 +1,12 @@
 import { Routes } from '@angular/router';
+import { CarList } from '@components/car/car-list/car-list';
+import { CreateAccountForm } from '@components/create-account-form/create-account-form';
+import { GasStationList } from '@components/gas-station-list/gas-station-list';
+import { Login } from '@components/login/login';
+import { MaintenanceList } from '@components/maintenance/maintenance-list/maintenance-list';
+import { GasStationForm } from '@components/gas-station-form/gas-station-form';
+import { NotFound } from '@components/not-found/not-found';
+import {GasPriceSelector} from '@components/gas-price/gas-price-selector/gas-price-selector.component';
 
 export const routes: Routes = [
   {
@@ -6,38 +14,33 @@ export const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full',
   },
-  {
-    path: 'cars',
-    loadComponent: () => import('@components/car/car-list/car-list').then((m) => m.CarList),
-  },
+  { path: 'cars', component: CarList },
   {
     path: 'maintenances',
-    loadComponent: () =>
-      import('@components/maintenance/maintenance-list/maintenance-list').then(
-        (m) => m.MaintenanceList,
-      ),
+    component: MaintenanceList,
   },
   {
     path: 'prices',
-    loadComponent: () =>
-      import('@components/gas-price-list/gas-price-list').then((m) => m.GasPriceList),
+    component: GasPriceSelector,
   },
   {
     path: 'gas-stations',
-    loadComponent: () =>
-      import('@components/gas-station-list/gas-station-list').then((m) => m.GasStationList),
+    component: GasStationList,
   },
   {
     path: 'create-account',
-    loadComponent: () =>
-      import('./components/create-account-form/create-account-form').then((m) => m.CreateAccountForm),
+    component: CreateAccountForm,
   },
   {
     path: 'login',
-    loadComponent: () => import('@components/login/login').then((m) => m.Login),
+    component: Login,
+  },
+  {
+    path: 'gas-stations/edit/:id',
+    component: GasStationForm,
   },
   {
     path: '**',
-    loadComponent: () => import('@components/not-found/not-found').then((m) => m.NotFound),
+    component: NotFound,
   },
 ];

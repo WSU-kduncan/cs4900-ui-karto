@@ -11,9 +11,18 @@ export class MaintenanceService {
 
   mockMaintenances: MaintenanceDto[] = [
     {
+      id: 19,
+      carVin: '1HGCM82633A004352',
+      date: 1762977060.0,
+      mileage: 3,
+      cost: 3.0,
+      receipt: null,
+      itemDetails: [],
+    },
+    {
       id: 14,
       carVin: '1HGCM82633A004352',
-      date: '2024-02-20T00:00:00Z',
+      date: 1708387200.0,
       mileage: 64820,
       cost: 249.99,
       receipt: null,
@@ -56,7 +65,7 @@ export class MaintenanceService {
     {
       id: 1,
       carVin: '1HGCM82633A004352',
-      date: '2023-06-15T00:00:00Z',
+      date: 1686787200.0,
       mileage: 63500,
       cost: 89.99,
       receipt: new TextEncoder().encode('MQ=='),
@@ -129,6 +138,22 @@ export class MaintenanceService {
         console.error('API POST maintenance failed, using mock data: ', error);
         this.mockMaintenances.push(maintenanceDto);
         return of(maintenanceDto);
+      }),
+    );
+  }
+
+  deleteMaintenance(id: number): Observable<void> {
+    return this.apiService.delete<void>(`maintenance/${id}`).pipe(
+      map((_) => {
+        this.updateMaintenanceList().subscribe();
+      }),
+      catchError((error) => {
+        console.error('API Delete maintenance failed, using mock data: ', error);
+        this.mockMaintenances = this.mockMaintenances.filter(
+          (maintenance) => maintenance.id !== id,
+        );
+        this.updateMaintenanceList().subscribe();
+        return of();
       }),
     );
   }

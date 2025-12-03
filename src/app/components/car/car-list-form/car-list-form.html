@@ -1,0 +1,45 @@
+<!-- Add new car form -->
+<form (ngSubmit)="onNewCar()" class="new-car-form">
+  <p-iftalabel>
+    <input pInputText type="text" [field]="carForm.vin" />
+    <label for="vin">Vin</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input pInputText type="text" [field]="carForm.make" />
+    <label for="make">Make</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input pInputText type="text" [field]="carForm.model" />
+    <label for="model">Model</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input pInputText type="number" [field]="carForm.year" />
+    <label for="year">Year</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input pInputText type="text" [field]="carForm.color" />
+    <label for="color">Color</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <input pInputText type="number" [field]="carForm.mileage" />
+    <label for="mileage">Mileage</label>
+  </p-iftalabel>
+
+  <p-iftalabel>
+    <p-select
+      name="gasType"
+      optionLabel="name"
+      optionValue="value"
+      [options]="gasTypeOptions()"
+      [field]="carForm.gasTypeId"
+    />
+    <label for="gasType">Gas Type</label>
+  </p-iftalabel>
+
+  <p-button label="Add Car" type="submit" />
+</form>

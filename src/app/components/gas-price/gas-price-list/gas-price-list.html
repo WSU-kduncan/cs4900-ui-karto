@@ -1,0 +1,18 @@
+<h1 class="gas-price-title">Gas Prices</h1>
+<div class="gas-price-list-container">
+  <ul class="unordered-gas-price-list">
+    @for (price of gasPrices(); track price.id) {
+      @if (price.id.gasTypeId == car().gasTypeId) {
+        <div>
+<!--          {{ $any(updateCurrentGasStation(price.id.gasStationId)) }}-->
+          {{ currentGasStation.name }}
+          <li class="gas-price-item">
+            <app-gas-price-detail [price]="price"/>
+          </li>
+        </div>
+      }
+    } @empty {
+      <h2 class="no-prices-found">No gas prices available</h2>
+    }
+  </ul>
+</div>

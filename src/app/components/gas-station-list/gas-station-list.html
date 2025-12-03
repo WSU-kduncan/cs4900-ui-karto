@@ -1,9 +1,19 @@
 <div class="gas-station-list-container">
   <h1>Gas Stations</h1>
 
+  <app-gas-station-form (stationAdded)="refreshList()" />
+
   <div class="list">
     @for (station of gasStations(); track station.id) {
-      <app-gas-station-detail [station]="station" />
+      <div class="station-row" style="display: flex; align-items: flex-start; gap: 1rem">
+        <app-gas-station-detail [station]="station" style="flex-grow: 1" />
+
+        <div class="actions" style="display: flex; flex-direction: column; gap: 0.5rem">
+          <p-button icon="pi pi-pencil" [routerLink]="['/gas-stations/edit', station.id]" />
+
+          <p-button icon="pi pi-trash" severity="danger" (onClick)="deleteStation(station.id)" />
+        </div>
+      </div>
     } @empty {
       <h3>No Gas Stations Found</h3>
     }

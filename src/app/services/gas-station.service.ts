@@ -2,9 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { GasStationDto } from '../shared/models/dtos.interface';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map, pipe } from 'rxjs';
-
-const GAS_STATION_API_URL = 'https://jsonplaceholder.typicode.com/users';
+import { environment } from '@env/environment';
 
 interface PlaceholderUser {
   id: number;
@@ -24,24 +22,25 @@ interface PlaceholderUser {
 export class GasStationService {
   readonly #http = inject(HttpClient);
 
+  private readonly baseUrl = `${environment.apiUrl}/gasstation`;
+
   getGasStations(): Observable<GasStationDto[]> {
-    return this.#http.get<PlaceholderUser[]>(GAS_STATION_API_URL).pipe(
-      map((users) =>
-        users.map(
-          (user) =>
-            ({
-              id: user.id,
-              longitude: Math.random(),
-              latitude: Math.random(),
-              name: user.name,
-              addressLine: user.address.street,
-              city: user.address.city,
-              state: 'OH',
-              zip: user.address.zipcode,
-              userEmails: [user.email],
-            }) as GasStationDto,
-        ),
-      ),
-    );
+    return this.#http.get<GasStationDto[]>(this.baseUrl);
+  }
+
+  createGasStation(station: Partial<GasStationDto>): Observable<GasStationDto> {
+    return this.#http.post<GasStationDto>(this.baseUrl, station);
+  }
+
+  deleteGasStation(id: number): Observable<unknown> {
+    return this.#http.delete(`${this.baseUrl}/${id}`);
+  }
+
+  getGasStation(id: number): Observable<GasStationDto> {
+    return this.#http.get<GasStationDto>(`${this.baseUrl}/${id}`);
+  }
+
+  updateGasStation(id: number, station: Partial<GasStationDto>): Observable<GasStationDto> {
+    return this.#http.put<GasStationDto>(`${this.baseUrl}/${id}`, station);
   }
 }

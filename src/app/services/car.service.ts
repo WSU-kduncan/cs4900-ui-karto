@@ -41,18 +41,19 @@ export class CarService {
     this.getCarsOwnedByUser('irene.z@example.test')
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) =>
-          cars.map((car) => {
-            return {
-              ...car,
-              gasType: this.gasService
-                .gasTypes()
-                ?.find((g) => g.id === (car.gasTypeId as number)) as GasTypeDto,
-            };
-          }),
-        ),
+        map((cars) => cars.map((car) => this.serializeCar(car))),
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
+  }
+
+  // Helper
+  private serializeCar(car: CarDto): SerializedCar {
+    return {
+      ...car,
+      gasType: this.gasService
+        .gasTypes()
+        .find((g) => g.id === (car.gasTypeId as number)) as GasTypeDto,
+    };
   }
 
   getCarsOwnedByUser(userEmail: string): Observable<CarDto[]> {
@@ -70,7 +71,18 @@ export class CarService {
   }
 
   addCar(carDetails: Partial<CarDto>): void {
-    this.cars.update((cars) => [...cars, carDetails as SerializedCar]);
+    this.apiService.post<CarDto>('cars', carDetails).subscribe({
+      next: (response) => {
+        const newCar = response.data;
+        // Enrich new car with gas type
+        const enrichedCar: SerializedCar = this.serializeCar(newCar);
+        this.cars.update((cars) => [...cars, enrichedCar]);
+      },
+      error: (error) => {
+        console.error('Error adding new car:', error);
+      },
+    });
+    // this.cars.update((cars) => [...cars, this.serializeCar(carDetails as CarDto)]);
   }
 
   public cars: WritableSignal<SerializedCar[]> = signal<SerializedCar[]>([]);
