@@ -1,0 +1,14 @@
+<div>
+  <h1 class="find-gas-for-your-car-title">Find Gas For Your Car</h1>
+<!--  <br>Selected Car: {{ selectedCar?.name }}<br>-->
+  <p-select
+    [options]="carNames"
+    [(ngModel)]="selectedCar"
+    optionLabel="name"
+    placeholder="Select your car"
+    [showClear]="true"
+  ></p-select>
+  @if (selectedCar) {
+    <app-gas-price-list [car]="selectedCar.object"></app-gas-price-list>
+  }
+</div>

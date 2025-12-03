@@ -5,15 +5,15 @@ import { GasPriceDto } from '@shared/models/dtos.interface';
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-gas-price-form',
   imports: [ReactiveFormsModule, FormsModule, Button],
-  templateUrl: './gas-price-form.html',
+  selector: 'app-gas-price-form',
   styleUrl: './gas-price-form.scss',
+  templateUrl: './gas-price-form.html',
 })
 export class GasPriceForm {
-  readonly #gasService: GasService = inject(GasService);
-  private formBuilder: FormBuilder = inject(FormBuilder);
+  readonly gasService: GasService = inject(GasService);
 
+  private formBuilder: FormBuilder = inject(FormBuilder);
   private DEFAULT_VALUE: number = -1;
 
   public form = this.formBuilder.group({
@@ -50,6 +50,6 @@ export class GasPriceForm {
     };
 
     // add/post the new gas price
-    this.#gasService.addGasPrice(gasPriceDto);
+    this.gasService.addGasPrice(gasPriceDto);
   }
 }

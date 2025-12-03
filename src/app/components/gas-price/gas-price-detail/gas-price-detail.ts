@@ -1,8 +1,7 @@
-import { Component, input, LOCALE_ID } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { GasPriceDto } from '@shared/models/dtos.interface';
 import { PanelModule } from 'primeng/panel';
-import { CurrencyPipe, formatDate } from '@angular/common';
-import { Tab } from 'primeng/tabs';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-gas-price-detail',
