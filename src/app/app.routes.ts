@@ -6,7 +6,7 @@ import { Login } from '@components/login/login';
 import { MaintenanceList } from '@components/maintenance/maintenance-list/maintenance-list';
 import { GasStationForm } from '@components/gas-station-form/gas-station-form';
 import { NotFound } from '@components/not-found/not-found';
-import {GasPriceSelector} from '@components/gas-price/gas-price-selector/gas-price-selector.component';
+import { GasPriceSelector } from '@components/gas-price/gas-price-selector/gas-price-selector.component';
 
 export const routes: Routes = [
   {

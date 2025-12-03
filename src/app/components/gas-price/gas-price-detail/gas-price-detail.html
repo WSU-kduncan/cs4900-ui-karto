@@ -1,5 +1,5 @@
 @if (price()) {
-  <b>Gas Type #{{ price().id.gasTypeId }}:</b> {{ price().price | currency: 'USD' }}
+  {{ price().price | currency: 'USD' }}
 } @else {
   null price fetched
 }
