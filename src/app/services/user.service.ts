@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { catchError, map, Observable } from 'rxjs';
-import { UserDto } from '@shared/models/dtos.interface';
+import {GasStationDto, UserDto} from '@shared/models/dtos.interface';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
@@ -11,9 +11,15 @@ export class UserService {
   private localStorageService = inject(LocalStorageService);
   constructor(private apiService: ApiService) {}
 
+  addTrustedGasStation(email: string, gasStationId: number): Observable<GasStationDto> {
+    return this.apiService.post<GasStationDto>(`user/${email}/trustedStations/${gasStationId}`, null).pipe(
+      map((response) => response.data));
+  }
+
   createUser(request: CreateUserRequest): Observable<UserDto> {
     return this.apiService.post<UserDto>('user', request).pipe(map((response) => response.data));
   }
+
   login(request: LoginRequest): Observable<void> {
     return this.apiService.post('user/login', request).pipe(
       map((response) => {

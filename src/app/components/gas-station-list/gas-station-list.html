@@ -9,9 +9,12 @@
         <app-gas-station-detail [station]="station" style="flex-grow: 1" />
 
         <div class="actions" style="display: flex; flex-direction: column; gap: 0.5rem">
-          <p-button icon="pi pi-pencil" [routerLink]="['/gas-stations/edit', station.id]" />
+<!--          <p-button icon="pi pi-pencil" [routerLink]="['/gas-stations/edit', station.id]" />-->
 
-          <p-button icon="pi pi-trash" severity="danger" (onClick)="deleteStation(station.id)" />
+<!--          <p-button icon="pi pi-trash" severity="danger" (onClick)="deleteStation(station.id)" />-->
+
+          <!-- Maybe change the icon to pi-star on click? -->
+          <p-button icon="pi pi-star" severity="success" (onClick)="addTrustedGasStation(station.id)" />
         </div>
       </div>
     } @empty {
