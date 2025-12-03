@@ -1,6 +1,6 @@
 interface BaseCar {
   vin: string;
-  image?: string;
+  image: string | null;
   userEmail: string;
   make: string;
   model: string;

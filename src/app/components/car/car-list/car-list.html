@@ -1,19 +1,19 @@
 <div class="cars">
   <h1>Cars</h1>
   @for (car of cars(); track car.vin) {
-    <p-panel header="{{ car.year }} {{ car.make }} {{ car.model }}" (click)="onSelectCar(car)">
-      <div class="car-card styled-box-">
-        @if (car.image) {
-          <p-avatar [image]="car.image" size="xlarge"></p-avatar>
-        } @else {
-          <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
-        }
+  <p-panel header="{{ car.year }} {{ car.make }} {{ car.model }}" (click)="onSelectCar(car)">
+    <div class="car-card styled-box-">
+      @if (car.image) {
+      <p-avatar [image]="car.image" size="xlarge"></p-avatar>
+      } @else {
+      <p-avatar icon="pi pi-car" size="xlarge"></p-avatar>
+      }
 
-        <app-car-list-detail [selectedCar]="selectedCar()" [car]="car" />
-      </div>
-    </p-panel>
+      <app-car-list-detail [selectedCar]="selectedCar()" [car]="car" />
+    </div>
+  </p-panel>
   } @empty {
-    <h3>No cars in inventory</h3>
+  <h3>No cars in inventory</h3>
   }
 
   <app-car-list-form />

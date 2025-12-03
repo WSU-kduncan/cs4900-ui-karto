@@ -30,16 +30,29 @@
   </p-iftalabel>
 
   <p-iftalabel>
-    <p-select name="gasType" optionLabel="name" optionValue="value" [options]="gasTypeOptions()"
-      [field]="carForm.gasTypeId" />
+    <p-select
+      name="gasType"
+      optionLabel="name"
+      optionValue="value"
+      [options]="gasTypeOptions()"
+      [field]="carForm.gasTypeId"
+    />
     <label for="gasType">Gas Type</label>
   </p-iftalabel>
 
   <!-- Use onSelect for client-side handling (no server upload). If you want to actually upload
        to a server set `url` or use `customUpload="true"` and handle `uploadHandler`. -->
-  <p-fileUpload mode="basic" name="car-pic" chooseIcon="pi pi-upload" accept="image/*"
-    (onSelect)="onCarPictureUpload($event)" chooseLabel="Browse"></p-fileUpload>
+  <p-fileUpload
+    #carUpload
+    name="carpic"
+    showUploadButton="false"
+    showCancelButton="false"
+    chooseIcon="pi pi-upload"
+    accept="image/*"
+    (onSelect)="onSelect($event)"
+    (onCancel)="cancelUpload()"
+    chooseLabel="Browse"
+  ></p-fileUpload>
 
-
-  <p-button label="Add Car" type="submit" />
+  <p-button label="Add Car" type="submit" (onClick)="carUpload.upload()" />
 </form>

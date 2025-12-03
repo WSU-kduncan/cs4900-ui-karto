@@ -16,8 +16,6 @@ export class CarListDetail {
   constructor(private router: Router) {}
 
   onViewMore(e: PointerEvent) {
-    console.log('View more clicked for car:', this.car().vin);
-
     this.router.navigate(['/maintenances', this.car().vin]);
   }
 

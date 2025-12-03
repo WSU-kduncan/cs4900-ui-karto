@@ -20,10 +20,11 @@ export class CarService {
       color: 'Maroon',
       mileage: 134500,
       gasTypeId: 7,
+      image: null,
     },
     {
       vin: 'KMHD4AE1BU345678',
-      image: 'https://placehold.co/800',
+      image: null,
       userEmail: 'irene.z@example.test',
       make: 'Hyundai',
       model: 'Elantra',
@@ -37,7 +38,7 @@ export class CarService {
   constructor(
     private apiService: ApiService,
     private gasService: GasService,
-    private localStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService
   ) {
     this.updateCars();
   }
@@ -46,13 +47,17 @@ export class CarService {
     this.getCarsOwnedByUser(this.localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) => cars.map((car) => this.serializeCar(car))),
+        map((cars) => cars.map((car) => this.serializeCar(car)))
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
 
   // Helper
   private serializeCar(car: CarDto): SerializedCar {
+    if (car.image) {
+      car.image = `data:image/png;base64,${car.image}`;
+    }
+
     return {
       ...car,
       gasType: this.gasService
@@ -71,7 +76,7 @@ export class CarService {
         if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
 
         return of(car);
-      }),
+      })
     );
   }
 
