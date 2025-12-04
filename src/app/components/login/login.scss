@@ -1,8 +1,9 @@
 form {
   display: flex;
   flex-direction: column;
-  border: 0.2em solid var(--p-primary-500);
+  border: 0.2em solid var(--p-primary-600);
   background-color: var(--p-primary-950);
+  opacity: 0.8;
   padding: 5em 2em;
   border-radius: 1em;
   gap: 1em;
