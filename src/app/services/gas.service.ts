@@ -68,6 +68,24 @@ export class GasService {
       .subscribe();
   }
 
+  updateGasPrice(request: GasPriceDto): Observable<GasPriceDto | null> {
+    const stationId = request.id.gasStationId;
+    const typeId = request.id.gasTypeId;
+
+    return this.apiService
+      .put<GasPriceDto>(`gas/price/${stationId}/${typeId}`, request)
+      .pipe(
+        map((response) => {
+          this.updateGasPriceList().subscribe();
+          return response.data;
+        }),
+        catchError((error) => {
+          console.error('API PUT gas price failed', error);
+          return of(null);
+        })
+      );
+  }
+
   private mockGasTypes: GasTypeDto[] = [
     { id: 1, name: 'Regular' },
     { id: 2, name: 'Mid-Grade' },
@@ -98,8 +116,6 @@ export class GasService {
     );
   }
 
-  // declare without initializing so we can create the signal after ApiService is
-  // available (toSignal will subscribe immediately and ApiService must be defined)
   public gasTypes: Signal<GasTypeDto[]> = toSignal(this.getGasTypes(), {
     initialValue: this.mockGasTypes,
   });
