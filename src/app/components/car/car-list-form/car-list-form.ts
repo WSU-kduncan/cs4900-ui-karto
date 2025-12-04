@@ -24,6 +24,7 @@ import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { LocalStorageService } from '@services/local-storage.service';
 import { Fluid } from 'primeng/fluid';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-car-list-form',
@@ -31,6 +32,7 @@ import { Fluid } from 'primeng/fluid';
     FormsModule,
     IftaLabelModule,
     InputTextModule,
+    InputNumberModule,
     RippleModule,
     ButtonModule,
     FileUploadModule,
@@ -54,14 +56,14 @@ export class CarListForm {
   // open = computed(() => this.formOpen());
 
   carModel = signal<CarDto>({
-    vin: '56HJK4AE1BU3456AB',
+    vin: '',
     userEmail: this.localStorageService.email!,
-    make: 'Honda',
-    model: 'Accord',
-    year: 2015,
-    color: 'Dark Blue',
+    make: '',
+    model: '',
+    year: 0,
+    color: '',
     image: '',
-    mileage: 192168,
+    mileage: 0,
     gasTypeId: 1,
   });
 
@@ -110,5 +112,14 @@ export class CarListForm {
     };
 
     this.carService.addCar(newCar);
+
+    this.carForm.vin().reset();
+    this.carForm.make().reset();
+    this.carForm.model().reset();
+    this.carForm.year().reset();
+    this.carForm.color().reset();
+    this.carForm.mileage().reset();
+    this.carForm.gasTypeId().reset();
+    this.carImage.set(null);
   }
 }
