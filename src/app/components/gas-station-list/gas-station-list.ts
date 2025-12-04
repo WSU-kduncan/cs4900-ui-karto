@@ -1,12 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { GasStationService } from '../../services/gas-station.service';
 import { GasStationDetail } from '../gas-station-detail/gas-station-detail';
 import { GasStationForm } from '../gas-station-form/gas-station-form';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { RouterLink } from '@angular/router';
+import { UserService } from '@services/user.service';
+import { LocalStorageService } from '@services/local-storage.service';
 
 @Component({
   selector: 'app-gas-station-list',
@@ -15,8 +16,10 @@ import { RouterLink } from '@angular/router';
   templateUrl: './gas-station-list.html',
   styleUrl: './gas-station-list.scss',
 })
-export class GasStationList {
+export class GasStationList implements OnInit {
   readonly #gasStationService = inject(GasStationService);
+  readonly #userService = inject(UserService);
+  readonly #localStorage = inject(LocalStorageService);
 
   private refreshTrigger = new BehaviorSubject<void>(undefined);
 
@@ -25,6 +28,23 @@ export class GasStationList {
     { initialValue: [] },
   );
 
+  protected trustedStationIds = signal<number[]>([]);
+
+  ngOnInit() {
+    this.fetchTrustedStations();
+  }
+
+  fetchTrustedStations() {
+    const email = this.#localStorage.email;
+    if (email) {
+      this.#userService.getTrustedGasStations(email).subscribe({
+        next: (stations) => {
+          this.trustedStationIds.set(stations.map((s) => s.id));
+        },
+      });
+    }
+  }
+
   refreshList() {
     this.refreshTrigger.next();
   }
@@ -32,6 +52,21 @@ export class GasStationList {
   deleteStation(id: number) {
     this.#gasStationService.deleteGasStation(id).subscribe(() => {
       this.refreshList();
+    });
+  }
+
+  trustStation(id: number) {
+    const email = this.#localStorage.email;
+    if (!email) {
+      console.error('No user email found');
+      return;
+    }
+    this.#userService.addTrustedGasStation(email, id).subscribe({
+      next: () => {
+        console.log('Station trusted successfully');
+        this.fetchTrustedStations();
+      },
+      error: (err) => console.error('Error trusting station', err),
     });
   }
 }

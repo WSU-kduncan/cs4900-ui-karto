@@ -1,19 +1,51 @@
 @let gasType = getGasTypeName(car().gasTypeId);
 <h1 class="gas-price-title">Gas Prices for {{ gasType }} Gas</h1>
 <div class="gas-price-list-container">
-  <ul class="unordered-gas-price-list">
-    @for (price of gasPrices(); track price.id) {
-      @if (price.id.gasTypeId == car().gasTypeId) {
-        <div>
-          @let gasStation = getGasStation(price.id.gasStationId);
-          <li class="gas-price-item">
-            <b>{{ gasStation.name }}</b
-            >: <app-gas-price-detail [price]="price" />
-          </li>
-        </div>
-      }
-    } @empty {
-      <h2 class="no-prices-found">No gas prices available for {{ gasType }}</h2>
+  @if (trustedPrices().length > 0) {
+  <h2 class="section-title">Trusted Stations</h2>
+  <div class="list">
+    @for (price of trustedPrices(); track price.id) { @let gasStation =
+    getGasStation(price.id.gasStationId);
+    <p-panel [header]="gasStation.name">
+      <ng-template pTemplate="icons">
+        <i
+          class="pi pi-heart-fill"
+          style="color: var(--p-primary-color); font-size: 1.2rem; margin-right: 0.5rem"
+          title="Trusted Station"
+        ></i>
+      </ng-template>
+      <div class="price-info">
+        <p class="price-display">
+          <strong>Price:</strong> <app-gas-price-detail [price]="price" />
+        </p>
+        <p><strong>Address:</strong> {{ gasStation.addressLine }}</p>
+        <p>
+          <strong>City:</strong> {{ gasStation.city }}, {{ gasStation.state }} {{ gasStation.zip }}
+        </p>
+      </div>
+    </p-panel>
     }
-  </ul>
+  </div>
+  } @if (regularPrices().length > 0) { @if (trustedPrices().length > 0) {
+  <h2 class="section-title">Other Stations</h2>
+  }
+  <div class="list">
+    @for (price of regularPrices(); track price.id) { @let gasStation =
+    getGasStation(price.id.gasStationId);
+    <p-panel [header]="gasStation.name">
+      <div class="price-info">
+        <p class="price-display">
+          <strong>Price:</strong> <app-gas-price-detail [price]="price" />
+        </p>
+        <p><strong>Address:</strong> {{ gasStation.addressLine }}</p>
+        <p>
+          <strong>City:</strong> {{ gasStation.city }}, {{ gasStation.state }} {{ gasStation.zip }}
+        </p>
+      </div>
+    </p-panel>
+    }
+  </div>
+  } @if (trustedPrices().length === 0 && regularPrices().length === 0) {
+  <h2 class="no-prices-found">No gas prices available for {{ gasType }}</h2>
+  }
 </div>
