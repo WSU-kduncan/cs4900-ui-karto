@@ -37,3 +37,24 @@
     overflow: hidden; // To clip the image within the avatar
   }
 }
+
+#add-car-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+
+
+  .p-avatar {
+    background-color: transparent;
+  }
+
+}
+
+.p-drawer-bottom {
+  height: fit-content !important;
+  width: 100vw;
+  overflow: hidden;
+}
+

@@ -1,6 +1,7 @@
 <!-- Add new car form -->
 <form (ngSubmit)="onNewCar()" class="new-car-form">
-  <p-iftalabel>
+  <div class="inputs">
+      <p-iftalabel>
     <input pInputText type="text" [field]="carForm.vin" />
     <label for="vin">Vin</label>
   </p-iftalabel>
@@ -29,6 +30,8 @@
     <label for="mileage">Mileage</label>
   </p-iftalabel>
 
+  </div>
+
   <p-iftalabel>
     <p-select
       name="gasType"
@@ -51,8 +54,8 @@
     accept="image/*"
     (onSelect)="onSelect($event)"
     (onCancel)="cancelUpload()"
-    chooseLabel="Browse"
-  ></p-fileUpload>
+    chooseLabel="Upload Car Image"
+  />
 
   <p-button label="Add Car" type="submit" (onClick)="carUpload.upload()" />
 </form>

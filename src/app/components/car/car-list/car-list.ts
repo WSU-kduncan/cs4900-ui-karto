@@ -7,6 +7,7 @@ import { Button, ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { DrawerModule } from 'primeng/drawer';
 
 import { SerializedCar } from '@shared/models/dtos.interface';
 import { CarListDetail, CarListForm } from '@components/car';
@@ -26,6 +27,7 @@ import { Router } from '@angular/router';
     RippleModule,
     CarListDetail,
     CarListForm,
+    DrawerModule,
   ],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
@@ -37,6 +39,7 @@ export class CarList {
   private readonly gasService = inject(GasService);
 
   selectedCar = signal<SerializedCar | null>(null);
+  formOpen = signal(false);
 
   constructor() {
     // Debugging effect to log cars whenever they change

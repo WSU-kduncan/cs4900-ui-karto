@@ -1,10 +1,21 @@
-import { Component, computed, effect, inject, Signal, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  InputSignal,
+  Signal,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { form, Field, required } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { RippleModule } from 'primeng/ripple';
 import { Select } from 'primeng/select';
+import { DrawerModule } from 'primeng/drawer';
 import { InputTextModule } from 'primeng/inputtext';
 import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 
@@ -12,6 +23,7 @@ import { CarDto } from '@shared/models/dtos.interface';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { LocalStorageService } from '@services/local-storage.service';
+import { Fluid } from 'primeng/fluid';
 
 @Component({
   selector: 'app-car-list-form',
@@ -25,6 +37,7 @@ import { LocalStorageService } from '@services/local-storage.service';
     FileUpload,
     Select,
     Field,
+    DrawerModule,
   ],
   templateUrl: './car-list-form.html',
   styleUrl: './car-list-form.scss',
@@ -36,6 +49,9 @@ export class CarListForm {
   private readonly localStorageService = inject(LocalStorageService);
 
   private carImage = signal<File | null>(null);
+
+  // public formOpen: InputSignal<boolean> = input.required<boolean>();
+  // open = computed(() => this.formOpen());
 
   carModel = signal<CarDto>({
     vin: '56HJK4AE1BU3456AB',
@@ -60,7 +76,7 @@ export class CarListForm {
   });
 
   readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(
-    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })),
+    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id }))
   );
 
   onSelect(event: any) {
