@@ -30,6 +30,12 @@ export class UserService {
     return this.apiService.post(`user/${email}/trustedStations/${stationId}`, {});
   }
 
+  removeTrustedGasStation(email: string, stationId: number): Observable<void> {
+    return this.apiService.delete(`user/${email}/trustedStations/${stationId}`).pipe(
+      map(() => { })
+    );
+  }
+
   getTrustedGasStations(email: string): Observable<GasStationDto[]> {
     return this.apiService
       .get<GasStationDto[]>(`user/${email}/trustedStations`)

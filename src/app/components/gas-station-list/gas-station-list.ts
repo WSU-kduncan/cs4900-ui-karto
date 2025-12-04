@@ -55,18 +55,28 @@ export class GasStationList implements OnInit {
     });
   }
 
-  trustStation(id: number) {
+  toggleTrustStation(id: number) {
     const email = this.#localStorage.email;
     if (!email) {
       console.error('No user email found');
       return;
     }
-    this.#userService.addTrustedGasStation(email, id).subscribe({
-      next: () => {
-        console.log('Station trusted successfully');
-        this.fetchTrustedStations();
-      },
-      error: (err) => console.error('Error trusting station', err),
-    });
+    if (this.trustedStationIds().includes(id)) {
+      this.#userService.removeTrustedGasStation(email, id).subscribe({
+        next: () => {
+          console.log('Station removed from trusted list');
+          this.fetchTrustedStations();
+        },
+        error: (err) => console.error('Error removing trust', err),
+      });
+    } else {
+      this.#userService.addTrustedGasStation(email, id).subscribe({
+        next: () => {
+          console.log('Station added to trusted list');
+          this.fetchTrustedStations();
+        },
+        error: (err) => console.error('Error adding trust', err),
+      });
+    }
   }
 }
