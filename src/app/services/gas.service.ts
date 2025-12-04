@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GasPriceDto, GasTypeDto } from '../shared/models/dtos.interface';
+import { GasPriceDto, GasTypeDto } from '@shared/models/dtos.interface';
 import { ApiService } from '@services/api.service';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -53,14 +53,8 @@ export class GasService {
   }
 
   addGasPrice(request: GasPriceDto) {
-    const newGasPrice: GasPriceDto = {
-      id: request.id,
-      price: request.price,
-      updated: request.updated,
-    };
-
     return this.apiService
-      .post<GasPriceDto>('gas', newGasPrice)
+      .post<GasPriceDto>('gas', request)
       .pipe(
         map((response) => {
           this.updateGasPriceList().subscribe();

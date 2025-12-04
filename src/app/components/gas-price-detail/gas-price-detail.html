@@ -1,7 +1,0 @@
-@if (price()) {
-  <b>Gas Type #{{ price().id.gasTypeId }}:</b> {{ price().price | currency: 'USD' }} ({{
-    formatDate(price().updated, 'short', 'en-en')
-  }})
-} @else {
-  null price fetched
-}

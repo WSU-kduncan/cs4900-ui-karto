@@ -20,7 +20,6 @@ export interface CarDto extends BaseCar {
 export interface GasPriceDto {
   id: GasPriceIdDto;
   price: number;
-  updated: Date;
 }
 
 export interface GasPriceIdDto {

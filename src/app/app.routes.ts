@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { CarList } from '@components/car/car-list/car-list';
 import { CreateAccountForm } from '@components/create-account-form/create-account-form';
-import { GasPriceList } from '@components/gas-price-list/gas-price-list';
 import { GasStationList } from '@components/gas-station-list/gas-station-list';
 import { Login } from '@components/login/login';
 import { MaintenanceList } from '@components/maintenance/maintenance-list/maintenance-list';
-import { GasStationForm } from './components/gas-station-form/gas-station-form';
+import { GasStationForm } from '@components/gas-station-form/gas-station-form';
 import { NotFound } from '@components/not-found/not-found';
+import { GasPriceSelector } from '@components/gas-price/gas-price-selector/gas-price-selector.component';
 
 export const routes: Routes = [
   {
@@ -21,7 +21,7 @@ export const routes: Routes = [
   },
   {
     path: 'prices',
-    component: GasPriceList,
+    component: GasPriceSelector,
   },
   {
     path: 'gas-stations',
