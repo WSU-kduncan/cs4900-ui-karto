@@ -65,13 +65,13 @@ export class GasPriceList implements OnInit {
 
   public trustedPrices = computed(() => {
     return this.relevantGasPrices().filter((p) =>
-      this.trustedStationIds().includes(p.id.gasStationId)
+      this.trustedStationIds().includes(p.id.gasStationId),
     );
   });
 
   public regularPrices = computed(() => {
     return this.relevantGasPrices().filter(
-      (p) => !this.trustedStationIds().includes(p.id.gasStationId)
+      (p) => !this.trustedStationIds().includes(p.id.gasStationId),
     );
   });
 

@@ -10,7 +10,7 @@ import { LocalStorageService } from './local-storage.service';
 export class UserService {
   private localStorageService = inject(LocalStorageService);
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   createUser(request: CreateUserRequest): Observable<UserDto> {
     return this.apiService.post<UserDto>('user', request).pipe(map((response) => response.data));

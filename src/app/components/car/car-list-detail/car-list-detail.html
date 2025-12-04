@@ -1,36 +1,36 @@
 @if (car()) {
-<div class="car-info-container">
-  <p><strong>VIN:</strong> {{ car().vin }}</p>
+  <div class="car-info-container">
+    <p><strong>VIN:</strong> {{ car().vin }}</p>
 
-  <section class="car-info">
-    <p><strong>Color:</strong> {{ car().color }}</p>
-    <p><strong>Mileage:</strong> {{ car().mileage }} miles</p>
-    <p><strong>Gas Type:</strong> {{ car().gasType.name }}</p>
-  </section>
-</div>
+    <section class="car-info">
+      <p><strong>Color:</strong> {{ car().color }}</p>
+      <p><strong>Mileage:</strong> {{ car().mileage }} miles</p>
+      <p><strong>Gas Type:</strong> {{ car().gasType.name }}</p>
+    </section>
+  </div>
 
-<div class="actions-container" [class.open]="selectedCar()?.vin === car().vin">
-  <p-button
-    label="View Maintenances"
-    [outlined]="true"
-    [raised]="true"
-    icon="pi pi-eye"
-    severity="info"
-    pRipple
-    iconPos="left"
-    size="large"
-    (click)="onViewMore($event)"
-  />
+  <div class="actions-container" [class.open]="selectedCar()?.vin === car().vin">
+    <p-button
+      label="View Maintenances"
+      [outlined]="true"
+      [raised]="true"
+      icon="pi pi-eye"
+      severity="info"
+      pRipple
+      iconPos="left"
+      size="large"
+      (click)="onViewMore($event)"
+    />
 
-  <p-button
-    label="Edit Car"
-    [outlined]="true"
-    [raised]="true"
-    icon="pi pi-pencil"
-    severity="info"
-    iconPos="left"
-    size="large"
-    (click)="onEditCar($event)"
-  />
-</div>
+    <p-button
+      label="Edit Car"
+      [outlined]="true"
+      [raised]="true"
+      icon="pi pi-pencil"
+      severity="info"
+      iconPos="left"
+      size="large"
+      (click)="onEditCar($event)"
+    />
+  </div>
 }

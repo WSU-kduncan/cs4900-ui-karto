@@ -38,7 +38,7 @@ export class CarService {
   constructor(
     private apiService: ApiService,
     private gasService: GasService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
   ) {
     this.updateCars();
   }
@@ -47,7 +47,7 @@ export class CarService {
     this.getCarsOwnedByUser(this.localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) => cars.map((car) => this.serializeCar(car)))
+        map((cars) => cars.map((car) => this.serializeCar(car))),
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
@@ -76,7 +76,7 @@ export class CarService {
         if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
 
         return of(car);
-      })
+      }),
     );
   }
 

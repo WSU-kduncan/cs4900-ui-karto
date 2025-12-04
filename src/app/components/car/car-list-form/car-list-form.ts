@@ -60,7 +60,7 @@ export class CarListForm {
   });
 
   readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(
-    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id }))
+    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })),
   );
 
   onSelect(event: any) {
@@ -92,7 +92,7 @@ export class CarListForm {
       gasTypeId: this.carForm.gasTypeId().value(),
       image: carImage,
     };
-    
+
     this.carService.addCar(newCar);
   }
 }
