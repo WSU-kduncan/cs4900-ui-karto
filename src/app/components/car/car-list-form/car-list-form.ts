@@ -2,9 +2,11 @@ import {
   Component,
   computed,
   effect,
+  EventEmitter,
   inject,
   input,
   InputSignal,
+  Output,
   Signal,
   signal,
   ViewChild,
@@ -46,14 +48,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
   standalone: true,
 })
 export class CarListForm {
+  @Output() closeNewForm = new EventEmitter<boolean>();
   private readonly carService = inject(CarService);
   private readonly gasService = inject(GasService);
   private readonly localStorageService = inject(LocalStorageService);
 
   private carImage = signal<File | null>(null);
-
-  // public formOpen: InputSignal<boolean> = input.required<boolean>();
-  // open = computed(() => this.formOpen());
 
   carModel = signal<CarDto>({
     vin: '',
@@ -89,15 +89,10 @@ export class CarListForm {
     this.carImage.set(null);
   }
 
-  private async convertFileToBase64(file: File) {
-    const bytes = await file.arrayBuffer();
-    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
-  }
-
   async onNewCar() {
     let carImage = null;
 
-    if (this.carImage()) carImage = await this.convertFileToBase64(this.carImage()!);
+    if (this.carImage()) carImage = await this.carService.convertFileToBase64(this.carImage()!);
 
     const newCar: CarDto = {
       vin: this.carForm.vin().value(),
@@ -112,6 +107,8 @@ export class CarListForm {
     };
 
     this.carService.addCar(newCar);
+
+    this.closeNewForm.emit(true);
 
     this.carForm.vin().reset();
     this.carForm.make().reset();

@@ -14,6 +14,8 @@ import { CarListDetail, CarListForm } from '@components/car';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { Router } from '@angular/router';
+import { CarEditForm } from '../car-edit-form/car-edit-form';
+import { Image } from 'primeng/image';
 
 @Component({
   selector: 'app-car-list',
@@ -27,7 +29,9 @@ import { Router } from '@angular/router';
     RippleModule,
     CarListDetail,
     CarListForm,
+    CarEditForm,
     DrawerModule,
+    Image,
   ],
   templateUrl: './car-list.html',
   styleUrl: './car-list.scss',
@@ -40,6 +44,7 @@ export class CarList {
 
   selectedCar = signal<SerializedCar | null>(null);
   formOpen = signal(false);
+  editFormOpen = signal(false);
 
   constructor() {
     // Debugging effect to log cars whenever they change

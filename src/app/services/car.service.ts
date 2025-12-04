@@ -38,7 +38,7 @@ export class CarService {
   constructor(
     private apiService: ApiService,
     private gasService: GasService,
-    private localStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService
   ) {
     this.updateCars();
   }
@@ -47,9 +47,14 @@ export class CarService {
     this.getCarsOwnedByUser(this.localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) => cars.map((car) => this.serializeCar(car))),
+        map((cars) => cars.map((car) => this.serializeCar(car)))
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
+  }
+
+  public async convertFileToBase64(file: File) {
+    const bytes = await file.arrayBuffer();
+    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
   }
 
   // Helper
@@ -76,7 +81,7 @@ export class CarService {
         if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
 
         return of(car);
-      }),
+      })
     );
   }
 
@@ -93,6 +98,22 @@ export class CarService {
       },
     });
     // this.cars.update((cars) => [...cars, this.serializeCar(carDetails as CarDto)]);
+  }
+
+  editCar(updatedCarDetails: Partial<CarDto>): void {
+    this.apiService.put<CarDto>(`cars/${updatedCarDetails.vin}`, updatedCarDetails).subscribe({
+      next: (response) => {
+        const updatedCar = response.data;
+        // Enrich updated car with gas type
+        const enrichedCar: SerializedCar = this.serializeCar(updatedCar);
+        this.cars.update((cars) =>
+          cars.map((car) => (car.vin === enrichedCar.vin ? enrichedCar : car))
+        );
+      },
+      error: (error) => {
+        console.error('Error editing car:', error);
+      },
+    });
   }
 
   public cars: WritableSignal<SerializedCar[]> = signal<SerializedCar[]>([]);

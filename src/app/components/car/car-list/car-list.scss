@@ -52,6 +52,19 @@
 
 }
 
+#edit-car-drawer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  
+  
+  .p-drawer-content {
+    height: fit-content !important;
+  }
+}
+
 .p-drawer-bottom {
   height: fit-content !important;
   width: 100vw;

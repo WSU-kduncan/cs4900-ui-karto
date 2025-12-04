@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SerializedCar } from '@shared/models/dtos.interface';
 import { Button } from 'primeng/button';
@@ -10,6 +10,7 @@ import { Button } from 'primeng/button';
   styleUrl: './car-list-detail.scss',
 })
 export class CarListDetail {
+  @Output() edit = new EventEmitter<PointerEvent>();
   public car = input.required<SerializedCar>();
   public selectedCar = input.required<SerializedCar | null>();
 
@@ -19,5 +20,7 @@ export class CarListDetail {
     this.router.navigate(['/maintenances', this.car().vin]);
   }
 
-  onEditCar(e: PointerEvent) {}
+  onEditCar(e: PointerEvent) {
+    this.edit.emit(e);
+  }
 }
