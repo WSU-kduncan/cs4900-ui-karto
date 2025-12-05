@@ -1,33 +1,28 @@
-<!-- Add new car form -->
-<form (ngSubmit)="onNewCar()" class="new-car-form">
+<!-- Edit car form -->
+<form (ngSubmit)="onEditCar()" class="edit-car-form">
   <div class="inputs">
     <p-iftalabel>
-      <input pInputText type="text" [field]="carForm.vin" />
-      <label for="vin">Vin</label>
-    </p-iftalabel>
-
-    <p-iftalabel>
-      <input pInputText type="number" [field]="carForm.year" />
+      <input pInputText type="number" [field]="editForm.year!" />
       <label for="year">Year</label>
     </p-iftalabel>
 
     <p-iftalabel>
-      <input pInputText type="text" [field]="carForm.make" />
+      <input pInputText type="text" [field]="editForm.make!" />
       <label for="make">Make</label>
     </p-iftalabel>
 
     <p-iftalabel>
-      <input pInputText type="text" [field]="carForm.model" />
+      <input pInputText type="text" [field]="editForm.model!" />
       <label for="model">Model</label>
     </p-iftalabel>
 
     <p-iftalabel>
-      <input pInputText type="text" [field]="carForm.color" />
+      <input pInputText type="text" [field]="editForm.color!" />
       <label for="color">Color</label>
     </p-iftalabel>
 
     <p-iftalabel>
-      <p-input-number pInputNumber type="number" [field]="carForm.mileage" />
+      <p-input-number pInputNumber type="number" [field]="editForm.mileage!" />
       <label for="mileage">Mileage</label>
     </p-iftalabel>
   </div>
@@ -38,13 +33,13 @@
       optionLabel="name"
       optionValue="value"
       [options]="gasTypeOptions()"
-      [field]="carForm.gasTypeId"
+      [field]="editForm.gasTypeId!"
     />
     <label for="gasType">Gas Type</label>
   </p-iftalabel>
 
   <!-- Use onSelect for client-side handling (no server upload). If you want to actually upload
-       to a server set `url` or use `customUpload="true"` and handle `uploadHandler`. -->
+to a server set `url` or use `customUpload="true"` and handle `uploadHandler`. -->
   <p-fileUpload
     #carUpload
     name="carpic"
@@ -57,5 +52,5 @@
     chooseLabel="Upload Car Image"
   />
 
-  <p-button label="Add Car" type="submit" (onClick)="carUpload.upload()" />
+  <p-button label="Edit Car" type="submit" (onClick)="carUpload.upload()" />
 </form>

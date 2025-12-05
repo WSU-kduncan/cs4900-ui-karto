@@ -4,3 +4,19 @@ form {
   justify-content: center;
   gap: 0.5em;
 }
+
+.item-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.type-select {
+  min-width: 10em;
+}

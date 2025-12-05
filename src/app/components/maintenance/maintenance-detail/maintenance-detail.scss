@@ -1,9 +1,12 @@
 .maintenance-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 0.1rem 0.8rem;
   padding-bottom: 2rem;
   margin: 1rem;
   border: 1px solid var(--p-primary-500);
+  height: 100%;
+
   p:hover {
     background: var(--p-primary-950);
   }
@@ -13,12 +16,20 @@
   }
 }
 
+h2,
+h3 {
+  margin-bottom: 0;
+}
+
 .item-detail-list {
   p {
     margin-left: 1.5rem;
   }
 }
 
-.delete {
-  background-color: var(--p-red-500) !important;
+.bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }

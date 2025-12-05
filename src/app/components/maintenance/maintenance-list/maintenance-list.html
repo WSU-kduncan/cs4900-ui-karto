@@ -1,9 +1,25 @@
-<app-maintenance-form></app-maintenance-form>
+<app-maintenance-form [vin]="vin()"></app-maintenance-form>
+<h1>Maintenance Statistics</h1>
+@if (statistics()) {
+  <p>Total Maintenance Count: {{ statistics()!.numberMaintenances }}</p>
+  <p>Total Cost: ${{ statistics()!.totalCost }}</p>
+  <p>Last Updated Mileage: {{ statistics()!.currentMileage | number }} miles</p>
+  <p>Last Maintenance Date: {{ statistics()!.lastUpdated * 1000 | date: 'short' }}</p>
+} @else {
+  No Statistics Found
+}
 <h1>Maintenance List</h1>
 <div class="maintenance-list">
-  @for (maintenance of maintenances(); track maintenance.id) {
-    <app-maintenance-item [maintenance]="maintenance"></app-maintenance-item>
-  } @empty {
-    No Maintenance Records Found
+  @if (error()) {
+    {{ error() }}
+  } @else {
+    @for (maintenance of maintenances(); track maintenance.id) {
+      <app-maintenance-item
+        [maintenance]="maintenance"
+        (onDelete)="getMaintenances()"
+      ></app-maintenance-item>
+    } @empty {
+      No Maintenance Records Found
+    }
   }
 </div>

@@ -1,15 +1,32 @@
-import { Component, computed, effect, inject, Signal, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  inject,
+  input,
+  InputSignal,
+  Output,
+  Signal,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { form, Field, required } from '@angular/forms/signals';
 import { ButtonModule } from 'primeng/button';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { RippleModule } from 'primeng/ripple';
 import { Select } from 'primeng/select';
+import { DrawerModule } from 'primeng/drawer';
 import { InputTextModule } from 'primeng/inputtext';
+import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 
 import { CarDto } from '@shared/models/dtos.interface';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
+import { LocalStorageService } from '@services/local-storage.service';
+import { Fluid } from 'primeng/fluid';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-car-list-form',
@@ -17,27 +34,36 @@ import { GasService } from '@services/gas.service';
     FormsModule,
     IftaLabelModule,
     InputTextModule,
+    InputNumberModule,
     RippleModule,
     ButtonModule,
+    FileUploadModule,
+    FileUpload,
     Select,
     Field,
+    DrawerModule,
   ],
   templateUrl: './car-list-form.html',
   styleUrl: './car-list-form.scss',
   standalone: true,
 })
 export class CarListForm {
+  @Output() closeNewForm = new EventEmitter<boolean>();
   private readonly carService = inject(CarService);
   private readonly gasService = inject(GasService);
+  private readonly localStorageService = inject(LocalStorageService);
+
+  private carImage = signal<File | null>(null);
 
   carModel = signal<CarDto>({
-    vin: '56HJK4AE1BU3456AB',
-    userEmail: 'irene.z@example.test',
-    make: 'Honda',
-    model: 'Accord',
-    year: 2015,
-    color: 'Dark Blue',
-    mileage: 192168,
+    vin: '',
+    userEmail: this.localStorageService.email!,
+    make: '',
+    model: '',
+    year: 0,
+    color: '',
+    image: '',
+    mileage: 0,
     gasTypeId: 1,
   });
 
@@ -52,10 +78,22 @@ export class CarListForm {
   });
 
   readonly gasTypeOptions: Signal<{ name: string; value: number }[]> = signal(
-    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id })),
+    this.gasService.gasTypes().map((gt) => ({ name: gt.name, value: gt.id }))
   );
 
-  onNewCar() {
+  onSelect(event: any) {
+    this.carImage.set(event.files[0]);
+  }
+
+  cancelUpload() {
+    this.carImage.set(null);
+  }
+
+  async onNewCar() {
+    let carImage = null;
+
+    if (this.carImage()) carImage = await this.carService.convertFileToBase64(this.carImage()!);
+
     const newCar: CarDto = {
       vin: this.carForm.vin().value(),
       userEmail: this.carForm.userEmail().value(),
@@ -65,8 +103,20 @@ export class CarListForm {
       color: this.carForm.color().value(),
       mileage: this.carForm.mileage().value(),
       gasTypeId: this.carForm.gasTypeId().value(),
+      image: carImage,
     };
 
     this.carService.addCar(newCar);
+
+    this.closeNewForm.emit(true);
+
+    this.carForm.vin().reset();
+    this.carForm.make().reset();
+    this.carForm.model().reset();
+    this.carForm.year().reset();
+    this.carForm.color().reset();
+    this.carForm.mileage().reset();
+    this.carForm.gasTypeId().reset();
+    this.carImage.set(null);
   }
 }

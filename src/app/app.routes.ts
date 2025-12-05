@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
   { path: 'cars', component: CarList },
   {
-    path: 'maintenances',
+    path: 'maintenances/:vin',
     component: MaintenanceList,
   },
   {

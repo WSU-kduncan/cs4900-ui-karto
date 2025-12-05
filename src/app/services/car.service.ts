@@ -1,8 +1,9 @@
-import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
+import { Injectable, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { ApiService } from './api.service';
 import { CarDto, GasTypeDto, SerializedCar } from '@shared/models/dtos.interface';
 import { catchError, map, Observable, of } from 'rxjs';
 import { GasService } from './gas.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,10 +20,11 @@ export class CarService {
       color: 'Maroon',
       mileage: 134500,
       gasTypeId: 7,
+      image: null,
     },
     {
       vin: 'KMHD4AE1BU345678',
-      image: 'https://placehold.co/800',
+      image: null,
       userEmail: 'irene.z@example.test',
       make: 'Hyundai',
       model: 'Elantra',
@@ -36,18 +38,31 @@ export class CarService {
   constructor(
     private apiService: ApiService,
     private gasService: GasService,
+    private localStorageService: LocalStorageService
   ) {
-    // populate writable cars signal from API and enrich with gas type
-    this.getCarsOwnedByUser('irene.z@example.test')
+    this.updateCars();
+  }
+  updateCars() {
+    if (!this.localStorageService.email) throw new Error('No user email found in localStorage');
+    this.getCarsOwnedByUser(this.localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
-        map((cars) => cars.map((car) => this.serializeCar(car))),
+        map((cars) => cars.map((car) => this.serializeCar(car)))
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
 
+  public async convertFileToBase64(file: File) {
+    const bytes = await file.arrayBuffer();
+    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
+  }
+
   // Helper
   private serializeCar(car: CarDto): SerializedCar {
+    if (car.image) {
+      car.image = `data:image/png;base64,${car.image}`;
+    }
+
     return {
       ...car,
       gasType: this.gasService
@@ -66,7 +81,7 @@ export class CarService {
         if (!car) throw new Error(`User with email ${userEmail} has no cars.`);
 
         return of(car);
-      }),
+      })
     );
   }
 
@@ -83,6 +98,22 @@ export class CarService {
       },
     });
     // this.cars.update((cars) => [...cars, this.serializeCar(carDetails as CarDto)]);
+  }
+
+  editCar(updatedCarDetails: Partial<CarDto>): void {
+    this.apiService.put<CarDto>(`cars/${updatedCarDetails.vin}`, updatedCarDetails).subscribe({
+      next: (response) => {
+        const updatedCar = response.data;
+        // Enrich updated car with gas type
+        const enrichedCar: SerializedCar = this.serializeCar(updatedCar);
+        this.cars.update((cars) =>
+          cars.map((car) => (car.vin === enrichedCar.vin ? enrichedCar : car))
+        );
+      },
+      error: (error) => {
+        console.error('Error editing car:', error);
+      },
+    });
   }
 
   public cars: WritableSignal<SerializedCar[]> = signal<SerializedCar[]>([]);

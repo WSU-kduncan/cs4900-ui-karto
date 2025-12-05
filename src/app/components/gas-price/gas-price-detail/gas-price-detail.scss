@@ -1,0 +1,19 @@
+.gas-price-detail-container {
+  display: inline-block;
+  
+  .view-mode {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .edit-mode {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .actions {
+      display: flex;
+    }
+  }
+}

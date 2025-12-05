@@ -1,6 +1,6 @@
 interface BaseCar {
   vin: string;
-  image?: string;
+  image: string | null;
   userEmail: string;
   make: string;
   model: string;
@@ -37,7 +37,7 @@ export interface MaintenanceDto {
   date: number;
   mileage: number;
   cost: number;
-  receipt: Uint8Array | null;
+  receipt: string | null;
   itemDetails: MaintenanceItemDetailDto[];
 }
 
@@ -73,4 +73,11 @@ export interface UserDto {
   email: string;
   username: string;
   createdAt: string;
+}
+
+export interface MaintenanceStatisticsDto {
+  totalCost: number;
+  numberMaintenances: number;
+  currentMileage: number;
+  lastUpdated: number;
 }

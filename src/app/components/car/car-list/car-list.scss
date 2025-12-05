@@ -25,7 +25,7 @@
 
 .car-card {
   display: flex;
-  align-items: center;
+  // align-items: center;
   gap: 1rem;
 
   .p-avatar {
@@ -38,45 +38,36 @@
   }
 }
 
-.actions-container {
-  transition:
-    max-width 0.35s ease-in-out,
-    max-height 0.35s ease-in-out,
-    opacity 0.25s ease-in-out,
-    padding 0.25s ease-in-out;
+#add-car-panel {
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  padding-top: 1rem;
 
-  display: flex;
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  padding: 0;
-  pointer-events: none;
 
-  button {
-    transition:
-      transform 0.18s ease-in-out,
-      opacity 0.18s ease-in-out;
-    min-width: 8rem;
-    height: auto;
-    border-radius: 8px;
-    opacity: 0;
-    transform: translateY(-6px);
+  .p-avatar {
+    background-color: transparent;
   }
 
-  &.open {
-    /* large enough to fit the buttons - tweak if needed */
-    width: 100%;
-    max-height: 6rem;
-    opacity: 1;
-    padding: 0.5rem 0;
-    pointer-events: auto;
+}
 
-    button {
-      opacity: 1;
-      transform: translateY(0);
-    }
+#edit-car-drawer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  
+  
+  .p-drawer-content {
+    height: fit-content !important;
   }
 }
+
+.p-drawer-bottom {
+  height: fit-content !important;
+  width: 100vw;
+  overflow: hidden;
+}
+
