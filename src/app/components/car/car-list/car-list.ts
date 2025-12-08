@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DrawerModule } from 'primeng/drawer';
 
 import { SerializedCar } from '@shared/models/dtos.interface';
-import { CarListDetail, CarListForm } from '@components/car';
+import { CarAddForm, CarListDetail } from '@components/car';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { Router } from '@angular/router';
@@ -28,7 +28,7 @@ import { Image } from 'primeng/image';
     InputTextModule,
     RippleModule,
     CarListDetail,
-    CarListForm,
+    CarAddForm,
     CarEditForm,
     DrawerModule,
     Image,

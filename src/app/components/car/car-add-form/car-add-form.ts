@@ -25,11 +25,10 @@ import { CarDto } from '@shared/models/dtos.interface';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { LocalStorageService } from '@services/local-storage.service';
-import { Fluid } from 'primeng/fluid';
 import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
-  selector: 'app-car-list-form',
+  selector: 'app-car-add-form',
   imports: [
     FormsModule,
     IftaLabelModule,
@@ -43,19 +42,18 @@ import { InputNumberModule } from 'primeng/inputnumber';
     Field,
     DrawerModule,
   ],
-  templateUrl: './car-list-form.html',
-  styleUrl: './car-list-form.scss',
+  templateUrl: './car-add-form.html',
+  styleUrl: './car-add-form.scss',
   standalone: true,
 })
-export class CarListForm {
+export class CarAddForm {
   @Output() closeNewForm = new EventEmitter<boolean>();
   private readonly carService = inject(CarService);
   private readonly gasService = inject(GasService);
   private readonly localStorageService = inject(LocalStorageService);
 
   private carImage = signal<File | null>(null);
-
-  carModel = signal<CarDto>({
+  private readonly defaults = {
     vin: '',
     userEmail: this.localStorageService.email!,
     make: '',
@@ -65,7 +63,9 @@ export class CarListForm {
     image: '',
     mileage: 0,
     gasTypeId: 1,
-  });
+  };
+
+  carModel = signal<CarDto>(this.defaults);
 
   carForm = form(this.carModel, (schemaPath) => {
     required(schemaPath.vin, { message: 'VIN is required' });
@@ -92,7 +92,8 @@ export class CarListForm {
   async onNewCar() {
     let carImage = null;
 
-    if (this.carImage()) carImage = await this.carService.convertFileToBase64(this.carImage()!);
+    if (this.carImage())
+      carImage = (await this.carService.convertFileToBase64(this.carImage()!)) as string | null;
 
     const newCar: CarDto = {
       vin: this.carForm.vin().value(),
@@ -110,13 +111,8 @@ export class CarListForm {
 
     this.closeNewForm.emit(true);
 
-    this.carForm.vin().reset();
-    this.carForm.make().reset();
-    this.carForm.model().reset();
-    this.carForm.year().reset();
-    this.carForm.color().reset();
-    this.carForm.mileage().reset();
-    this.carForm.gasTypeId().reset();
+    // Reset form
+    this.carModel.set(this.defaults);
     this.carImage.set(null);
   }
 }

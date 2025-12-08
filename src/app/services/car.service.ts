@@ -52,9 +52,14 @@ export class CarService {
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
   }
 
-  public async convertFileToBase64(file: File) {
-    const bytes = await file.arrayBuffer();
-    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
+
+  public async convertFileToBase64(file: File): Promise<string | null> {
+    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+
+    return btoa(binary);
   }
 
   // Helper
