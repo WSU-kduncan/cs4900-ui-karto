@@ -116,8 +116,48 @@ Once it is built and ran, simply open `http://localhost:4200/` on your preferred
 
 Below are some videos of what our application can currently do that your clone should be able to do as well (assuming all the tasks above are ran properly)
 
+> [!NOTE]  
+> Unfortunately, the videos won't render in the README (which does make sense), so in order to see it, please visit the github pages:  
+> https://wsu-kduncan.github.io/cs4900-ui-karto/
+
 - Creating an Account and Signing In
 
-<video width="400" height="400" controls loop="" muted="">
+<video controls loop="" muted="">
     <source src="highlights/createandlogin.mp4">
+</video>
+
+- Adding a new Car
+
+<video controls loop="" muted="">
+    <source src="highlights/AddCar.mp4">
+</video>
+
+- Edit a Car
+
+<video controls loop="" muted="">
+    <source src="highlights/editcar.mp4">
+</video>
+
+- View and Add Maintenance
+
+<video controls loop="" muted="">
+    <source src="highlights/addmaintenance.mp4">
+</video>
+
+- Delete Maintenance
+
+<video controls loop="" muted="">
+    <source src="highlights/deletemaintenance.mp4">
+</video>
+
+- Look for Gas Prices
+
+<video controls loop="" muted="">
+    <source src="highlights/lookgas.mp4">
+</video>
+
+- Find Gas Stations and Favorite
+
+<video controls loop="" muted="">
+    <source src="highlights/gasstation.mp4">
 </video>
