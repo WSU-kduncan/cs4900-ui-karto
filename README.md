@@ -117,4 +117,5 @@ Once it is built and ran, simply open `http://localhost:4200/` on your preferred
 Below are some videos of what our application can currently do that your clone should be able to do as well (assuming all the tasks above are ran properly)
 
 - Creating an Account and Signing In
-  ![Video of account creation and login](highlights/createandlogin.mp4)
+
+<video src="highlights/createandlogin.mp4"></video>
