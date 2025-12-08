@@ -118,4 +118,6 @@ Below are some videos of what our application can currently do that your clone s
 
 - Creating an Account and Signing In
 
-<video src="highlights/createandlogin.mp4"></video>
+<video width="400" height="400">
+    <source type="video/mp4" src="/highlights/createandlogin.mp4">
+</video>
