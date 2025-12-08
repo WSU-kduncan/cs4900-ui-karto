@@ -122,42 +122,42 @@ Below are some videos of what our application can currently do that your clone s
 
 - Creating an Account and Signing In
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/createandlogin.mp4">
 </video>
 
 - Adding a new Car
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/AddCar.mp4">
 </video>
 
 - Edit a Car
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/editcar.mp4">
 </video>
 
 - View and Add Maintenance
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/addmaintenance.mp4">
 </video>
 
 - Delete Maintenance
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/deletemaintenance.mp4">
 </video>
 
 - Look for Gas Prices
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/lookgas.mp4">
 </video>
 
 - Find Gas Stations and Favorite
 
-<video controls loop="" muted="">
+<video width="800" controls loop="" muted="">
     <source src="highlights/gasstation.mp4">
 </video>
