@@ -45,13 +45,16 @@ export class CarList {
   selectedCar = signal<SerializedCar | null>(null);
   formOpen = signal(false);
   editFormOpen = signal(false);
+  router = inject(Router);
 
   constructor() {
     // Debugging effect to log cars whenever they change
     effect(() => {
       console.log('Cars list updated:', this.cars());
     });
-    this.carService.updateCars();
+    if (!this.carService.updateCars()) {
+      this.router.navigate(['/login']);
+    }
   }
 
   cars = this.carService.cars;

@@ -40,6 +40,7 @@
       alt="{{ selectedCar()?.make }} {{ selectedCar()?.model }}"
       width="150"
     ></p-image>
+
     }
     <app-car-edit-form [selectedCar]="selectedCar()" (closeForm)="editFormOpen.set(false)" />
     }
