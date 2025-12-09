@@ -25,16 +25,23 @@
   </p-panel>
 
   <p-drawer [(visible)]="formOpen" position="bottom" header="Add New Car">
-    <app-car-list-form (closeNewForm)="formOpen.set(false)" />
+    <app-car-add-form (closeNewForm)="formOpen.set(false)" />
   </p-drawer>
 
   <p-drawer
     id="edit-car-drawer"
     [(visible)]="editFormOpen"
     position="bottom"
-    header="Edit {{ selectedCar()?.vin }}"
+    header="Edit {{ selectedCar()?.year }} {{ selectedCar()?.make }} {{ selectedCar()?.model }}"
   >
-    @if (selectedCar()) {
+    @if (editFormOpen()) { @if (selectedCar()?.image) {
+    <p-image
+      [src]="selectedCar()!.image || ''"
+      alt="{{ selectedCar()?.make }} {{ selectedCar()?.model }}"
+      width="150"
+    ></p-image>
+
+    }
     <app-car-edit-form [selectedCar]="selectedCar()" (closeForm)="editFormOpen.set(false)" />
     }
   </p-drawer>

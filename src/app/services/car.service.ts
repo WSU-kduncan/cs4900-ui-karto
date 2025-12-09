@@ -35,6 +35,8 @@ export class CarService {
     },
   ];
 
+  private imageHeader = 'data:image/png;base64,';
+
   constructor(
     private apiService: ApiService,
     private gasService: GasService,
@@ -43,24 +45,30 @@ export class CarService {
     this.updateCars();
   }
   updateCars() {
-    if (!this.localStorageService.email) throw new Error('No user email found in localStorage');
+    if (!this.localStorageService.email) return false;
     this.getCarsOwnedByUser(this.localStorageService.email)
       .pipe(
         // Enrich cars with gas type names from gasTypes signal
         map((cars) => cars.map((car) => this.serializeCar(car)))
       )
       .subscribe((cars) => this.cars.set(cars as SerializedCar[]));
+
+    return true;
   }
 
-  public async convertFileToBase64(file: File) {
-    const bytes = await file.arrayBuffer();
-    return btoa(String.fromCharCode(...new Uint8Array(bytes)));
+  public async convertFileToBase64(file: File): Promise<string | null> {
+    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+
+    return btoa(binary);
   }
 
   // Helper
   private serializeCar(car: CarDto): SerializedCar {
     if (car.image) {
-      car.image = `data:image/png;base64,${car.image}`;
+      car.image = `${this.imageHeader}${car.image}`;
     }
 
     return {
@@ -86,6 +94,10 @@ export class CarService {
   }
 
   addCar(carDetails: Partial<CarDto>): void {
+    if (carDetails.image && carDetails.image.startsWith(this.imageHeader)) {
+      // Strip the data URL prefix to get only the base64 string
+      carDetails.image = carDetails.image.slice(this.imageHeader.length);
+    }
     this.apiService.post<CarDto>('cars', carDetails).subscribe({
       next: (response) => {
         const newCar = response.data;
@@ -101,6 +113,10 @@ export class CarService {
   }
 
   editCar(updatedCarDetails: Partial<CarDto>): void {
+    if (updatedCarDetails.image && updatedCarDetails.image.startsWith(this.imageHeader)) {
+      // Strip the data URL prefix to get only the base64 string
+      updatedCarDetails.image = updatedCarDetails.image.slice(this.imageHeader.length);
+    }
     this.apiService.put<CarDto>(`cars/${updatedCarDetails.vin}`, updatedCarDetails).subscribe({
       next: (response) => {
         const updatedCar = response.data;

@@ -1,6 +1,6 @@
 # KartoUi
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+This is the UI repository for the Karto Application. This repository contains the frontend and RESTful API connections with the backend.
 
 ## Contributors
 
@@ -9,58 +9,155 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 - Blake Payne
 - Joshua Quaintance
 
-## Development server
+## Tools and Dependencies
 
-To start a local development server, run:
+### Tools
+
+| Tool        | Version                     | Link                                   |
+| ----------- | --------------------------- | -------------------------------------- |
+| Git         | `2.52.0` (any)              | https://git-scm.com/                   |
+| Node.js     | `LTS (v24.11)`              | https://nodejs.org/en                  |
+| NPM         | `11.6` (Comes with Node.js) | https://www.npmjs.com/                 |
+| Angular CLI | `^21.0.0`                   | https://github.com/angular/angular-cli |
+
+### Dependencies
+
+| Tool    | Version   | Link                 |
+| ------- | --------- | -------------------- |
+| Angular | `^21.0.0` | https://angular.dev/ |
+| PrimeNG | `^21.0.0` | https://primeng.org/ |
+
+The rest of the dependencies list is listed in the [package.json](package.json) file under `dependencies` and `devDependencies`. Most of those packages will be generated from the tools and dependencies above.
+
+In order to make changes to the repository, you would need to install your preferred Text Editor or IDE.
+
+## Running
+
+### Clone Repository
+
+First, clone the repository to your local device using git
 
 ```bash
+# Using http
+git clone https://github.com/WSU-kduncan/cs4900-ui-karto
+
+# or Using ssh
+git clone git@github.com:WSU-kduncan/cs4900-ui-karto
+```
+
+Then,
+
+```bash
+cd cs4900-ui-karto
+```
+
+### Branch
+
+Ensure that you are running on the `main` branch, as it would have the latest stable update of the application.
+
+```bash
+git branch
+# Should output:
+
+  other-branch
+  ...
+* main
+  ...
+```
+
+If you're not in the main branch and you have not made any changes to the working directory, then simply switch
+
+```bash
+git switch main
+
+# or
+
+git checkout main
+```
+
+### Installing Packages
+
+Before we run the application, we need to install all the dependencies using your preferred package manager. In our case, we will use `npm` that is packaged with our `Node.js`
+
+```bash
+npm i
+```
+
+This will install the dependencies, and the output should look similar to:
+
+```
+added 5 packages, and audited 744 packages in 1s
+
+129 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+```
+
+### **\* Running other parts of the Application**
+
+In order for the UI Application to fully run, the API repository and the database needs to be active. Please follow the direction in the repository given below to run the API and Database.
+
+> [!IMPORTANT]  
+> API Repository  
+> https://github.com/WSU-kduncan/cs4900-api-karto
+
+### Serving Application
+
+Finally, after all the tasks above, and ensuring that the backend is running, now we can run the UI Application.
+
+```
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once it is built and ran, simply open `http://localhost:4200/` on your preferred web browser.
 
-## Code scaffolding
+## Application Highlights
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Below are some videos of what our application can currently do that your clone should be able to do as well (assuming all the tasks above are ran properly)
 
-```bash
-ng generate component component-name
-```
+> [!NOTE]  
+> Unfortunately, the videos won't render in the README (which does make sense), so in order to see it, please visit the github pages:  
+> https://wsu-kduncan.github.io/cs4900-ui-karto/
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Creating an Account and Signing In
 
-```bash
-ng generate --help
-```
+<video width="800" controls loop="" muted="">
+    <source src="highlights/createandlogin.mp4">
+</video>
 
-## Building
+- Adding a new Car
 
-To build the project run:
+<video width="800" controls loop="" muted="">
+    <source src="highlights/AddCar.mp4">
+</video>
 
-```bash
-ng build
-```
+- Edit a Car
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+<video width="800" controls loop="" muted="">
+    <source src="highlights/editcar.mp4">
+</video>
 
-## Running unit tests
+- View and Add Maintenance
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+<video width="800" controls loop="" muted="">
+    <source src="highlights/addmaintenance.mp4">
+</video>
 
-```bash
-ng test
-```
+- Delete Maintenance
 
-## Running end-to-end tests
+<video width="800" controls loop="" muted="">
+    <source src="highlights/deletemaintenance.mp4">
+</video>
 
-For end-to-end (e2e) testing, run:
+- Look for Gas Prices
 
-```bash
-ng e2e
-```
+<video width="800" controls loop="" muted="">
+    <source src="highlights/lookgas.mp4">
+</video>
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- Find Gas Stations and Favorite
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+<video width="800" controls loop="" muted="">
+    <source src="highlights/gasstation.mp4">
+</video>

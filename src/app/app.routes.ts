@@ -11,7 +11,7 @@ import { GasPriceSelector } from '@components/gas-price/gas-price-selector/gas-p
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'cars',
     pathMatch: 'full',
   },
   { path: 'cars', component: CarList },

@@ -12,6 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor, retryInterceptor } from '@shared/interceptors';
 import { definePreset } from '@primeuix/themes';
+import { IMAGE_CONFIG } from '@angular/common';
 
 const KartoPreset = definePreset(Aura, {
   semantic: {
@@ -60,10 +61,16 @@ const KartoPreset = definePreset(Aura, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideAnimationsAsync(),
     providePrimeNG({
       theme: {
         preset: KartoPreset,

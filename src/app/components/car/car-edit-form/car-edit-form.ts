@@ -88,7 +88,7 @@ export class CarEditForm {
   async onEditCar() {
     let carImage = null;
 
-    if (this.file()) carImage = await this.carService.convertFileToBase64(this.file()!);
+    if (this.file()) carImage = (await this.carService.convertFileToBase64(this.file()!)) as string | null;
 
     // Vin and userEmail are immutable
 

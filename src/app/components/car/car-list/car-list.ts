@@ -10,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DrawerModule } from 'primeng/drawer';
 
 import { SerializedCar } from '@shared/models/dtos.interface';
-import { CarListDetail, CarListForm } from '@components/car';
+import { CarAddForm, CarListDetail } from '@components/car';
 import { CarService } from '@services/car.service';
 import { GasService } from '@services/gas.service';
 import { Router } from '@angular/router';
@@ -28,7 +28,7 @@ import { Image } from 'primeng/image';
     InputTextModule,
     RippleModule,
     CarListDetail,
-    CarListForm,
+    CarAddForm,
     CarEditForm,
     DrawerModule,
     Image,
@@ -45,13 +45,16 @@ export class CarList {
   selectedCar = signal<SerializedCar | null>(null);
   formOpen = signal(false);
   editFormOpen = signal(false);
+  router = inject(Router);
 
   constructor() {
     // Debugging effect to log cars whenever they change
     effect(() => {
       console.log('Cars list updated:', this.cars());
     });
-    this.carService.updateCars();
+    if (!this.carService.updateCars()) {
+      this.router.navigate(['/login']);
+    }
   }
 
   cars = this.carService.cars;

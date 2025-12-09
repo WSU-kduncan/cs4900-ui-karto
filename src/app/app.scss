@@ -8,4 +8,8 @@
 
 :host {
   color: #D6F0F1 !important;
+  
+  image {
+    max-inline-size: 100%;
+  }
 }
